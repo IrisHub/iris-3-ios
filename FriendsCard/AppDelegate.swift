@@ -7,16 +7,29 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var googleDelegate = GoogleDelegate()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+//        GIDSignIn.sharedInstance().clientID = "34431726447-bml0p59f5uev4mhl61dtsjd8cge7hhrt.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().clientID = googleDelegate.clientID
+        GIDSignIn.sharedInstance().delegate = googleDelegate
+        GIDSignIn.sharedInstance().serverClientID = googleDelegate.serverClientID
+        GIDSignIn.sharedInstance().scopes = googleDelegate.scopes
+//        GIDSignIn.sharedInstance().scopes = Constants.GS.scopes
+
         return true
     }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url)
+    }
+
 
     // MARK: UISceneSession Lifecycle
 
