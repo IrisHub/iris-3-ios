@@ -13,7 +13,6 @@ import SwiftyJSON
 
 struct CloseFriends: View {
     @ObservedObject var store: ContactStore
-    @State var selectedContacts: [Contact]
     @State var friendSchedules: [CloseFriendSchedule] = [CloseFriendSchedule]()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -44,19 +43,16 @@ struct CloseFriends: View {
 
 
                     List {
-                        ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                            StatusCell(name: "Shalin", status: "busy", activity: contact.activity, description: contact.status)
-                            .listRowInsets(EdgeInsets())
-
-//                            StatusCell(name: self.selectedContacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "Shalin", status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
-//                            .listRowInsets(EdgeInsets())
+                        ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
+                            StatusCell(name: self.store.contacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "Shalin", status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
+                                .listRowInsets(EdgeInsets())
                         }
 
                         ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
                             InviteCell(name: self.store.contacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "", buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: self.store.contacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "", phoneNumber: contact.id)})
                             .listRowInsets(EdgeInsets())
                         }
-                    }.background(Color.rBlack400)
+                    }
                     
 
                     Spacer()
@@ -67,6 +63,8 @@ struct CloseFriends: View {
         .onAppear() {
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none
+            UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
+            UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
 
             self.getSchedules()
         }

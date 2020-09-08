@@ -15,7 +15,8 @@ struct InviteCell: View {
 
     var body: some View {
         ZStack(alignment: .leading) {
-            Rectangle().frame(width: UIScreen.screenWidth, height: 72).foregroundColor(.rBlack400)
+            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Rectangle().frame(width: UIScreen.screenWidth, height: 72).foregroundColor(.clear)
             HStack {
                 Circle()
                     .fill(Color.rBlack100)
