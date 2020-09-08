@@ -41,7 +41,6 @@ struct CloseFriends: View {
                         Spacer()
                     }
 
-
                     List {
                         ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
                             StatusCell(name: self.store.contacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "Shalin", status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)

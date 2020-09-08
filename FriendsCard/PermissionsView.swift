@@ -23,10 +23,20 @@ struct PermissionsView: View {
             ZStack {
                 Color.rBlack400.edgesIgnoringSafeArea(.all)
                 VStack {
-                    VStack {
-                        Text("Welcome").retinaTypography(.h1_secondary).foregroundColor(.rWhite)
-                        Text("Iris is your helpful assistant.").retinaTypography(.p5_main).foregroundColor(.rGrey100)
-                    }.padding(.top, UIScreen.screenHeight/4)
+                    Group {
+                        Text("Close Friends")
+                            .retinaTypography(.h4_secondary)
+                            .foregroundColor(.white)
+                        .padding(.leading, 24)
+                        .padding(.top, UIApplication.topInset*2)
+                        
+                        Text("This card tells you when your close friends are free and helps you stay connected. ").retinaTypography(.p5_main).foregroundColor(.rGrey100)
+                    }
+                    
+                    
+                    
+                    
+
                     Spacer()
                     
                     retinaButton(text: "Allow access to calendar", style: .outlineOnly, color: .rPink, action: {
@@ -45,12 +55,15 @@ struct PermissionsView: View {
                     
                     Spacer()
                     
+                    
+                    
+                    
+                    
                     ZStack {
                         Rectangle()
                         .foregroundColor(Color.rBlack200)
                         .frame(width: UIScreen.screenWidth, height: 100)
-                        
-                            
+
                         HStack {
                             NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts), isActive: $bothAllowed) { EmptyView() }
                             retinaButton(text: "Continue", style: .outlineOnly, color: .rPink, action: {

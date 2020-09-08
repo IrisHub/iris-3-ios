@@ -79,9 +79,13 @@ struct HomeView: View {
     }
     
     func logInCardOne() {
-        GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-        self.store.fetchContacts()
-        self.moveToCard = UserDefaults.standard.bool(forKey: "card1PermissionsComplete") ? "card1" : "card1permission"
+        if (UserDefaults.standard.bool(forKey: "card1PermissionsComplete")) {
+            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+            self.store.fetchContacts()
+            self.moveToCard = "card1"
+        } else {
+            self.moveToCard =  "card1permission"
+        }
     }
 }
 
