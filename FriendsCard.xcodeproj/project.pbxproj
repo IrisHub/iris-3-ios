@@ -58,10 +58,11 @@
 		B1BA456424FB84E200E14C27 /* CloseFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453824FB84E200E14C27 /* CloseFriends.swift */; };
 		B1BA456524FB84E200E14C27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453924FB84E200E14C27 /* AppDelegate.swift */; };
 		B1BA456624FB84E200E14C27 /* GoogleDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453A24FB84E200E14C27 /* GoogleDelegate.swift */; };
-		B1BA456724FB84E200E14C27 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453B24FB84E200E14C27 /* WelcomeView.swift */; };
+		B1BA456724FB84E200E14C27 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453B24FB84E200E14C27 /* PermissionsView.swift */; };
 		B1BA456924FB84E200E14C27 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453D24FB84E200E14C27 /* SceneDelegate.swift */; };
 		B1BA456B24FBBFDF00E14C27 /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA456A24FBBFDF00E14C27 /* ReminderCell.swift */; };
 		B1D09789250599150048286B /* SamsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D09788250599140048286B /* SamsView.swift */; };
+		B1D0978B2505BFA90048286B /* PhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D0978A2505BFA90048286B /* PhoneNumberView.swift */; };
 		BF6F9A9ED90EB555D3F17242 /* Pods_FriendsCardTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B1E9E16A4B2C32691086E3 /* Pods_FriendsCardTests.framework */; };
 		DA15E0E9542FFF0BCA02A8C0 /* Pods_FriendsCard.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41FC9E0145FCE6E5FB172BEF /* Pods_FriendsCard.framework */; };
 /* End PBXBuildFile section */
@@ -140,11 +141,12 @@
 		B1BA453824FB84E200E14C27 /* CloseFriends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseFriends.swift; sourceTree = "<group>"; };
 		B1BA453924FB84E200E14C27 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1BA453A24FB84E200E14C27 /* GoogleDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDelegate.swift; sourceTree = "<group>"; };
-		B1BA453B24FB84E200E14C27 /* WelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		B1BA453B24FB84E200E14C27 /* PermissionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		B1BA453C24FB84E200E14C27 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1BA453D24FB84E200E14C27 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		B1BA456A24FBBFDF00E14C27 /* ReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		B1D09788250599140048286B /* SamsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SamsView.swift; sourceTree = "<group>"; };
+		B1D0978A2505BFA90048286B /* PhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberView.swift; sourceTree = "<group>"; };
 		C339F67A235F10B722FC4E01 /* Pods-FriendsCard-FriendsCardUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCard-FriendsCardUITests.debug.xcconfig"; path = "Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		CB58595722682EA78367995E /* Pods_FriendsCard_FriendsCardUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FriendsCard_FriendsCardUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF863636E974E6E60439B531 /* Pods-FriendsCard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCard.release.xcconfig"; path = "Target Support Files/Pods-FriendsCard/Pods-FriendsCard.release.xcconfig"; sourceTree = "<group>"; };
@@ -242,10 +244,11 @@
 				B1BA453124FB84E200E14C27 /* LaunchScreen.storyboard */,
 				B1BA453924FB84E200E14C27 /* AppDelegate.swift */,
 				B1BA453D24FB84E200E14C27 /* SceneDelegate.swift */,
-				B1BA453B24FB84E200E14C27 /* WelcomeView.swift */,
+				B1D0978A2505BFA90048286B /* PhoneNumberView.swift */,
+				B1BA452E24FB84E200E14C27 /* HomeView.swift */,
+				B1BA453B24FB84E200E14C27 /* PermissionsView.swift */,
 				B1BA453324FB84E200E14C27 /* ChooseCloseFriends.swift */,
 				B176329825033D050074922F /* ChooseDistantFriends.swift */,
-				B1BA452E24FB84E200E14C27 /* HomeView.swift */,
 				B1BA453724FB84E200E14C27 /* Card One */,
 				B1BA453424FB84E200E14C27 /* Card Two */,
 				B1BA453C24FB84E200E14C27 /* Info.plist */,
@@ -401,8 +404,8 @@
 				B156555A24F70E8D00FEAA70 /* Sources */,
 				B156555B24F70E8D00FEAA70 /* Frameworks */,
 				B156555C24F70E8D00FEAA70 /* Resources */,
-				03A389190060BF4253C7D40F /* [CP] Embed Pods Frameworks */,
-				54DEB9B6B69ECE5578E0A9DA /* [CP] Copy Pods Resources */,
+				853C83DA875B4868BAE54A34 /* [CP] Embed Pods Frameworks */,
+				AB53379B956BC2E53A6E4689 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -446,8 +449,8 @@
 				B156557B24F70E9100FEAA70 /* Sources */,
 				B156557C24F70E9100FEAA70 /* Frameworks */,
 				B156557D24F70E9100FEAA70 /* Resources */,
-				467E0B9F8D2725B148883093 /* [CP] Embed Pods Frameworks */,
-				BEEC2F41FB75B9B44805BFEB /* [CP] Copy Pods Resources */,
+				04E498D01E27DCBEA4AE6A59 /* [CP] Embed Pods Frameworks */,
+				594710AE32E252B8AE9A6F9C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -546,21 +549,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		03A389190060BF4253C7D40F /* [CP] Embed Pods Frameworks */ = {
+		04E498D01E27DCBEA4AE6A59 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		29EE62EE46E4DE4CCD668EDF /* [CP] Check Pods Manifest.lock */ = {
@@ -585,41 +588,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		467E0B9F8D2725B148883093 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		54DEB9B6B69ECE5578E0A9DA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BEEC2F41FB75B9B44805BFEB /* [CP] Copy Pods Resources */ = {
+		594710AE32E252B8AE9A6F9C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -634,6 +603,40 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		853C83DA875B4868BAE54A34 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB53379B956BC2E53A6E4689 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FriendsCard/Pods-FriendsCard-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D203D60656C7F97E6748F65F /* [CP] Check Pods Manifest.lock */ = {
@@ -705,6 +708,7 @@
 				B1BA453E24FB84E200E14C27 /* LeaderCell.swift in Sources */,
 				B1BA454C24FB84E200E14C27 /* TopNavigationView.swift in Sources */,
 				B1BA454924FB84E200E14C27 /* HorizontalLabel.swift in Sources */,
+				B1D0978B2505BFA90048286B /* PhoneNumberView.swift in Sources */,
 				B1BA456224FB84E200E14C27 /* ReminderView.swift in Sources */,
 				B1BA456624FB84E200E14C27 /* GoogleDelegate.swift in Sources */,
 				B17632972501FA450074922F /* ContactStore.swift in Sources */,
@@ -718,7 +722,7 @@
 				B1BA454D24FB84E200E14C27 /* Typography.swift in Sources */,
 				B1BA454524FB84E200E14C27 /* TextFields.swift in Sources */,
 				B1BA454824FB84E200E14C27 /* Images.swift in Sources */,
-				B1BA456724FB84E200E14C27 /* WelcomeView.swift in Sources */,
+				B1BA456724FB84E200E14C27 /* PermissionsView.swift in Sources */,
 				B1BA454424FB84E200E14C27 /* LoadingView.swift in Sources */,
 				B1D09789250599150048286B /* SamsView.swift in Sources */,
 				B1BA454624FB84E200E14C27 /* Buttons.swift in Sources */,

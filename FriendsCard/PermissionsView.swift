@@ -11,8 +11,8 @@ import Alamofire
 import SwiftyJSON
 import GoogleSignIn
 
-struct WelcomeView: View {
-    @ObservedObject var store: ContactStore = ContactStore()
+struct PermissionsView: View {
+    @ObservedObject var store: ContactStore
     @EnvironmentObject var googleDelegate: GoogleDelegate
     
     @State var contactsAllowed: Bool = false
@@ -71,8 +71,8 @@ struct WelcomeView: View {
     }
 }
 
-struct WelcomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        WelcomeView()
-    }
-}
+//struct PermissionsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WelcomeView(store: store)
+//    }
+//}

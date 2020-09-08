@@ -14,7 +14,7 @@ import GoogleSignIn
 struct HomeView: View {
     @State var friendsCardActive: Bool = false
     @State var reminderCardActive: Bool = false
-    @ObservedObject var store: ContactStore
+    @ObservedObject var store: ContactStore = ContactStore()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     // important for the first time -> create an account
@@ -39,9 +39,9 @@ struct HomeView: View {
                         Spacer()
                                             
                         if UserDefaults.standard.bool(forKey: "onboardingComplete") && GIDSignIn.sharedInstance().hasPreviousSignIn() {
-                            NavigationLink(destination: WelcomeView().environmentObject(googleDelegate), isActive: $friendsCardActive) { EmptyView() }
+                            NavigationLink(destination: PermissionsView(store: store).environmentObject(googleDelegate), isActive: $friendsCardActive) { EmptyView() }
                         } else {
-                            NavigationLink(destination: WelcomeView().environmentObject(googleDelegate), isActive: $friendsCardActive) { EmptyView() }
+                            NavigationLink(destination: PermissionsView(store: store).environmentObject(googleDelegate), isActive: $friendsCardActive) { EmptyView() }
 
 //                            NavigationLink(destination: CloseFriends(store: store, selectedContacts: self.$closeFriends), isActive: $friendsCardActive) { EmptyView() }
                             NavigationLink(destination: ReminderView(), isActive: $reminderCardActive) { EmptyView() }

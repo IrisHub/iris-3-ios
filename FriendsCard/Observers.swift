@@ -30,15 +30,17 @@ class Observer : ObservableObject{
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber"),
         ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
-
+        print(parameters)
         AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/friends-get", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
             print("request body: \(response.request?.httpBody)")
             do {
-                print(response)
                 let json = try JSON(data: response.data ?? Data())
+                print(json)
                 for (i,subJson):(String, JSON) in json {
-                    let item = CloseFriendSchedule(id: i, activity: "[MDB] Interview Comm Training", status: subJson["status"].stringValue, onIris: subJson["on_iris"].boolValue, busy: subJson["busy"].boolValue)
+                    print(i)
+                    print(subJson)
+                    let item = CloseFriendSchedule(id: i, activity: subJson["event_title"].stringValue, status: subJson["status"].stringValue, onIris: subJson["on_iris"].boolValue, busy: subJson["busy"].boolValue)
                     self.friendSchedules.append(item)
                 }
             } catch {

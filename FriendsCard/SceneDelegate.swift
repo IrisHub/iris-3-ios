@@ -13,7 +13,6 @@ import GoogleSignIn
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    @ObservedObject var store: ContactStore = ContactStore()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -31,21 +30,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // Get the googleDelegate from AppDelegate
         let googleDelegate = (UIApplication.shared.delegate as! AppDelegate).googleDelegate
-
-        // Add googleDelegate as an environment object
-        let contentView = HomeView(store: store).environmentObject(googleDelegate)
         
-        if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: contentView)
-            GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
-            self.window = window
-            window.makeKeyAndVisible()
+        if !UserDefaults.standard.bool(forKey: "onboardingComplete") {
+            // Add googleDelegate as an environment object
+            let contentView = PhoneNumberView().environmentObject(googleDelegate)
+            if let windowScene = scene as? UIWindowScene {
+                let window = UIWindow(windowScene: windowScene)
+                window.rootViewController = UIHostingController(rootView: contentView)
+                GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
+                self.window = window
+                window.makeKeyAndVisible()
+            }
+        } else {
+            // Add googleDelegate as an environment object
+            let contentView = HomeView().environmentObject(googleDelegate)
+            if let windowScene = scene as? UIWindowScene {
+                let window = UIWindow(windowScene: windowScene)
+                window.rootViewController = UIHostingController(rootView: contentView)
+                GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
+                self.window = window
+                window.makeKeyAndVisible()
+            }
         }
-
         
 //        print(UserDefaults.standard.bool(forKey: "onboardingComplete"))
-//        if UserDefaults.standard.bool(forKey: "onboardingComplete") && GIDSignIn.sharedInstance().hasPreviousSignIn() {
 //
 //            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
 //            self.store.fetchContacts()
