@@ -22,7 +22,7 @@ class Observer : ObservableObject{
     @Published var friendSchedules = [CloseFriendSchedule]()
     
     init() {
-        getSchedules()
+//        getSchedules()
     }
     
     func getSchedules() {

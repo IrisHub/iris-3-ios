@@ -16,7 +16,6 @@
 		B156558424F70E9100FEAA70 /* FriendsCardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B156558324F70E9100FEAA70 /* FriendsCardUITests.swift */; };
 		B17632952500A8F00074922F /* Observers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17632942500A8F00074922F /* Observers.swift */; };
 		B17632972501FA450074922F /* ContactStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17632962501FA450074922F /* ContactStore.swift */; };
-		B176329925033D050074922F /* ChooseDistantFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = B176329825033D050074922F /* ChooseDistantFriends.swift */; };
 		B1BA453E24FB84E200E14C27 /* LeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450824FB84E200E14C27 /* LeaderCell.swift */; };
 		B1BA453F24FB84E200E14C27 /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450924FB84E200E14C27 /* SelectionCell.swift */; };
 		B1BA454024FB84E200E14C27 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450A24FB84E200E14C27 /* StatusCell.swift */; };
@@ -99,7 +98,6 @@
 		B156558524F70E9100FEAA70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B17632942500A8F00074922F /* Observers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observers.swift; sourceTree = "<group>"; };
 		B17632962501FA450074922F /* ContactStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactStore.swift; sourceTree = "<group>"; };
-		B176329825033D050074922F /* ChooseDistantFriends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseDistantFriends.swift; sourceTree = "<group>"; };
 		B1BA450824FB84E200E14C27 /* LeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderCell.swift; sourceTree = "<group>"; };
 		B1BA450924FB84E200E14C27 /* SelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
 		B1BA450A24FB84E200E14C27 /* StatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
@@ -248,7 +246,6 @@
 				B1BA452E24FB84E200E14C27 /* HomeView.swift */,
 				B1BA453B24FB84E200E14C27 /* PermissionsView.swift */,
 				B1BA453324FB84E200E14C27 /* ChooseCloseFriends.swift */,
-				B176329825033D050074922F /* ChooseDistantFriends.swift */,
 				B1BA453724FB84E200E14C27 /* Card One */,
 				B1BA453424FB84E200E14C27 /* Card Two */,
 				B1BA453C24FB84E200E14C27 /* Info.plist */,
@@ -698,7 +695,6 @@
 				B17632952500A8F00074922F /* Observers.swift in Sources */,
 				B1BA456924FB84E200E14C27 /* SceneDelegate.swift in Sources */,
 				B1BA454E24FB84E200E14C27 /* Space.swift in Sources */,
-				B176329925033D050074922F /* ChooseDistantFriends.swift in Sources */,
 				B1BA455E24FB84E200E14C27 /* HomeView.swift in Sources */,
 				B1BA455224FB84E200E14C27 /* Gradient.swift in Sources */,
 				B1BA453F24FB84E200E14C27 /* SelectionCell.swift in Sources */,
