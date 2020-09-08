@@ -14,7 +14,8 @@ import GoogleSignIn
 struct PermissionsView: View {
     @ObservedObject var store: ContactStore
     @EnvironmentObject var googleDelegate: GoogleDelegate
-    
+    @Binding var currentCardState: String?
+
     @State var contactsAllowed: Bool = false
     @State var bothAllowed: Bool = false
 
@@ -65,7 +66,7 @@ struct PermissionsView: View {
                         .frame(width: UIScreen.screenWidth, height: 100)
 
                         HStack {
-                            NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts), isActive: $bothAllowed) { EmptyView() }
+                            NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts, currentCardState: self.$currentCardState), isActive: $bothAllowed) { EmptyView() }
                             retinaButton(text: "Continue", style: .outlineOnly, color: .rPink, action: {
                                 DispatchQueue.main.async {
                                     print(self.googleDelegate.signedIn)

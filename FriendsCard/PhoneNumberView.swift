@@ -17,8 +17,6 @@ struct PhoneNumberView: View {
     @State var moveToNext: Bool = false
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-    // important for the first time -> create an account
     @EnvironmentObject var googleDelegate: GoogleDelegate
 
     var body: some View {
@@ -43,7 +41,7 @@ struct PhoneNumberView: View {
                             HStack {
                                 retinaButton(text: "Submit", style: .outlineOnly, color: .rPink, action: { self.verifyCode() }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
                             }
-                        }
+                        }.padding(.bottom, DeviceUtility.isIphoneXType ? UIApplication.bottomInset : 0)
                     }
                     .offset(y: -self.value)
                     .animation(.spring())

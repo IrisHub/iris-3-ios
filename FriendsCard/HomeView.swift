@@ -12,10 +12,10 @@ import SwiftyJSON
 import GoogleSignIn
 
 struct HomeView: View {
-    @State private var moveToCard: String? = nil
+    @State var currentCardState: String? = nil
     @ObservedObject var store: ContactStore = ContactStore()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+    
     // important for the first time -> create an account
     @EnvironmentObject var googleDelegate: GoogleDelegate
 
@@ -36,11 +36,11 @@ struct HomeView: View {
 
                         Spacer()
                         
-                        NavigationLink(destination: PermissionsView(store: self.store).environmentObject(self.googleDelegate), tag: "card1permission", selection: $moveToCard) { EmptyView() }
-                        NavigationLink(destination: CloseFriends(store: self.store), tag: "card1", selection: $moveToCard) { EmptyView() }
+                        NavigationLink(destination: PermissionsView(store: self.store, currentCardState: self.$currentCardState).environmentObject(self.googleDelegate), tag: "card1permission", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: $currentCardState) { EmptyView() }
                         
                         
-                        NavigationLink(destination: UserDefaults.standard.bool(forKey: "card2PermissionsComplete") ? ReminderView() : ReminderView(), tag: "card2", selection: $moveToCard) { EmptyView() }
+                        NavigationLink(destination: UserDefaults.standard.bool(forKey: "card2PermissionsComplete") ? ReminderView() : ReminderView(), tag: "card2", selection: $currentCardState) { EmptyView() }
                         
                         retinaButton(text: "Friends Card", style: .outlineOnly, color: .rPink, action: {
                             DispatchQueue.main.async {
@@ -50,19 +50,19 @@ struct HomeView: View {
 
                         retinaButton(text: "Reminder Card", style: .outlineOnly, color: .rPink, action: {
                             DispatchQueue.main.async {
-                                self.moveToCard = "card2"
+                                self.currentCardState = "card2"
                             }
                         }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
                         
                         retinaButton(text: "Homework Card", style: .outlineOnly, color: .rPink, action: {
                             DispatchQueue.main.async {
-                                self.moveToCard = "card3"
+                                self.currentCardState = "card3"
                             }
                         }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
                         
                         retinaButton(text: "Lectures Card", style: .outlineOnly, color: .rPink, action: {
                             DispatchQueue.main.async {
-                                self.moveToCard = "card4"
+                                self.currentCardState = "card4"
                             }
                         }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
 
@@ -82,9 +82,9 @@ struct HomeView: View {
         if (UserDefaults.standard.bool(forKey: "card1PermissionsComplete")) {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
             self.store.fetchContacts()
-            self.moveToCard = "card1"
+            self.currentCardState = "card1"
         } else {
-            self.moveToCard =  "card1permission"
+            self.currentCardState =  "card1permission"
         }
     }
 }

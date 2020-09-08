@@ -16,6 +16,7 @@ struct ChooseCloseFriends: View {
     @State private var searchText = ""
     @State var allContacts: [Contact]
     @State var moveToNext: Bool = false
+    @Binding var currentCardState: String?
 
     var body: some View {
         NavigationView {
@@ -35,7 +36,7 @@ struct ChooseCloseFriends: View {
                     }
 
                     ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(self.store.contacts.filter {
+                        ForEach(self.allContacts.filter {
                             self.searchText.isEmpty ? true : $0.name.lowercased().contains(self.searchText.lowercased())
                         }, id: \.self.name) { (contact: Contact) in
                             SelectionCell(contacts: self.$allContacts, contact: contact, isSingleSelect: false)
@@ -52,7 +53,7 @@ struct ChooseCloseFriends: View {
                         
                             
                         HStack {
-                            NavigationLink(destination: CloseFriends(store: self.store), isActive: $moveToNext) { EmptyView() }
+                            NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), isActive: $moveToNext) { EmptyView() }
                             
                             retinaButton(text: "Continue", style: .outlineOnly, color: .rPink, action: {
                                 DispatchQueue.main.async {

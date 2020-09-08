@@ -12,6 +12,7 @@ import Alamofire
 import SwiftyJSON
 
 struct CloseFriends: View {
+    @Binding var currentCardState: String?
     @ObservedObject var store: ContactStore
     @State var friendSchedules: [CloseFriendSchedule] = [CloseFriendSchedule]()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -27,9 +28,10 @@ struct CloseFriends: View {
                 VStack(alignment: .leading) {
                     HStack {
                         retinaIconButton(image: (Image(systemName: "chevron.left")), action: {
-                            withAnimation {
-                                self.presentationMode.wrappedValue.dismiss()
-                            }
+                            self.currentCardState = nil
+//                            withAnimation {
+//                                self.presentationMode.wrappedValue.dismiss()
+//                            }
                             print(self.friendSchedules)
                         }).padding(24)
                         
@@ -40,6 +42,7 @@ struct CloseFriends: View {
                         
                         Spacer()
                     }
+
 
                     List {
                         ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
