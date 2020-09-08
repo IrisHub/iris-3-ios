@@ -52,7 +52,7 @@ struct ChooseCloseFriends: View {
                         
                             
                         HStack {
-                            NavigationLink(destination: CloseFriends(store: self.store, selectedContacts: self.allContacts.filter({ $0.selected == true })), isActive: $moveToNext) { EmptyView() }
+                            NavigationLink(destination: CloseFriends(store: self.store, selectedContacts: self.allContacts.filter({ $0.selected == true })).environmentObject(FriendSchedules()), isActive: $moveToNext) { EmptyView() }
                             
                             retinaButton(text: "Continue", style: .outlineOnly, color: .rPink, action: {
                                 DispatchQueue.main.async {

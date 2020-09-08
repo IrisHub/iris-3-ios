@@ -18,12 +18,8 @@ struct CloseFriendSchedule: Hashable, Identifiable, Codable {
     var busy: Bool = false
 }
 
-class Observer : ObservableObject{
-    @Published var friendSchedules = [CloseFriendSchedule]()
-    
-    init() {
-//        getSchedules()
-    }
+class FriendSchedules : ObservableObject {
+    @Published var friendSchedules: [CloseFriendSchedule] = [CloseFriendSchedule]()
     
     func getSchedules() {
         let parameters = [
@@ -33,7 +29,6 @@ class Observer : ObservableObject{
         print(parameters)
         AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/friends-get", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
-            print("request body: \(response.request?.httpBody)")
             do {
                 let json = try JSON(data: response.data ?? Data())
                 print(json)
@@ -41,7 +36,10 @@ class Observer : ObservableObject{
                     print(i)
                     print(subJson)
                     let item = CloseFriendSchedule(id: i, activity: subJson["event_title"].stringValue, status: subJson["status"].stringValue, onIris: subJson["on_iris"].boolValue, busy: subJson["busy"].boolValue)
-                    self.friendSchedules.append(item)
+                    DispatchQueue.main.async {
+                        self.friendSchedules.append(item)
+                        print(self.friendSchedules.count)
+                    }
                 }
             } catch {
                 print("error")

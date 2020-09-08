@@ -8,17 +8,18 @@
 
 import SwiftUI
 import MessageUI
+import Alamofire
+import SwiftyJSON
 
 struct CloseFriends: View {
     @ObservedObject var store: ContactStore
-    @ObservedObject var observer: Observer = Observer()
     @State var selectedContacts: [Contact]
+    @State var friendSchedules: [CloseFriendSchedule] = [CloseFriendSchedule]()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     // The delegate required by `MFMessageComposeViewController`
     private let messageComposeDelegate = MessageDelegate()
     
-    // string.filter("0123456789.".contains)
 
     var body: some View {
         NavigationView {
@@ -30,6 +31,7 @@ struct CloseFriends: View {
                             withAnimation {
                                 self.presentationMode.wrappedValue.dismiss()
                             }
+                            print(self.friendSchedules)
                         }).padding(24)
                         
                         Text("Close Friends")
@@ -41,18 +43,21 @@ struct CloseFriends: View {
                     }
 
 
-                    ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(self.observer.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                            
-                            StatusCell(name: self.selectedContacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "", status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
+                    List {
+                        ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
+                            StatusCell(name: "Shalin", status: "busy", activity: contact.activity, description: contact.status)
                             .listRowInsets(EdgeInsets())
+
+//                            StatusCell(name: self.selectedContacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "Shalin", status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
+//                            .listRowInsets(EdgeInsets())
                         }
-                        
-                        ForEach(self.observer.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                            InviteCell(name: self.selectedContacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "Shalin", buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: self.selectedContacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "", phoneNumber: contact.id)})
+
+                        ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
+                            InviteCell(name: self.store.contacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "", buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: self.store.contacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "", phoneNumber: contact.id)})
                             .listRowInsets(EdgeInsets())
                         }
                     }.background(Color.rBlack400)
+                    
 
                     Spacer()
 
@@ -60,9 +65,36 @@ struct CloseFriends: View {
             }
         }
         .onAppear() {
-            self.observer.getSchedules()
+            if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
+            UITableView.appearance().separatorStyle = .none
+
+            self.getSchedules()
         }
         .hideNavigationBar()
+    }
+    
+    func getSchedules() {
+        let parameters = [
+            "user_id": UserDefaults.standard.string(forKey: "phoneNumber"),
+        ]
+        let headers : HTTPHeaders = ["Content-Type": "application/json"]
+        print(parameters)
+        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/friends-get", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON { response in
+            do {
+                let json = try JSON(data: response.data ?? Data())
+                print(json)
+                for (i,subJson):(String, JSON) in json {
+                    print(i)
+                    print(subJson)
+                    let item = CloseFriendSchedule(id: i, activity: subJson["event_title"].stringValue, status: subJson["status"].stringValue, onIris: subJson["on_iris"].boolValue, busy: subJson["busy"].boolValue)
+                    self.friendSchedules.append(item)
+                    print(self.friendSchedules.count)
+                }
+            } catch {
+                print("error")
+            }
+        }
     }
 }
 
@@ -94,10 +126,3 @@ extension CloseFriends {
         vc?.present(composeVC, animated: true)
     }
 }
-
-
-//struct CloseFriends_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CloseFriends(selectedContacts: <#Binding<[Contact]>#>)
-//    }
-//}

@@ -37,7 +37,7 @@ struct HomeView: View {
                         Spacer()
                         
                         NavigationLink(destination: PermissionsView(store: self.store).environmentObject(self.googleDelegate), tag: "card1permission", selection: $moveToCard) { EmptyView() }
-                        NavigationLink(destination: CloseFriends(store: self.store, selectedContacts: [Contact]()), tag: "card1", selection: $moveToCard) { EmptyView() }
+                        NavigationLink(destination: CloseFriends(store: self.store, selectedContacts: [Contact]()).environmentObject(FriendSchedules()), tag: "card1", selection: $moveToCard) { EmptyView() }
                         
                         
                         NavigationLink(destination: UserDefaults.standard.bool(forKey: "card2PermissionsComplete") ? ReminderView() : ReminderView(), tag: "card2", selection: $moveToCard) { EmptyView() }
