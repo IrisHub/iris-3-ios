@@ -12,6 +12,7 @@ import SwiftyJSON
 
 struct CloseFriendSchedule: Hashable, Identifiable, Codable {
     var id: String = "1"
+    var name: String
     var activity: String
     var status: String
     var onIris: Bool = false

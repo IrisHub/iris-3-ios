@@ -43,12 +43,12 @@ struct CloseFriends: View {
 
                     List {
                         ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                            StatusCell(name: self.store.contacts.first(where:{ String($0.phoneNum.filter("0123456789.".contains).prefix(10)).contains(String(contact.id.filter("0123456789.".contains).prefix(10)))})?.name ?? "", status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
+                            StatusCell(name: contact.name, status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
                                 .listRowInsets(EdgeInsets())
                         }
 
                         ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                            InviteCell(name: self.store.contacts.first(where: { String($0.phoneNum.filter("0123456789.".contains).prefix(10)).contains(String(contact.id.filter("0123456789.".contains).prefix(10)))})?.name ?? "", buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: self.store.contacts.first(where: { String($0.phoneNum.filter("0123456789.".contains).prefix(10)).contains(String(contact.id.filter("0123456789.".contains).prefix(10)))})?.name ?? "", phoneNumber: contact.id)})
+                            InviteCell(name: contact.name, buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: contact.name, phoneNumber: contact.id)})
                             .listRowInsets(EdgeInsets())
                         }
                     }
@@ -83,7 +83,7 @@ struct CloseFriends: View {
                 for (i,subJson):(String, JSON) in json {
                     print(i)
                     print(subJson)
-                    let item = CloseFriendSchedule(id: i, activity: subJson["event_title"].stringValue, status: subJson["status"].stringValue, onIris: subJson["on_iris"].boolValue, busy: subJson["busy"].boolValue)
+                    let item = CloseFriendSchedule(id: i, name: subJson["name"].stringValue, activity: subJson["event_title"].stringValue, status: subJson["status"].stringValue, onIris: subJson["on_iris"].boolValue, busy: subJson["busy"].boolValue)
                     self.friendSchedules.append(item)
                     print(self.friendSchedules.count)
                 }

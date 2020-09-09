@@ -100,10 +100,11 @@ struct ChooseCloseFriends: View {
             var user_id: String
             var refresh_token: String
             var friend_ids: [String]
+            var friend_names: [String]
         }
 
         do {
-            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", refresh_token: UserDefaults.standard.string(forKey: "refreshToken") ?? "", friend_ids: self.allContacts.filter({ $0.selected == true }).map({ $0.phoneNum }))
+            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", refresh_token: UserDefaults.standard.string(forKey: "refreshToken") ?? "", friend_ids: self.allContacts.filter({ $0.selected == true }).map({ $0.phoneNum }), friend_names: self.allContacts.filter({ $0.selected == true }).map({ $0.name }))
             let jsonData = try JSONEncoder().encode(user)
             let jsonString = String(data: jsonData, encoding: .utf8)!
             print(jsonString)
@@ -122,7 +123,9 @@ struct ChooseCloseFriends: View {
         struct User: Codable {
             var user_id: String
             var close_friend_ids: [String]
+            var close_friend_names: [String]
             var distant_friend_ids: [String]
+            var distant_friend_names: [String]
         }
 
         do {
@@ -135,8 +138,7 @@ struct ChooseCloseFriends: View {
                 }
             }
 
-
-            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", close_friend_ids: (peopleArray[0]).map({ $0.phoneNum }), distant_friend_ids: (peopleArray[1]).map({ $0.phoneNum }))
+            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", close_friend_ids: (peopleArray[0]).map({ $0.phoneNum }), close_friend_names: (peopleArray[0]).map({ $0.name }), distant_friend_ids: (peopleArray[1]).map({ $0.phoneNum }), distant_friend_names: (peopleArray[1]).map({ $0.name }))
             let jsonData = try JSONEncoder().encode(user)
             let jsonString = String(data: jsonData, encoding: .utf8)!
             print(jsonString)

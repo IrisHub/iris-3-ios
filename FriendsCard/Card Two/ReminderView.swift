@@ -84,13 +84,13 @@ struct ReminderView: View {
             do {
                 let json = try JSON(data: response.data ?? Data())
 
-                for (i,subJson):(String, JSON) in json["current_contacts"] {
-                    let item = DistantFriendProfile(id: i, name: self.store.contacts.first(where:{ String($0.phoneNum.filter("0123456789.".contains).prefix(10)).contains(String(i.filter("0123456789.".contains).prefix(10)))})?.name ?? "", emoji: "".randomEmoji(), reachedOut: subJson.boolValue)
+                for (_,subJson):(String, JSON) in json["current_contacts"] {
+                    let item = DistantFriendProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), reachedOut: subJson["messaged"].boolValue)
                     self.friendReminders.append(item)
                 }
                 
                 for (_,subJson):(String, JSON) in json["leaderboard"] {
-                    let item = LeaderboardProfile(id: subJson["id"].stringValue, name: self.store.contacts.first(where:{ String($0.phoneNum.filter("0123456789.".contains).prefix(10)).contains(String(subJson["id"].stringValue.filter("0123456789.".contains).prefix(10)))})?.name ?? "", score: subJson["total"].stringValue, onIris: subJson["on_iris"].boolValue)
+                    let item = LeaderboardProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, score: subJson["total"].stringValue, onIris: subJson["on_iris"].boolValue)
                     self.friendLeaderboard.append(item)
                 }
             } catch {
