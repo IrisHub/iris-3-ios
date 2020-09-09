@@ -63,7 +63,7 @@ struct ChooseCloseFriends: View {
                         HStack {
                             Group {
                                 NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: self.$nextPage) { EmptyView() }
-                                NavigationLink(destination: ReminderView(), tag: "card2", selection: self.$nextPage) { EmptyView() }
+                                NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: self.$nextPage) { EmptyView() }
                                 NavigationLink(destination: ChooseCloseFriends(store: self.store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }
                             }
                             

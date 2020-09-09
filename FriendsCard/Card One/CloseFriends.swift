@@ -15,7 +15,6 @@ struct CloseFriends: View {
     @Binding var currentCardState: String?
     @ObservedObject var store: ContactStore
     @State var friendSchedules: [CloseFriendSchedule] = [CloseFriendSchedule]()
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     // The delegate required by `MFMessageComposeViewController`
     private let messageComposeDelegate = MessageDelegate()

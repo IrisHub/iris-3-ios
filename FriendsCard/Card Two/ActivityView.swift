@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct ActivityView: View {
+    @Binding var leaderboardPresented: Bool
+    @Binding var friendLeaderboard: [LeaderboardProfile]
+
     var body: some View {
         VStack(alignment: .leading) {
             Group {
@@ -21,7 +24,7 @@ struct ActivityView: View {
                     
                     retinaIconButton(image: (Image(systemName: "xmark")), action: {
                         withAnimation {
-
+                            self.leaderboardPresented = false
                         }
                     }).padding([.leading, .trailing], 24)
                 }
@@ -29,22 +32,22 @@ struct ActivityView: View {
             
             Text("You’re doing a great job so far, keep it up!").retinaTypography(.h5_main, color: .rWhite).padding([.leading, .top], 24)
             
-            ScrollView {
-                HStack {
-                    Spacer()
-                    LeaderCell(title: "Sam Gorman", subtitle: "3/3")
-                    Spacer()
+            List {
+                ForEach(self.friendLeaderboard, id: \.self) { (friend: LeaderboardProfile) in
+                    LeaderCell(title: friend.name, subtitle: friend.score)
+                    .listRowInsets(EdgeInsets())
                 }
-            }.padding([.top], 24)
+            }
+            
             Spacer()
         }
         .background(Color.rBlack400)
         .edgesIgnoringSafeArea(.all)
-    }
-}
-
-struct ActivityView_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityView()
+        .onAppear() {
+            if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
+            UITableView.appearance().separatorStyle = .none
+            UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
+            UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
+        }
     }
 }

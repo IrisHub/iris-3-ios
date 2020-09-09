@@ -86,7 +86,7 @@ struct HomeView: View {
 
                         NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: $currentCardState) { EmptyView() }
 
-                        NavigationLink(destination: ReminderView(), tag: "card2", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: $currentCardState) { EmptyView() }
 
                         
                         retinaButton(text: "Friends Card", style: .outlineOnly, color: .rPink, action: {
