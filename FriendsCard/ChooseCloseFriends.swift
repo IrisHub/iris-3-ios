@@ -37,7 +37,7 @@ struct ChooseCloseFriends: View {
 
                     ScrollView(.vertical, showsIndicators: false) {
                         ForEach(self.allContacts.filter {
-                            self.searchText.isEmpty ? true : $0.name.lowercased().contains(self.searchText.lowercased())
+                            self.searchText.filter { !$0.isWhitespace }.isEmpty ? true : $0.name.lowercased().contains(self.searchText.lowercased())
                         }, id: \.self.name) { (contact: Contact) in
                             SelectionCell(contacts: self.$allContacts, contact: contact, isSingleSelect: false)
                             .listRowInsets(EdgeInsets())
@@ -65,7 +65,6 @@ struct ChooseCloseFriends: View {
                         }
                     }
                     .padding(.bottom, DeviceUtility.isIphoneXType ? UIApplication.bottomInset : 0)
-
                 }
             }
         }
@@ -80,7 +79,7 @@ struct ChooseCloseFriends: View {
         }
 
         do {
-            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", refresh_token: UserDefaults.standard.string(forKey: "refreshToken") ?? "", friend_ids: self.allContacts.map({ $0.phoneNum }))
+            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", refresh_token: UserDefaults.standard.string(forKey: "refreshToken") ?? "", friend_ids: self.allContacts.filter({ $0.selected == true }).map({ $0.phoneNum }))
             let jsonData = try JSONEncoder().encode(user)
             let jsonString = String(data: jsonData, encoding: .utf8)!
             print(jsonString)
@@ -89,12 +88,8 @@ struct ChooseCloseFriends: View {
             let headers : HTTPHeaders = ["Content-Type": "application/json"]
             AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/friends-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
-                    do {
-                        let json = try JSON(data: response.data ?? Data())
-                        print(json)
-                        UserDefaults.standard.set(true, forKey: "card1PermissionsComplete")
-                        self.moveToNext = true
-                    } catch {  }
+                    UserDefaults.standard.set(true, forKey: "card1PermissionsComplete")
+                    self.moveToNext = true
             }
         } catch {  }
     }

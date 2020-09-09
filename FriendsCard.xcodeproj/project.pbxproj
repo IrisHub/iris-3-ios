@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7D9200343796E1183C53E6FC /* Pods_FriendsCard_FriendsCardUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB58595722682EA78367995E /* Pods_FriendsCard_FriendsCardUITests.framework */; };
 		B120E6B7250752CA00CBB2CE /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = B120E6B6250752CA00CBB2CE /* NavigationStack */; };
-		B120E6B925075C2A00CBB2CE /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B120E6B825075C2A00CBB2CE /* RootView.swift */; };
 		B1224BCC24F9BF8E00B9FBE8 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B1224BCB24F9BF8E00B9FBE8 /* Lottie */; };
 		B1224BCF24F9BFFA00B9FBE8 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = B1224BCE24F9BFFA00B9FBE8 /* URLImage */; };
 		B1224BD224F9C51B00B9FBE8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B1224BD124F9C51B00B9FBE8 /* Alamofire */; };
@@ -90,7 +89,6 @@
 		5EED5B784AFA4106B8AE80A7 /* Pods-FriendsCard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCard.debug.xcconfig"; path = "Target Support Files/Pods-FriendsCard/Pods-FriendsCard.debug.xcconfig"; sourceTree = "<group>"; };
 		7ED19E6EC5DF82F6E55198DE /* Pods-FriendsCard-FriendsCardUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCard-FriendsCardUITests.release.xcconfig"; path = "Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A1F23F3629F2C31C4DC008B7 /* Pods-FriendsCardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCardTests.release.xcconfig"; path = "Target Support Files/Pods-FriendsCardTests/Pods-FriendsCardTests.release.xcconfig"; sourceTree = "<group>"; };
-		B120E6B825075C2A00CBB2CE /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B156555E24F70E8D00FEAA70 /* FriendsCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendsCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B156557424F70E9100FEAA70 /* FriendsCardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendsCardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B156557824F70E9100FEAA70 /* FriendsCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCardTests.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 				B1BA453124FB84E200E14C27 /* LaunchScreen.storyboard */,
 				B1BA453924FB84E200E14C27 /* AppDelegate.swift */,
 				B1BA453D24FB84E200E14C27 /* SceneDelegate.swift */,
-				B120E6B825075C2A00CBB2CE /* RootView.swift */,
 				B1D0978A2505BFA90048286B /* PhoneNumberView.swift */,
 				B1BA452E24FB84E200E14C27 /* HomeView.swift */,
 				B1BA453B24FB84E200E14C27 /* PermissionsView.swift */,
@@ -723,7 +720,6 @@
 				B1BA454524FB84E200E14C27 /* TextFields.swift in Sources */,
 				B1BA454824FB84E200E14C27 /* Images.swift in Sources */,
 				B1BA456724FB84E200E14C27 /* PermissionsView.swift in Sources */,
-				B120E6B925075C2A00CBB2CE /* RootView.swift in Sources */,
 				B1BA454424FB84E200E14C27 /* LoadingView.swift in Sources */,
 				B1BA454624FB84E200E14C27 /* Buttons.swift in Sources */,
 			);

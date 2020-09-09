@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 import GoogleSignIn
 
+
 struct PermissionsView: View {
     @ObservedObject var store: ContactStore
     @EnvironmentObject var googleDelegate: GoogleDelegate
@@ -18,6 +19,7 @@ struct PermissionsView: View {
 
     @State var contactsAllowed: Bool = false
     @State var bothAllowed: Bool = false
+    @State var card : Card
 
     var body: some View {
         NavigationView {
@@ -25,40 +27,39 @@ struct PermissionsView: View {
                 Color.rBlack400.edgesIgnoringSafeArea(.all)
                 VStack {
                     Group {
-                        Text("Close Friends")
+                        Text(card.name)
                             .retinaTypography(.h4_secondary)
                             .foregroundColor(.white)
                         .padding(.leading, 24)
                         .padding(.top, UIApplication.topInset*2)
                         
-                        Text("This card tells you when your close friends are free and helps you stay connected. ").retinaTypography(.p5_main).foregroundColor(.rGrey100)
+                        Text(card.description).retinaTypography(.p5_main).foregroundColor(.rGrey100)
+                    }
+                    
+                    Spacer()
+                    
+                    if (self.card.permissions.contains(.calendar)) {
+                        retinaButton(text: "Allow access to calendar", style: .outlineOnly, color: .rPink, action: {
+                            DispatchQueue.main.async {
+                                GIDSignIn.sharedInstance().delegate = self.googleDelegate
+                                GIDSignIn.sharedInstance().signIn()
+                            }
+                        }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    }
+
+                    if (self.card.permissions.contains(.contacts)) {
+                        retinaButton(text: "Allow access to contacts", style: .outlineOnly, color: .rPink, action: {
+                            DispatchQueue.main.async {
+                                self.store.fetchContacts()
+                                self.contactsAllowed = true
+                            }
+                        }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
                     }
                     
                     
                     
                     
-
                     Spacer()
-                    
-                    retinaButton(text: "Allow access to calendar", style: .outlineOnly, color: .rPink, action: {
-                        DispatchQueue.main.async {
-                            GIDSignIn.sharedInstance().delegate = self.googleDelegate
-                            GIDSignIn.sharedInstance().signIn()
-                        }
-                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-
-                    retinaButton(text: "Allow access to contacts", style: .outlineOnly, color: .rPink, action: {
-                        DispatchQueue.main.async {
-                            self.store.fetchContacts()
-                            self.contactsAllowed = true
-                        }
-                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-                    
-                    Spacer()
-                    
-                    
-                    
-                    
                     
                     ZStack {
                         Rectangle()
@@ -67,7 +68,7 @@ struct PermissionsView: View {
 
                         HStack {
                             NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts, currentCardState: self.$currentCardState), isActive: $bothAllowed) { EmptyView() }
-                            retinaButton(text: "Continue", style: .outlineOnly, color: .rPink, action: {
+                            retinaButton(text: self.card.buttonTitle, style: .outlineOnly, color: .rPink, action: {
                                 DispatchQueue.main.async {
                                     print(self.googleDelegate.signedIn)
                                     if self.googleDelegate.signedIn && self.contactsAllowed {

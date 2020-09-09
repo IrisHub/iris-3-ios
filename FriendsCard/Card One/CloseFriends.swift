@@ -20,7 +20,6 @@ struct CloseFriends: View {
     // The delegate required by `MFMessageComposeViewController`
     private let messageComposeDelegate = MessageDelegate()
     
-
     var body: some View {
         NavigationView {
             ZStack {
@@ -43,20 +42,18 @@ struct CloseFriends: View {
                         Spacer()
                     }
 
-
                     List {
                         ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                            StatusCell(name: self.store.contacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "Shalin", status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
+                            StatusCell(name: self.store.contacts.first(where:{ String($0.phoneNum.filter("0123456789.".contains).prefix(10)).contains(String(contact.id.filter("0123456789.".contains).prefix(10)))})?.name ?? "", status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
                                 .listRowInsets(EdgeInsets())
                         }
 
                         ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                            InviteCell(name: self.store.contacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "", buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: self.store.contacts.first(where: {$0.phoneNum.filter("0123456789.".contains).contains(contact.id.filter("0123456789.".contains))})?.name ?? "", phoneNumber: contact.id)})
+                            InviteCell(name: self.store.contacts.first(where: { String($0.phoneNum.filter("0123456789.".contains).prefix(10)).contains(String(contact.id.filter("0123456789.".contains).prefix(10)))})?.name ?? "", buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: self.store.contacts.first(where: { String($0.phoneNum.filter("0123456789.".contains).prefix(10)).contains(String(contact.id.filter("0123456789.".contains).prefix(10)))})?.name ?? "", phoneNumber: contact.id)})
                             .listRowInsets(EdgeInsets())
                         }
                     }
                     
-
                     Spacer()
 
                 }

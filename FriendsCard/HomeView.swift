@@ -11,13 +11,36 @@ import Alamofire
 import SwiftyJSON
 import GoogleSignIn
 
+enum Permissions {
+    case none
+    case calendar
+    case contacts
+}
+
+struct Card {
+    var id : String
+    var name : String
+    var description: String
+    var buttonTitle: String
+    var permissions: [Permissions]
+}
+
+
 struct HomeView: View {
     @State var currentCardState: String? = nil
+    @State var cardNumber: Int? = nil
+
     @ObservedObject var store: ContactStore = ContactStore()
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     // important for the first time -> create an account
     @EnvironmentObject var googleDelegate: GoogleDelegate
+    
+    @State var cards : [Card] = [
+        Card(id: "card1", name: "Close Friends", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Close Friends", permissions: [.calendar, .contacts]),
+        Card(id: "card2", name: "Contacts", description: "This card tells you when your close friends are free and helps you stay connected. We all have a handful of people we know we should contact, but we don’t really know how to.", buttonTitle: "Choose Close Friends", permissions: [.contacts]),
+        Card(id: "card3", name: "Homework", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Classes", permissions: [.none])
+    ]
 
     var body: some View {
         NavigationView {
@@ -36,11 +59,12 @@ struct HomeView: View {
 
                         Spacer()
                         
-                        NavigationLink(destination: PermissionsView(store: self.store, currentCardState: self.$currentCardState).environmentObject(self.googleDelegate), tag: "card1permission", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: PermissionsView(store: self.store, currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }
+
                         NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: $currentCardState) { EmptyView() }
-                        
-                        
-                        NavigationLink(destination: UserDefaults.standard.bool(forKey: "card2PermissionsComplete") ? ReminderView() : ReminderView(), tag: "card2", selection: $currentCardState) { EmptyView() }
+
+                        NavigationLink(destination: ReminderView(), tag: "card2", selection: $currentCardState) { EmptyView() }
+
                         
                         retinaButton(text: "Friends Card", style: .outlineOnly, color: .rPink, action: {
                             DispatchQueue.main.async {
@@ -65,7 +89,6 @@ struct HomeView: View {
                                 self.currentCardState = "card4"
                             }
                         }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-
                         
                         Spacer()
                         
@@ -79,14 +102,26 @@ struct HomeView: View {
     }
     
     func logInCardOne() {
+        self.cardNumber = 0
         if (UserDefaults.standard.bool(forKey: "card1PermissionsComplete")) {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
             self.store.fetchContacts()
             self.currentCardState = "card1"
         } else {
-            self.currentCardState =  "card1permission"
+            self.currentCardState =  "cardpermission"
         }
     }
+    
+    func logInCardTwo() {
+        self.cardNumber = 1
+        if (UserDefaults.standard.bool(forKey: "card2PermissionsComplete")) {
+            self.store.fetchContacts()
+            self.currentCardState = "card2"
+        } else {
+            self.currentCardState =  "cardpermission"
+        }
+    }
+
 }
 
 //
