@@ -17,7 +17,7 @@ struct CloseFriends: View {
     @State var friendSchedules: [CloseFriendSchedule] = [CloseFriendSchedule]()
     
     // The delegate required by `MFMessageComposeViewController`
-    private let messageComposeDelegate = MessageDelegate()
+    private let messageComposeDelegate = MessageComposerDelegate()
     
     var body: some View {
         NavigationView {
@@ -95,25 +95,18 @@ struct CloseFriends: View {
 }
 
 
-// MARK: The message part
 extension CloseFriends {
-
-    // Delegate for view controller as `MFMessageComposeViewControllerDelegate`
-    private class MessageDelegate: NSObject, MFMessageComposeViewControllerDelegate {
+    private class MessageComposerDelegate: NSObject, MFMessageComposeViewControllerDelegate {
         func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-            // Change the button title to "Invited"
+            // Customize here
             controller.dismiss(animated: true)
         }
-
     }
-
-    // Present an message compose view controller modally in UIKit environment
     private func presentMessageCompose(name: String, phoneNumber: String) {
         guard MFMessageComposeViewController.canSendText() else {
             return
         }
-        let vc = UIApplication.shared.keyWindow?.rootViewController
-
+        let vc = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
         let composeVC = MFMessageComposeViewController()
         composeVC.messageComposeDelegate = messageComposeDelegate
         composeVC.body = "Hey " + name + ", I want to add you as a close friend on Iris. Get the app so I can add you."
