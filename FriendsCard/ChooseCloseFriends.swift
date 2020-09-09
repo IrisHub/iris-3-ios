@@ -39,7 +39,7 @@ struct ChooseCloseFriends: View {
                         Search(isBack: false, isFilter: true, placeholder: "Friends", searchText: $searchText, buttonCommit:{  })
                     }
 
-                    ScrollView(.vertical, showsIndicators: false) {
+                    List {
                         if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) {
                             ForEach(self.allContacts.filter {
                                 self.searchText.filter { !$0.isWhitespace }.isEmpty ? true : $0.name.lowercased().contains(self.searchText.lowercased())
@@ -50,47 +50,41 @@ struct ChooseCloseFriends: View {
                         } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) {
                             
                         }
-                    }.background(Color.rBlack400)
+                    }
 
                     Spacer()
                     
-                    ZStack {
-                        Rectangle()
-                        .foregroundColor(Color.rBlack200)
-                        .frame(width: UIScreen.screenWidth, height: 100)
-                        
-                            
-                        HStack {
-                            Group {
-                                NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: self.$nextPage) { EmptyView() }
-                                NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: self.$nextPage) { EmptyView() }
-                                NavigationLink(destination: ChooseCloseFriends(store: self.store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }
-                            }
-                            
-                            retinaButton(text: "Continue", style: .outlineOnly, color: .rPink, action: {
-                                DispatchQueue.main.async {
-                                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts.filter({ $0.selected == true }).count < 1 { return }
-                                    
-                                    if self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts {
-                                        UserDefaults.standard.set(try? PropertyListEncoder().encode(self.allContacts.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
-                                    }
-                                        
-                                    if self.selectionNumber == 0 {
-                                        if self.card.id == "card1" {
-                                            self.signUpCard1()
-                                        } else if self.card.id == "card2" {
-                                            self.signUpCard2()
-                                        }
-                                    } else {
-                                        self.nextPage = "again"
-                                    }
-                                }
-                            }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-                        }
+                    Group {
+                        NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: self.$nextPage) { EmptyView() }
+                        NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: self.$nextPage) { EmptyView() }
+                        NavigationLink(destination: ChooseCloseFriends(store: self.store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }
                     }
-                    .padding(.bottom, DeviceUtility.isIphoneXType ? UIApplication.bottomInset : 0)
+                    
+                    BottomNavigationView(title: "Continue", action: {
+                        if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts.filter({ $0.selected == true }).count < 1 { return }
+                        
+                        if self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts {
+                            UserDefaults.standard.set(try? PropertyListEncoder().encode(self.allContacts.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
+                        }
+                            
+                        if self.selectionNumber == 0 {
+                            if self.card.id == "card1" {
+                                self.signUpCard1()
+                            } else if self.card.id == "card2" {
+                                self.signUpCard2()
+                            }
+                        } else {
+                            self.nextPage = "again"
+                        }
+                    })
                 }
             }
+        }
+        .onAppear() {
+            if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
+            UITableView.appearance().separatorStyle = .none
+            UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
+            UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
         }
         .hideNavigationBar()
     }

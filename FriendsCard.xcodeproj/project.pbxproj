@@ -14,6 +14,8 @@
 		B1224BD224F9C51B00B9FBE8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B1224BD124F9C51B00B9FBE8 /* Alamofire */; };
 		B1224BD524F9C55600B9FBE8 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = B1224BD424F9C55600B9FBE8 /* SwiftyJSON */; };
 		B151A2742508F60700534657 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151A2732508F60700534657 /* Badge.swift */; };
+		B151A2772508F8FB00534657 /* ClassCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151A2762508F8FB00534657 /* ClassCells.swift */; };
+		B151A2792508FCD800534657 /* BottomNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B151A2782508FCD800534657 /* BottomNavigationView.swift */; };
 		B156557924F70E9100FEAA70 /* FriendsCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B156557824F70E9100FEAA70 /* FriendsCardTests.swift */; };
 		B156558424F70E9100FEAA70 /* FriendsCardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B156558324F70E9100FEAA70 /* FriendsCardUITests.swift */; };
 		B17632952500A8F00074922F /* Observers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17632942500A8F00074922F /* Observers.swift */; };
@@ -91,6 +93,8 @@
 		7ED19E6EC5DF82F6E55198DE /* Pods-FriendsCard-FriendsCardUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCard-FriendsCardUITests.release.xcconfig"; path = "Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A1F23F3629F2C31C4DC008B7 /* Pods-FriendsCardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCardTests.release.xcconfig"; path = "Target Support Files/Pods-FriendsCardTests/Pods-FriendsCardTests.release.xcconfig"; sourceTree = "<group>"; };
 		B151A2732508F60700534657 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		B151A2762508F8FB00534657 /* ClassCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCells.swift; sourceTree = "<group>"; };
+		B151A2782508FCD800534657 /* BottomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNavigationView.swift; sourceTree = "<group>"; };
 		B156555E24F70E8D00FEAA70 /* FriendsCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendsCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B156557424F70E9100FEAA70 /* FriendsCardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendsCardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B156557824F70E9100FEAA70 /* FriendsCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCardTests.swift; sourceTree = "<group>"; };
@@ -278,6 +282,7 @@
 				B1BA450A24FB84E200E14C27 /* StatusCell.swift */,
 				B1BA450B24FB84E200E14C27 /* InviteCell.swift */,
 				B1BA456A24FBBFDF00E14C27 /* ReminderCell.swift */,
+				B151A2762508F8FB00534657 /* ClassCells.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				B1BA451924FB84E200E14C27 /* TopNavigationView.swift */,
+				B151A2782508FCD800534657 /* BottomNavigationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -707,6 +713,8 @@
 				B1BA455C24FB84E200E14C27 /* CornerRadius.swift in Sources */,
 				B1BA453E24FB84E200E14C27 /* LeaderCell.swift in Sources */,
 				B1BA454C24FB84E200E14C27 /* TopNavigationView.swift in Sources */,
+				B151A2772508F8FB00534657 /* ClassCells.swift in Sources */,
+				B151A2792508FCD800534657 /* BottomNavigationView.swift in Sources */,
 				B1BA454924FB84E200E14C27 /* HorizontalLabel.swift in Sources */,
 				B1D0978B2505BFA90048286B /* PhoneNumberView.swift in Sources */,
 				B1BA456224FB84E200E14C27 /* ReminderView.swift in Sources */,

@@ -32,17 +32,8 @@ struct PhoneNumberView: View {
                         }
                     }.padding(.top, UIScreen.screenHeight/5)
                     Spacer()
-                    Group {
-                        ZStack {
-                            Rectangle()
-                            .foregroundColor(Color.rBlack200)
-                            .frame(width: UIScreen.screenWidth, height: 100)
-                            
-                            HStack {
-                                retinaButton(text: "Submit", style: .outlineOnly, color: .rPink, action: { self.verifyCode() }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-                            }
-                        }.padding(.bottom, DeviceUtility.isIphoneXType ? UIApplication.bottomInset : 0)
-                    }
+                        
+                    BottomNavigationView(title: "Submit", action: {self.verifyCode()})
                     .offset(y: -self.value)
                     .animation(.spring())
                     .onAppear {

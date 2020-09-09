@@ -45,13 +45,10 @@ struct ReminderView: View {
                         }).padding([.leading, .trailing], 24)
                     }
 
-                    
-                    HStack {
-                        List {
-                            ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
-                                ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
-                                    .listRowInsets(EdgeInsets())
-                            }
+                    List {
+                        ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
+                            ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
+                                .listRowInsets(EdgeInsets())
                         }
                     }
                     Spacer()

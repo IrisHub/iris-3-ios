@@ -56,33 +56,21 @@ struct PermissionsView: View {
                         }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
                     }
                     
-                    
-                    
-                    
                     Spacer()
                     
-                    ZStack {
-                        Rectangle()
-                        .foregroundColor(Color.rBlack200)
-                        .frame(width: UIScreen.screenWidth, height: 100)
+                    NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.card.selectionScreens.count-1), isActive: $bothAllowed) { EmptyView() }
 
-                        HStack {
-                            NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.card.selectionScreens.count-1), isActive: $bothAllowed) { EmptyView() }
-                            
-                            retinaButton(text: self.card.buttonTitle, style: .outlineOnly, color: .rPink, action: {
-                                DispatchQueue.main.async {
-                                    print(self.googleDelegate.signedIn)
-                                    if (self.card.permissions.contains(.calendar) && self.card.permissions.contains(.contacts)) {
-                                        if self.googleDelegate.signedIn && self.contactsAllowed { self.bothAllowed = true }
-                                    } else if (self.card.permissions.contains(.calendar)) {
-                                        if self.googleDelegate.signedIn { self.bothAllowed = true }
-                                    } else if (self.card.permissions.contains(.contacts)) {
-                                        if self.contactsAllowed { self.bothAllowed = true }
-                                    }
-                                }
-                            }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    
+                    BottomNavigationView(title: self.card.buttonTitle, action: {
+                        print(self.googleDelegate.signedIn)
+                        if (self.card.permissions.contains(.calendar) && self.card.permissions.contains(.contacts)) {
+                            if self.googleDelegate.signedIn && self.contactsAllowed { self.bothAllowed = true }
+                        } else if (self.card.permissions.contains(.calendar)) {
+                            if self.googleDelegate.signedIn { self.bothAllowed = true }
+                        } else if (self.card.permissions.contains(.contacts)) {
+                            if self.contactsAllowed { self.bothAllowed = true }
                         }
-                    }.padding(.bottom, DeviceUtility.isIphoneXType ? UIApplication.bottomInset : 0)
+                    })
                 }
             }
             .edgesIgnoringSafeArea(.all)
