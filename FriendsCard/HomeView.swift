@@ -17,12 +17,28 @@ enum Permissions {
     case contacts
 }
 
+enum Selection {
+    case classes
+    case contacts
+}
+
+struct SelectionScreen {
+    var id : String
+    var title : String
+    var description: String
+    var buttonTitle: String
+    var selection: Selection
+    var userDefaultID: String
+}
+
+
 struct Card {
     var id : String
     var name : String
     var description: String
     var buttonTitle: String
     var permissions: [Permissions]
+    var selectionScreens: [SelectionScreen]
 }
 
 
@@ -37,9 +53,16 @@ struct HomeView: View {
     @EnvironmentObject var googleDelegate: GoogleDelegate
     
     @State var cards : [Card] = [
-        Card(id: "card1", name: "Close Friends", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Close Friends", permissions: [.calendar, .contacts]),
-        Card(id: "card2", name: "Contacts", description: "This card tells you when your close friends are free and helps you stay connected. We all have a handful of people we know we should contact, but we don’t really know how to.", buttonTitle: "Choose Close Friends", permissions: [.contacts]),
-        Card(id: "card3", name: "Homework", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Classes", permissions: [.none])
+        Card(id: "card1", name: "Close Friends", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Close Friends", permissions: [.calendar, .contacts], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Select", selection: .contacts, userDefaultID: "closeFriends")
+        ]),
+        Card(id: "card2", name: "Contacts", description: "This card tells you when your close friends are free and helps you stay connected. We all have a handful of people we know we should contact, but we don’t really know how to.", buttonTitle: "Choose Close Friends", permissions: [.contacts], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Choose contacts", selection: .contacts, userDefaultID: "closeFriends"),
+            SelectionScreen(id: "screen2", title: "Choose contacts", description: "Choose who people you could use some help staying in contact with, and this card will help you keep in touch.", buttonTitle: "Select", selection: .contacts, userDefaultID: "distantFriends")
+        ]),
+        Card(id: "card3", name: "Homework", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Piazza.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes")
+        ])
     ]
 
     var body: some View {
@@ -74,7 +97,7 @@ struct HomeView: View {
 
                         retinaButton(text: "Reminder Card", style: .outlineOnly, color: .rPink, action: {
                             DispatchQueue.main.async {
-                                self.currentCardState = "card2"
+                                self.logInCardTwo()
                             }
                         }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
                         
