@@ -28,30 +28,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //            window.makeKeyAndVisible()
 //        }
         
-        // Get the googleDelegate from AppDelegate
         let googleDelegate = (UIApplication.shared.delegate as! AppDelegate).googleDelegate
         
-        if !UserDefaults.standard.bool(forKey: "onboardingComplete") {
-            // Add googleDelegate as an environment object
-            let contentView = PhoneNumberView().environmentObject(googleDelegate)
-            if let windowScene = scene as? UIWindowScene {
-                let window = UIWindow(windowScene: windowScene)
-                window.rootViewController = UIHostingController(rootView: contentView)
-                GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
-                self.window = window
-                window.makeKeyAndVisible()
-            }
-        } else {
-            // Add googleDelegate as an environment object
-            let contentView = HomeView().environmentObject(googleDelegate)
-            if let windowScene = scene as? UIWindowScene {
-                let window = UIWindow(windowScene: windowScene)
-                window.rootViewController = UIHostingController(rootView: contentView)
-                GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
-                self.window = window
-                window.makeKeyAndVisible()
-            }
+        // Add googleDelegate as an environment object
+        let contentView = RootView().environmentObject(googleDelegate)
+        if let windowScene = scene as? UIWindowScene {
+            let window = UIWindow(windowScene: windowScene)
+            window.rootViewController = UIHostingController(rootView: contentView)
+            GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
+            self.window = window
+            window.makeKeyAndVisible()
         }
+        
+        // Get the googleDelegate from AppDelegate
+//        let googleDelegate = (UIApplication.shared.delegate as! AppDelegate).googleDelegate
+//        
+//        if !UserDefaults.standard.bool(forKey: "onboardingComplete") {
+//            // Add googleDelegate as an environment object
+//            let contentView = PhoneNumberView().environmentObject(googleDelegate)
+//            if let windowScene = scene as? UIWindowScene {
+//                let window = UIWindow(windowScene: windowScene)
+//                window.rootViewController = UIHostingController(rootView: contentView)
+//                GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
+//                self.window = window
+//                window.makeKeyAndVisible()
+//            }
+//        } else {
+//            // Add googleDelegate as an environment object
+//            let contentView = HomeView().environmentObject(googleDelegate)
+//            if let windowScene = scene as? UIWindowScene {
+//                let window = UIWindow(windowScene: windowScene)
+//                window.rootViewController = UIHostingController(rootView: contentView)
+//                GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
+//                self.window = window
+//                window.makeKeyAndVisible()
+//            }
+//        }
         
 //        print(UserDefaults.standard.bool(forKey: "onboardingComplete"))
 //

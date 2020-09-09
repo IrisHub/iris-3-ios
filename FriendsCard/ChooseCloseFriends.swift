@@ -23,60 +23,59 @@ struct ChooseCloseFriends: View {
 
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.rBlack400.edgesIgnoringSafeArea(.all)
-                VStack(alignment: .leading) {
-                    TopNavigationView(title: self.card.selectionScreens[self.selectionNumber ?? 0].title, description: self.card.selectionScreens[self.selectionNumber ?? 0].description, backButton: false, rightButton: false, searchBar: true, searchBarPlaceholder: "Friends", searchText: self.$searchText)
+        ZStack {
+            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            VStack {
+                TopNavigationView(title: self.card.selectionScreens[self.selectionNumber ?? 0].title, description: self.card.selectionScreens[self.selectionNumber ?? 0].description, backButton: false, rightButton: false, searchBar: true, searchBarPlaceholder: "Friends", searchText: self.$searchText)
 
-                    List {
-                        if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) {
-                            ForEach(self.allContacts.filter {
-                                self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
-                            }, id: \.self.name) { (contact: Contact) in
-                                SelectionCell(contacts: self.$allContacts, contact: contact, isSingleSelect: false)
-                                .listRowInsets(EdgeInsets())
-                            }
-                        } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) {
-                            
+                List {
+                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) {
+                        ForEach(self.allContacts.filter {
+                            self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
+                        }, id: \.self.name) { (contact: Contact) in
+                            SelectionCell(contacts: self.$allContacts, contact: contact, isSingleSelect: false)
+                            .listRowInsets(EdgeInsets())
                         }
-                    }
-
-                    Spacer()
-                    
-                    Group {
-                        NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: self.$nextPage) { EmptyView() }
-                        NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: self.$nextPage) { EmptyView() }
-                        NavigationLink(destination: ChooseCloseFriends(store: self.store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }
-                    }
-                    
-                    BottomNavigationView(title: "Continue", action: {
-                        if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts.filter({ $0.selected == true }).count < 1 { return }
+                    } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) {
                         
-                        if self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts {
-                            UserDefaults.standard.set(try? PropertyListEncoder().encode(self.allContacts.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
-                        }
-                            
-                        if self.selectionNumber == 0 {
-                            if self.card.id == "card1" {
-                                self.signUpCard1()
-                            } else if self.card.id == "card2" {
-                                self.signUpCard2()
-                            }
-                        } else {
-                            self.nextPage = "again"
-                        }
-                    })
+                    }
                 }
+
+                Spacer()
+                
+                Group {
+                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ChooseCloseFriends(store: self.store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }
+                }
+                
+                BottomNavigationView(title: "Continue", action: {
+                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts.filter({ $0.selected == true }).count < 1 { return }
+                    
+                    if self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts {
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(self.allContacts.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
+                    }
+                        
+                    if self.selectionNumber == 0 {
+                        if self.card.id == "card1" {
+                            self.signUpCard1()
+                        } else if self.card.id == "card2" {
+                            self.signUpCard2()
+                        }
+                    } else {
+                        self.nextPage = "again"
+                    }
+                })
             }
         }
+        .hideNavigationBar()
         .onAppear() {
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none
             UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
             UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
         }
-        .hideNavigationBar()
+
     }
     
     func signUpCard1() {

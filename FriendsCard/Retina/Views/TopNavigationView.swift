@@ -22,7 +22,7 @@ struct TopNavigationView: View {
     @Binding var searchText: String?
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             if (self.backButton) {
                 HStack {
                     retinaIconButton(image: (Image(systemName: "chevron.left")), action: {
@@ -43,7 +43,7 @@ struct TopNavigationView: View {
                 if (self.rightButton) {
                     retinaIconButton(image: (Image(systemName: rightButtonIcon)), foregroundColor: .rPink, action: {
                         withAnimation {
-
+                            self.rightButtonCommit()
                         }
                     }).padding([.leading, .trailing], 24)
                 }
@@ -55,7 +55,7 @@ struct TopNavigationView: View {
                 Search(isBack: false, isFilter: true, placeholder: self.searchBarPlaceholder, searchText: $searchText, buttonCommit: {  })
             }
         }
-        .padding(.top, UIApplication.topInset)
+        .padding(.top, UIApplication.topInset*2)
         .clipped()
         .animation(.default)
         .background(backgroundColor)

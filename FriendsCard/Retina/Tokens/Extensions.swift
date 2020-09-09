@@ -124,7 +124,6 @@ struct HideNavigationBarModifier: ViewModifier {
             .navigationBarBackButtonHidden(true)
             .navigationBarHidden(true)
             .navigationBarTitle("")
-            .edgesIgnoringSafeArea(.all)
     }
 }
 extension View {

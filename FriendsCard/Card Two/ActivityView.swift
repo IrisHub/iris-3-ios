@@ -17,7 +17,6 @@ struct ActivityView: View {
         VStack(alignment: .leading) {
             TopNavigationView(title: "Friend Activity", description: "You’re doing a great job so far, keep it up!", backButton: false, rightButton: true, rightButtonIcon: "xmark", rightButtonCommit: { self.leaderboardPresented = false }, searchBar: false, searchText: self.$searchText)
 
-            
             List {
                 ForEach(self.friendLeaderboard, id: \.self) { (friend: LeaderboardProfile) in
                     LeaderCell(title: friend.name, subtitle: friend.score)
@@ -28,7 +27,7 @@ struct ActivityView: View {
             Spacer()
         }
         .background(Color.rBlack400)
-        .edgesIgnoringSafeArea(.all)
+        .hideNavigationBar()
         .onAppear() {
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none

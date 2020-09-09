@@ -21,29 +21,28 @@ struct CloseFriends: View {
     private let messageComposeDelegate = MessageComposerDelegate()
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.rBlack400.edgesIgnoringSafeArea(.all)
-                VStack(alignment: .leading) {
-                    TopNavigationView(title: "Close Friends", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+        ZStack {
+            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            VStack(alignment: .leading) {
+                TopNavigationView(title: "Close Friends", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
-                    List {
-                        ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                            StatusCell(name: contact.name, status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
-                                .listRowInsets(EdgeInsets())
-                        }
-
-                        ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                            InviteCell(name: contact.name, buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: contact.name, phoneNumber: contact.id)})
+                List {
+                    ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
+                        StatusCell(name: contact.name, status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
                             .listRowInsets(EdgeInsets())
-                        }
                     }
-                    
-                    Spacer()
 
+                    ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
+                        InviteCell(name: contact.name, buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: contact.name, phoneNumber: contact.id)})
+                        .listRowInsets(EdgeInsets())
+                    }
                 }
+                
+                Spacer()
+
             }
         }
+        .hideNavigationBar()
         .onAppear() {
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none
@@ -52,7 +51,6 @@ struct CloseFriends: View {
 
             self.getSchedules()
         }
-        .hideNavigationBar()
     }
     
     func getSchedules() {

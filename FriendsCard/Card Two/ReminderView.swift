@@ -24,25 +24,24 @@ struct ReminderView: View {
     private let messageComposeDelegate = MessageComposerDelegate()
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.rBlack400.edgesIgnoringSafeArea(.all)
-                VStack() {
-                    TopNavigationView(title: "For this week", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: true, rightButtonIcon: "chart.bar", rightButtonCommit: { self.leaderboardPresented = true }, searchBar: false, searchText: self.$searchText)
+        ZStack {
+            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            VStack() {
+                TopNavigationView(title: "For this week", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: true, rightButtonIcon: "chart.bar", rightButtonCommit: { self.leaderboardPresented = true }, searchBar: false, searchText: self.$searchText)
 
-                    List {
-                        ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
-                            ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
-                                .listRowInsets(EdgeInsets())
-                        }
+                List {
+                    ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
+                        ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
+                            .listRowInsets(EdgeInsets())
                     }
-                    Spacer()
                 }
-                
-                ActivityView(leaderboardPresented: self.$leaderboardPresented, friendLeaderboard: self.$friendLeaderboard).padding([.top, .bottom], UIApplication.bottomInset)
-                .offset(x: 0, y: self.leaderboardPresented ? 0 : UIScreen.screenHeight + UIApplication.bottomInset)
+                Spacer()
             }
+            
+            ActivityView(leaderboardPresented: self.$leaderboardPresented, friendLeaderboard: self.$friendLeaderboard).padding([.top, .bottom], UIApplication.bottomInset)
+            .offset(x: 0, y: self.leaderboardPresented ? 0 : UIScreen.screenHeight + UIApplication.bottomInset)
         }
+        .hideNavigationBar()
         .onAppear() {
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none
@@ -51,7 +50,6 @@ struct ReminderView: View {
 
             self.getReminders()
         }
-        .hideNavigationBar()
     }
     
     

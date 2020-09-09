@@ -66,59 +66,56 @@ struct HomeView: View {
     ]
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.rBlack400.edgesIgnoringSafeArea(.all)
-                
-                HStack {
-                    VStack(alignment: .leading) {
-                        Group {
-                            Text("Home")
-                                .retinaTypography(.h4_secondary)
-                                .foregroundColor(.white)
-                            
-                            .padding(.top, UIApplication.topInset)
-                        }
+        ZStack {
+            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Group {
+                        Text("Home")
+                            .retinaTypography(.h4_secondary)
+                            .foregroundColor(.white)
+                        
+                        .padding(.top, UIApplication.topInset)
+                    }
 
-                        Spacer()
-                        
-                        NavigationLink(destination: PermissionsView(store: self.store, currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }
-
-                        NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: $currentCardState) { EmptyView() }
-
-                        NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: $currentCardState) { EmptyView() }
-
-                        
-                        retinaButton(text: "Friends Card", style: .outlineOnly, color: .rPink, action: {
-                            DispatchQueue.main.async {
-                                self.logInCardOne()
-                            }
-                        }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-
-                        retinaButton(text: "Reminder Card", style: .outlineOnly, color: .rPink, action: {
-                            DispatchQueue.main.async {
-                                self.logInCardTwo()
-                            }
-                        }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-                        
-                        retinaButton(text: "Homework Card", style: .outlineOnly, color: .rPink, action: {
-                            DispatchQueue.main.async {
-                                self.currentCardState = "card3"
-                            }
-                        }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-                        
-                        retinaButton(text: "Lectures Card", style: .outlineOnly, color: .rPink, action: {
-                            DispatchQueue.main.async {
-                                self.currentCardState = "card4"
-                            }
-                        }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-                        
-                        Spacer()
-                        
-                    }.padding(.leading, 24)
                     Spacer()
-                }
-                .background(Color.rBlack400)
+                    
+                    NavigationLink(destination: PermissionsView(store: self.store, currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }
+
+                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: $currentCardState) { EmptyView() }
+
+                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: $currentCardState) { EmptyView() }
+
+                    
+                    retinaButton(text: "Friends Card", style: .outlineOnly, color: .rPink, action: {
+                        DispatchQueue.main.async {
+                            self.logInCardOne()
+                        }
+                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+
+                    retinaButton(text: "Reminder Card", style: .outlineOnly, color: .rPink, action: {
+                        DispatchQueue.main.async {
+                            self.logInCardTwo()
+                        }
+                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    
+                    retinaButton(text: "Homework Card", style: .outlineOnly, color: .rPink, action: {
+                        DispatchQueue.main.async {
+                            self.currentCardState = "card3"
+                        }
+                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    
+                    retinaButton(text: "Lectures Card", style: .outlineOnly, color: .rPink, action: {
+                        DispatchQueue.main.async {
+                            self.currentCardState = "card4"
+                        }
+                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    
+                    Spacer()
+                    
+                }.padding(.leading, 24)
+                Spacer()
             }
         }
         .hideNavigationBar()

@@ -23,50 +23,47 @@ struct PermissionsView: View {
     @State var searchText : String?
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.rBlack400.edgesIgnoringSafeArea(.all)
-                VStack {
-                    TopNavigationView(title: card.name, description: card.description, backButton: false, rightButton: false, searchBar: false, searchText: self.$searchText)
-                    
-                    Spacer()
-                    
-                    if (self.card.permissions.contains(.calendar)) {
-                        retinaButton(text: "Allow access to calendar", style: .outlineOnly, color: .rPink, action: {
-                            DispatchQueue.main.async {
-                                GIDSignIn.sharedInstance().delegate = self.googleDelegate
-                                GIDSignIn.sharedInstance().signIn()
-                            }
-                        }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-                    }
-
-                    if (self.card.permissions.contains(.contacts)) {
-                        retinaButton(text: "Allow access to contacts", style: .outlineOnly, color: .rPink, action: {
-                            DispatchQueue.main.async {
-                                self.store.fetchContacts()
-                                self.contactsAllowed = true
-                            }
-                        }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-                    }
-                    
-                    Spacer()
-                    
-                    NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.card.selectionScreens.count-1), isActive: $bothAllowed) { EmptyView() }
-
-                    
-                    BottomNavigationView(title: self.card.buttonTitle, action: {
-                        print(self.googleDelegate.signedIn)
-                        if (self.card.permissions.contains(.calendar) && self.card.permissions.contains(.contacts)) {
-                            if self.googleDelegate.signedIn && self.contactsAllowed { self.bothAllowed = true }
-                        } else if (self.card.permissions.contains(.calendar)) {
-                            if self.googleDelegate.signedIn { self.bothAllowed = true }
-                        } else if (self.card.permissions.contains(.contacts)) {
-                            if self.contactsAllowed { self.bothAllowed = true }
+        ZStack {
+            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            VStack {
+                TopNavigationView(title: card.name, description: card.description, backButton: false, rightButton: false, searchBar: false, searchText: self.$searchText)
+                
+                Spacer()
+                
+                if (self.card.permissions.contains(.calendar)) {
+                    retinaButton(text: "Allow access to calendar", style: .outlineOnly, color: .rPink, action: {
+                        DispatchQueue.main.async {
+                            GIDSignIn.sharedInstance().delegate = self.googleDelegate
+                            GIDSignIn.sharedInstance().signIn()
                         }
-                    })
+                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
                 }
+
+                if (self.card.permissions.contains(.contacts)) {
+                    retinaButton(text: "Allow access to contacts", style: .outlineOnly, color: .rPink, action: {
+                        DispatchQueue.main.async {
+                            self.store.fetchContacts()
+                            self.contactsAllowed = true
+                        }
+                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                }
+                
+                Spacer()
+                
+                NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.card.selectionScreens.count-1), isActive: $bothAllowed) { EmptyView() }
+
+                
+                BottomNavigationView(title: self.card.buttonTitle, action: {
+                    print(self.googleDelegate.signedIn)
+                    if (self.card.permissions.contains(.calendar) && self.card.permissions.contains(.contacts)) {
+                        if self.googleDelegate.signedIn && self.contactsAllowed { self.bothAllowed = true }
+                    } else if (self.card.permissions.contains(.calendar)) {
+                        if self.googleDelegate.signedIn { self.bothAllowed = true }
+                    } else if (self.card.permissions.contains(.contacts)) {
+                        if self.contactsAllowed { self.bothAllowed = true }
+                    }
+                })
             }
-            .edgesIgnoringSafeArea(.all)
         }
         .hideNavigationBar()
     }
