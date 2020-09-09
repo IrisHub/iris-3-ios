@@ -27,7 +27,7 @@ struct StatusCell: View {
                                 .frame(width: 12, height: 12)
                                 .padding(.leading, 24)
                             
-                            Text(name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(width: 104, alignment: .leading).padding(.leading, 12)
+                            Text(name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, 12)
                         }
                     }
                 }

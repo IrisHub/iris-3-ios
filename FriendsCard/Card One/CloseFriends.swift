@@ -71,7 +71,7 @@ struct CloseFriends: View {
     
     func getSchedules() {
         let parameters = [
-            "user_id": UserDefaults.standard.string(forKey: "phoneNumber"),
+            "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
         ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
         print(parameters)
@@ -99,7 +99,7 @@ extension CloseFriends {
     private class MessageComposerDelegate: NSObject, MFMessageComposeViewControllerDelegate {
         func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
             // Customize here
-            controller.dismiss(animated: true)
+            controller.dismiss(animated: true, completion: nil)
         }
     }
     private func presentMessageCompose(name: String, phoneNumber: String) {
@@ -112,6 +112,6 @@ extension CloseFriends {
         composeVC.body = "Hey " + name + ", I want to add you as a close friend on Iris. Get the app so I can add you."
         composeVC.recipients = [phoneNumber]
 
-        vc?.present(composeVC, animated: true)
+        vc?.present(composeVC, animated: true, completion: nil)
     }
 }

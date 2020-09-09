@@ -18,6 +18,9 @@ struct ReminderView: View {
     @State var friendLeaderboard: [LeaderboardProfile] = [LeaderboardProfile]()
 
     @State var leaderboardPresented: Bool = false
+    
+    // The delegate required by `MFMessageComposeViewController`
+    private let messageComposeDelegate = MessageComposerDelegate()
 
     var body: some View {
         NavigationView {
@@ -50,7 +53,7 @@ struct ReminderView: View {
                     
                     List {
                         ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
-                            ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji)
+                            ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
                                 .listRowInsets(EdgeInsets())
                         }
                     }
@@ -72,9 +75,11 @@ struct ReminderView: View {
         .hideNavigationBar()
     }
     
+    
+    
     func getReminders() {
         let parameters = [
-            "user_id": UserDefaults.standard.string(forKey: "phoneNumber"),
+            "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
         ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
         print(parameters)
@@ -98,5 +103,61 @@ struct ReminderView: View {
             }
         }
     }
+    
+    func reachedOut(phoneNumber: String) {
+        let parameters = [
+            "user_id": UserDefaults.standard.string(forKey: "phoneNumber"),
+            "messaged": phoneNumber
+        ]
+        let headers : HTTPHeaders = ["Content-Type": "application/json"]
+        print(parameters)
+        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/contacts-get", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON { response in
+            do {
+                let json = try JSON(data: response.data ?? Data())
+                self.friendLeaderboard = [LeaderboardProfile]()
+                for (_,subJson):(String, JSON) in json["leaderboard"] {
+                    let item = LeaderboardProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, score: subJson["total"].stringValue, onIris: subJson["on_iris"].boolValue)
+                    self.friendLeaderboard.append(item)
+                }
+            } catch {
+                print("error")
+            }
+        }
+    }
+}
 
+
+extension ReminderView {
+    private class MessageComposerDelegate: NSObject, MFMessageComposeViewControllerDelegate {
+        func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+            switch result.rawValue {
+                case 0 :
+                    print("Sending Message cancelled")
+                    controller.dismiss(animated: true, completion: nil)
+                case 1:
+                    print("Message sent")
+                    controller.dismiss(animated: true, completion: nil)
+                case 2:
+                    print("Sending message failed")
+                    controller.dismiss(animated: true, completion: nil)
+                default:
+                    break
+            }
+//            controller = MFMessageComposeViewController()
+        }
+    }
+    private func presentMessageCompose(name: String, phoneNumber: String) {
+        guard MFMessageComposeViewController.canSendText() else {
+            return
+        }
+        let vc = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
+        let composeVC = MFMessageComposeViewController()
+        composeVC.messageComposeDelegate = messageComposeDelegate
+        composeVC.body = "Hey " + name
+        composeVC.recipients = [phoneNumber]
+        self.reachedOut(phoneNumber: phoneNumber)
+
+        vc?.present(composeVC, animated: true, completion: nil)
+    }
 }
