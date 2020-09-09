@@ -26,35 +26,32 @@ struct ReminderView: View {
         NavigationView {
             ZStack {
                 Color.rBlack400.edgesIgnoringSafeArea(.all)
-                VStack(alignment: .leading) {
+                VStack() {
                     HStack {
                         retinaIconButton(image: (Image(systemName: "chevron.left")), action: {
                             withAnimation {
                                 self.currentCardState = nil
                             }
                         }).padding(24)
+                        Text("For this week")
+                            .retinaTypography(.h4_secondary)
+                            .foregroundColor(.white)
+                        .padding(.leading, 6)
                         Spacer()
-                    }.padding([.top], UIApplication.topInset)
-
-                    Group {
-                        HStack {
-                            Text("For this week")
-                                .retinaTypography(.h4_secondary)
-                                .foregroundColor(.white)
-                            .padding(.leading, 24)
-                            Spacer()
-                            retinaIconButton(image: (Image(systemName: "chart.bar")), foregroundColor: .rPink, backgroundColor: .clear, action: {
-                                withAnimation {
-                                    self.leaderboardPresented = true
-                                }
-                            }).padding([.leading, .trailing], 24)
-                        }
+                        retinaIconButton(image: (Image(systemName: "chart.bar")), foregroundColor: .rPink, backgroundColor: .clear, action: {
+                            withAnimation {
+                                self.leaderboardPresented = true
+                            }
+                        }).padding([.leading, .trailing], 24)
                     }
+
                     
-                    List {
-                        ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
-                            ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
-                                .listRowInsets(EdgeInsets())
+                    HStack {
+                        List {
+                            ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
+                                ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
+                                    .listRowInsets(EdgeInsets())
+                            }
                         }
                     }
                     Spacer()
