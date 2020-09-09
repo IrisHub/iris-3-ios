@@ -81,6 +81,8 @@ struct PhoneNumberView: View {
             return
         }
         
+        UserDefaults.standard.set(self.input.trimmingCharacters(in: .whitespacesAndNewlines), forKey: "phoneNumber")
+        
         UserDefaults.standard.set(true, forKey: "onboardingComplete")
         self.moveToNext = true
     }

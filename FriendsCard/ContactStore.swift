@@ -43,10 +43,6 @@ class ContactStore: ObservableObject {
                         if (contact.phoneNumbers.first?.value.stringValue) != nil && (contact.name.trimmingCharacters(in: .whitespacesAndNewlines)) != "" {
                             contactsArray.append(Contact(id: contact.identifier, name: contact.name, phoneNum: contact.phoneNumbers.first?.value.stringValue ?? "", emoji: "".randomEmoji(), selected: false))
                             print(contact.name)
-
-                            if contact.name.lowercased().contains(UserDefaults.standard.string(forKey: "fullName")!.lowercased() ) {
-                                UserDefaults.standard.set(contact.phoneNumbers.first?.value.stringValue, forKey: "phoneNumber")
-                            }
                         }
                     })
                     
