@@ -15,7 +15,8 @@ struct CloseFriends: View {
     @Binding var currentCardState: String?
     @ObservedObject var store: ContactStore
     @State var friendSchedules: [CloseFriendSchedule] = [CloseFriendSchedule]()
-    
+    @State var searchText : String?
+
     // The delegate required by `MFMessageComposeViewController`
     private let messageComposeDelegate = MessageComposerDelegate()
     
@@ -24,22 +25,7 @@ struct CloseFriends: View {
             ZStack {
                 Color.rBlack400.edgesIgnoringSafeArea(.all)
                 VStack(alignment: .leading) {
-                    HStack {
-                        retinaIconButton(image: (Image(systemName: "chevron.left")), action: {
-                            self.currentCardState = nil
-//                            withAnimation {
-//                                self.presentationMode.wrappedValue.dismiss()
-//                            }
-                            print(self.friendSchedules)
-                        }).padding(24)
-                        
-                        Text("Close Friends")
-                            .retinaTypography(.h4_secondary)
-                            .foregroundColor(.white)
-                        .padding(.leading, 24)
-                        
-                        Spacer()
-                    }
+                    TopNavigationView(title: "Close Friends", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                     List {
                         ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in

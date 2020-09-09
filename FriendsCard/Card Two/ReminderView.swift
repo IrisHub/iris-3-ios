@@ -18,7 +18,8 @@ struct ReminderView: View {
     @State var friendLeaderboard: [LeaderboardProfile] = [LeaderboardProfile]()
 
     @State var leaderboardPresented: Bool = false
-    
+    @State var searchText : String?
+
     // The delegate required by `MFMessageComposeViewController`
     private let messageComposeDelegate = MessageComposerDelegate()
 
@@ -27,23 +28,7 @@ struct ReminderView: View {
             ZStack {
                 Color.rBlack400.edgesIgnoringSafeArea(.all)
                 VStack() {
-                    HStack {
-                        retinaIconButton(image: (Image(systemName: "chevron.left")), action: {
-                            withAnimation {
-                                self.currentCardState = nil
-                            }
-                        }).padding(24)
-                        Text("For this week")
-                            .retinaTypography(.h4_secondary)
-                            .foregroundColor(.white)
-                        .padding(.leading, 6)
-                        Spacer()
-                        retinaIconButton(image: (Image(systemName: "chart.bar")), foregroundColor: .rPink, backgroundColor: .clear, action: {
-                            withAnimation {
-                                self.leaderboardPresented = true
-                            }
-                        }).padding([.leading, .trailing], 24)
-                    }
+                    TopNavigationView(title: "For this week", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: true, rightButtonIcon: "chart.bar", rightButtonCommit: { self.leaderboardPresented = true }, searchBar: false, searchText: self.$searchText)
 
                     List {
                         ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
@@ -138,7 +123,6 @@ extension ReminderView {
                 default:
                     break
             }
-//            controller = MFMessageComposeViewController()
         }
     }
     private func presentMessageCompose(name: String, phoneNumber: String) {

@@ -13,7 +13,7 @@ import SwiftyJSON
 
 struct ChooseCloseFriends: View {
     @ObservedObject var store: ContactStore
-    @State private var searchText = ""
+    @State private var searchText: String? = ""
     @State var allContacts: [Contact]
     @Binding var currentCardState: String?
     
@@ -27,22 +27,12 @@ struct ChooseCloseFriends: View {
             ZStack {
                 Color.rBlack400.edgesIgnoringSafeArea(.all)
                 VStack(alignment: .leading) {
-                    Group {
-                        Text(self.card.selectionScreens[self.selectionNumber ?? 0].title)
-                            .retinaTypography(.h4_secondary)
-                            .foregroundColor(.white)
-                        .padding(.leading, 24)
-                        .padding(.top, UIApplication.topInset*2)
-                        
-                        Text(self.card.selectionScreens[self.selectionNumber ?? 0].description).retinaTypography(.p5_main).foregroundColor(.rGrey100)
-
-                        Search(isBack: false, isFilter: true, placeholder: "Friends", searchText: $searchText, buttonCommit:{  })
-                    }
+                    TopNavigationView(title: self.card.selectionScreens[self.selectionNumber ?? 0].title, description: self.card.selectionScreens[self.selectionNumber ?? 0].description, backButton: false, rightButton: false, searchBar: true, searchBarPlaceholder: "Friends", searchText: self.$searchText)
 
                     List {
                         if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) {
                             ForEach(self.allContacts.filter {
-                                self.searchText.filter { !$0.isWhitespace }.isEmpty ? true : $0.name.lowercased().contains(self.searchText.lowercased())
+                                self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
                             }, id: \.self.name) { (contact: Contact) in
                                 SelectionCell(contacts: self.$allContacts, contact: contact, isSingleSelect: false)
                                 .listRowInsets(EdgeInsets())

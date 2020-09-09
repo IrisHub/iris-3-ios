@@ -11,26 +11,12 @@ import SwiftUI
 struct ActivityView: View {
     @Binding var leaderboardPresented: Bool
     @Binding var friendLeaderboard: [LeaderboardProfile]
+    @State var searchText : String?
 
     var body: some View {
         VStack(alignment: .leading) {
-            Group {
-                HStack {
-                    Text("Friend Activity")
-                        .retinaTypography(.h4_secondary)
-                        .foregroundColor(.white)
-                    .padding(.leading, 24)
-                    Spacer()
-                    
-                    retinaIconButton(image: (Image(systemName: "xmark")), action: {
-                        withAnimation {
-                            self.leaderboardPresented = false
-                        }
-                    }).padding([.leading, .trailing], 24)
-                }
-            }.padding([.top], UIApplication.topInset*2)
-            
-            Text("You’re doing a great job so far, keep it up!").retinaTypography(.h5_main, color: .rWhite).padding([.leading, .top], 24)
+            TopNavigationView(title: "Friend Activity", description: "You’re doing a great job so far, keep it up!", backButton: false, rightButton: true, rightButtonIcon: "xmark", rightButtonCommit: { self.leaderboardPresented = false }, searchBar: false, searchText: self.$searchText)
+
             
             List {
                 ForEach(self.friendLeaderboard, id: \.self) { (friend: LeaderboardProfile) in

@@ -10,43 +10,55 @@ import SwiftUI
 
 struct TopNavigationView: View {
     var title : String
-    var bolded: String
-    var subtitle: String = ""
-    var leftIconString: String
-    var rightIconStrings : [String]
-    var buttonCommit : ()->() = {}
-    
+    var description: String
+    var backButton: Bool = false
+    var backButtonCommit : () -> Void = {}
+    var rightButton: Bool = false
+    var rightButtonIcon: String = ""
+    var rightButtonCommit : () -> Void = {}
+    var searchBar: Bool = false
+    var searchBarPlaceholder: String = "Search"
+    var backgroundColor: Color = Color.clear
+    @Binding var searchText: String?
+
     var body: some View {
-        
-        HStack(alignment: .center) {
-            ZStack {
+        VStack {
+            if (self.backButton) {
                 HStack {
-                    Button(action:
-                        self.buttonCommit
-                    ) {
-                        Image(systemName: self.leftIconString)
-                            .foregroundColor(Color.rGrey100)
-                            .padding(.horizontal, 4)
-                            .retinaTypography(.h5_main)
-                    }
+                    retinaIconButton(image: (Image(systemName: "chevron.left")), action: {
+                        withAnimation {
+                            self.backButtonCommit()
+                        }
+                    })
                     Spacer()
-                }
-                VStack {
-                    HStack {
-                        Text(bolded.isEmpty ? self.title : self.title + "").retinaTypography(.p5_main, color: .rWhite).offset(y: self.subtitle == "" ? 5: 0)
-                        Text(!bolded.isEmpty ? bolded : "").retinaTypography(.h5_main, color: .rWhite).padding(-3)
-                    }
-                    Text(self.subtitle).retinaTypography(.p6_main, color: .rGrey100).padding(.top, self.subtitle == "" ? 0: 5)
+                }.padding(.leading, 24)
+            }
+
+            HStack {
+                Text(self.title)
+                .retinaTypography(.h4_main)
+                .foregroundColor(.white)
+                .padding(.leading, 24)
+                Spacer()
+                if (self.rightButton) {
+                    retinaIconButton(image: (Image(systemName: rightButtonIcon)), foregroundColor: .rPink, action: {
+                        withAnimation {
+
+                        }
+                    }).padding([.leading, .trailing], 24)
                 }
             }
+
+            Text(description).retinaTypography(.p5_main).foregroundColor(.rGrey100).padding([.leading, .trailing], 24)
+
+            if (self.searchBar) {
+                Search(isBack: false, isFilter: true, placeholder: self.searchBarPlaceholder, searchText: $searchText, buttonCommit: {  })
+            }
         }
-        .padding(.vertical, 16)
-        .padding(.horizontal, 16)
         .padding(.top, UIApplication.topInset)
-        .background(Color.rBlack200)
         .clipped()
-//        .shadow(color: Color.retinaBasic, radius: 3, x: 0, y: 0)
         .animation(.default)
+        .background(backgroundColor)
     }
 }
 
@@ -68,10 +80,12 @@ struct LeftNavButtonStyle: ButtonStyle {
 
 
 struct TopNavigationView_Previews: PreviewProvider {
+    @State static var searchText: String?
+    
     static var previews: some View {
         VStack() {
             
-            TopNavigationView(title: "Your results for", bolded: "Chicken", subtitle: "Created for 3:20pm", leftIconString: "chevron.left", rightIconStrings: ["", ""])
+            TopNavigationView(title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", backButton: true, rightButton: true, rightButtonIcon: "chart.bar", searchBar: true, searchBarPlaceholder: "Friends", searchText: $searchText)
 
             Spacer()
         }

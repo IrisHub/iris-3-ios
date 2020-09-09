@@ -12,7 +12,7 @@ struct Search: View {
     var isBack: Bool
     var isFilter: Bool
     var placeholder: String
-    @Binding var searchText: String
+    @Binding var searchText: String?
     var buttonCommit: () -> Void = {}
 
     var body: some View {
@@ -31,8 +31,8 @@ struct Search: View {
 
                                         
                     ZStack(alignment: .leading) {
-                        if searchText.isEmpty { Text(placeholder).foregroundColor(.rWhite).retinaTypography(.p6_main).padding(.leading, 12) }
-                        TextField("", text: $searchText).retinaTypography(.p6_main).padding(.leading, 12)
+                        if searchText?.isEmpty ?? true { Text(placeholder).foregroundColor(.rWhite).retinaTypography(.p6_main).padding(.leading, 12) }
+                        TextField("", text: $searchText.bound).retinaTypography(.p6_main).padding(.leading, 12)
                     }
                     
 
@@ -56,8 +56,8 @@ struct Search: View {
 }
 
 struct Search_Previews: PreviewProvider {
-    @State static var searchTextEmpty = ""
-    @State static var searchTextFilled = "Hi Friends"
+    @State static var searchTextEmpty: String? = ""
+    @State static var searchTextFilled: String? = "Hi Friends"
     
     static var previews: some View {
         Group {

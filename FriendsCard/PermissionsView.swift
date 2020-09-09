@@ -20,21 +20,14 @@ struct PermissionsView: View {
     @State var contactsAllowed: Bool = false
     @State var bothAllowed: Bool = false
     @State var card : Card
+    @State var searchText : String?
 
     var body: some View {
         NavigationView {
             ZStack {
                 Color.rBlack400.edgesIgnoringSafeArea(.all)
                 VStack {
-                    Group {
-                        Text(card.name)
-                            .retinaTypography(.h4_secondary)
-                            .foregroundColor(.white)
-                        .padding(.leading, 24)
-                        .padding(.top, UIApplication.topInset*2)
-                        
-                        Text(card.description).retinaTypography(.p5_main).foregroundColor(.rGrey100)
-                    }
+                    TopNavigationView(title: card.name, description: card.description, backButton: false, rightButton: false, searchBar: false, searchText: self.$searchText)
                     
                     Spacer()
                     
