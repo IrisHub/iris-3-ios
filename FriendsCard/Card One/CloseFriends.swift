@@ -13,7 +13,6 @@ import SwiftyJSON
 
 struct CloseFriends: View {
     @Binding var currentCardState: String?
-    @ObservedObject var store: ContactStore
     @State var friendSchedules: [CloseFriendSchedule] = [CloseFriendSchedule]()
     @State var searchText : String?
 
@@ -30,13 +29,16 @@ struct CloseFriends: View {
                     ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
                         StatusCell(name: contact.name, status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
                             .listRowInsets(EdgeInsets())
+                            .padding(.bottom, Space.rSpaceThree)
                     }
 
                     ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
                         InviteCell(name: contact.name, buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: contact.name, phoneNumber: contact.id)})
-                        .listRowInsets(EdgeInsets())
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
+                        .padding(.bottom, Space.rSpaceThree)
                     }
                 }
+                .padding(.top, Space.rSpaceTwo)
                 
                 Spacer()
 

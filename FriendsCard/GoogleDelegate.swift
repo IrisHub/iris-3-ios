@@ -16,7 +16,7 @@ class GoogleDelegate: NSObject, GIDSignInDelegate, ObservableObject {
     var scopes = ["https://www.googleapis.com/auth/calendar"]
 
     @Published var signedIn: Bool = false
-    
+        
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             if (error as NSError).code == GIDSignInErrorCode.hasNoAuthInKeychain.rawValue {
@@ -33,10 +33,11 @@ class GoogleDelegate: NSObject, GIDSignInDelegate, ObservableObject {
         print("User's name is : \(String(describing: user.profile.name))")
         UserDefaults.standard.set(user.profile.name ?? "", forKey: "fullName")
         UserDefaults.standard.set(user.serverAuthCode ?? "", forKey: "authorizationCode")
-        if !UserDefaults.standard.bool(forKey: "card1PermissionsComplete") {
+        if !UserDefaults.standard.bool(forKey: "card1PermissionsComplete") && !UserDefaults.standard.bool(forKey: "calendarAllowed") {
             self.fetchRefreshToken(code: user.serverAuthCode)
         }
         
+        UserDefaults.standard.set(true, forKey: "calendarAllowed")
         self.signedIn = true
         print(self.signedIn)
     }

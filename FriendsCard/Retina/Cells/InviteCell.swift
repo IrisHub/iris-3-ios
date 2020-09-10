@@ -17,9 +17,9 @@ struct InviteCell: View {
         ZStack(alignment: .leading) {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
-                Divider().frame(height: 2).background(Color.rBlack200).listRowInsets(EdgeInsets())
+                Divider().frame(height: 1).background(Color.rBlack200)
                 Rectangle().frame(width: UIScreen.screenWidth, height: 60).foregroundColor(.clear)
-                Divider().frame(height: 2).background(Color.rBlack200).listRowInsets(EdgeInsets())
+                Divider().frame(height: 1).background(Color.rBlack200)
             }
             HStack {
                 Circle()
@@ -29,12 +29,10 @@ struct InviteCell: View {
                 
                 Text(self.name.capitalizingFirstLetter()).foregroundColor(.white).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, 12)
                 
-                HStack {
-                    Spacer()
-                    retinaButton(text: buttonText, style: .outlineOnly, color: .rPink, action: {
-                        self.buttonCommit()
-                    }).frame(width: (UIScreen.screenWidth-48)/3, height: 36, alignment: .trailing).padding([.leading, .trailing], 12)
-                }
+                Spacer()
+                retinaButton(text: buttonText, style: .outlineOnly, color: .rPink, action: {
+                    self.buttonCommit()
+                }).frame(width: (UIScreen.screenWidth-48)/3, height: 36, alignment: .trailing).padding([.leading, .trailing], 12)
             }
         }
     }

@@ -280,12 +280,12 @@
 		B1BA450724FB84E200E14C27 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				B1BA450824FB84E200E14C27 /* LeaderCell.swift */,
 				B1BA450924FB84E200E14C27 /* SelectionCell.swift */,
-				B1BA450A24FB84E200E14C27 /* StatusCell.swift */,
+				B1BA450824FB84E200E14C27 /* LeaderCell.swift */,
 				B1BA450B24FB84E200E14C27 /* InviteCell.swift */,
-				B1BA456A24FBBFDF00E14C27 /* ReminderCell.swift */,
 				B151A2762508F8FB00534657 /* ClassCells.swift */,
+				B1BA450A24FB84E200E14C27 /* StatusCell.swift */,
+				B1BA456A24FBBFDF00E14C27 /* ReminderCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -904,7 +904,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;
@@ -927,7 +927,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;

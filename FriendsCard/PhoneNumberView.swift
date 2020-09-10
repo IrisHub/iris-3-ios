@@ -23,8 +23,12 @@ struct PhoneNumberView: View {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
                 VStack(alignment: .leading) {
-                    Text("What’s your phone number? ").retinaTypography(.h4_secondary).foregroundColor(.rWhite).padding([.leading, .bottom], 24)
+                    Text("What’s your phone number? ").retinaTypography(.h4_main).foregroundColor(.rWhite).padding([.leading, .bottom], 24)
+                    
                     RetinaTextField("Enter your phone number", input: $input, onCommit: {print("party")})
+                        .textContentType(.telephoneNumber)
+                        .keyboardType(.numberPad)
+                    
                     if (self.errorAlert || self.emptyAlert) {
                         Text(self.emptyAlert ? "Enter something and try again." : "Invalid code entered, please try again.").retinaTypography(.p6_main).foregroundColor(.rRed).padding([.leading, .top], 24)
                     }

@@ -13,7 +13,6 @@ import SwiftyJSON
 
 struct ReminderView: View {
     @Binding var currentCardState: String?
-    @ObservedObject var store: ContactStore
     @State var friendReminders: [DistantFriendProfile] = [DistantFriendProfile]()
     @State var friendLeaderboard: [LeaderboardProfile] = [LeaderboardProfile]()
 
@@ -33,8 +32,10 @@ struct ReminderView: View {
                     ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
                         ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
                             .listRowInsets(EdgeInsets())
+                            .padding(.bottom, Space.rSpaceThree)
                     }
                 }
+                .padding(.top, Space.rSpaceTwo)
                 Spacer()
             }
             
@@ -62,10 +63,9 @@ struct ReminderView: View {
         print(parameters)
         AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/contacts-get", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
-            print(response)
             do {
                 let json = try JSON(data: response.data ?? Data())
-
+                print(json)
                 for (_,subJson):(String, JSON) in json["current_contacts"] {
                     let item = DistantFriendProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), reachedOut: subJson["messaged"].boolValue)
                     self.friendReminders.append(item)

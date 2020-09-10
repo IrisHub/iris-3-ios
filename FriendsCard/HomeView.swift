@@ -45,7 +45,6 @@ struct Card {
 struct HomeView: View {
     @State var currentCardState: String? = nil
     @State var cardNumber: Int? = nil
-    @ObservedObject var store: ContactStore = ContactStore()
     // important for the first time -> create an account
     @EnvironmentObject var googleDelegate: GoogleDelegate
     @State var searchText : String?
@@ -55,8 +54,8 @@ struct HomeView: View {
             SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Select", selection: .contacts, userDefaultID: "closeFriends")
         ]),
         Card(id: "card2", name: "Contacts", description: "This card tells you when your close friends are free and helps you stay connected. We all have a handful of people we know we should contact, but we don’t really know how to.", buttonTitle: "Choose Close Friends", permissions: [.contacts], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Choose contacts", selection: .contacts, userDefaultID: "closeFriends"),
-            SelectionScreen(id: "screen2", title: "Choose Distant Friends", description: "Choose who people you could use some help staying in contact with, and this card will help you keep in touch.", buttonTitle: "Select", selection: .contacts, userDefaultID: "distantFriends")
+            SelectionScreen(id: "screen2", title: "Choose Distant Friends", description: "Choose who people you could use some help staying in contact with, and this card will help you keep in touch.", buttonTitle: "Select", selection: .contacts, userDefaultID: "distantFriends"),
+            SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Choose contacts", selection: .contacts, userDefaultID: "closeFriends")
         ]),
         Card(id: "card3", name: "Homework", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
             SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Piazza.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes")
@@ -73,11 +72,11 @@ struct HomeView: View {
 
                     Spacer()
                     
-                    NavigationLink(destination: PermissionsView(store: self.store, currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: PermissionsView(currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }.isDetailLink(false)
 
-                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: $currentCardState) { EmptyView() }
+                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: $currentCardState) { EmptyView() }
 
-                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: $currentCardState) { EmptyView() }
+                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: $currentCardState) { EmptyView() }
 
                     
                     retinaLeftButton(text: "Friends Card", isImage: false, iconString: "", action: {
@@ -117,7 +116,6 @@ struct HomeView: View {
         self.cardNumber = 0
         if (UserDefaults.standard.bool(forKey: "card1PermissionsComplete")) {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-            self.store.fetchContacts()
             self.currentCardState = "card1"
         } else {
             self.currentCardState =  "cardpermission"
@@ -127,7 +125,6 @@ struct HomeView: View {
     func logInCardTwo() {
         self.cardNumber = 1
         if (UserDefaults.standard.bool(forKey: "card2PermissionsComplete")) {
-            self.store.fetchContacts()
             self.currentCardState = "card2"
         } else {
             self.currentCardState =  "cardpermission"

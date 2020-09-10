@@ -18,28 +18,27 @@ struct StatusCell: View {
         ZStack {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
-                ZStack(alignment: .leading) {
-                    Rectangle().frame(width: UIScreen.screenWidth, height: 48).foregroundColor(.clear)
-                    VStack {
-                        HStack {
-                            Circle()
-                                .fill(self.status == "busy" ? Color.rRed : Color.green)
-                                .frame(width: 12, height: 12)
-                                .padding(.leading, 24)
-                            
-                            Text(name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, 12)
-                        }
-                    }
+                HStack {
+                    Circle()
+                        .fill(self.status == "busy" ? Color.rRed : Color.green)
+                        .frame(width: 12, height: 12)
+                        .padding(.leading, 24)
+                    
+                    Text(name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, 12)
+                    
+                    Spacer()
                 }
-                ZStack(alignment: .leading) {
-                    Rectangle().frame(width: UIScreen.screenWidth-48, height: 112).foregroundColor(.rBlack100)
-                    VStack {
-                        
-                        //contact.name.capitalizingFirstLetter()
-                        Text(self.activity).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).frame(width: UIScreen.screenWidth-96, alignment: .leading).padding([.leading, .bottom], 12)
-                        Text(self.description).foregroundColor(.white).retinaTypography(.h6_main).fixedSize(horizontal: false, vertical: true).frame(width: UIScreen.screenWidth-96, alignment: .leading).padding(.leading, 12)
-                    }
+
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(self.activity).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 12)
+                        Text(self.description).foregroundColor(.white).retinaTypography(.h6_main).fixedSize(horizontal: false, vertical: true).padding(.top, 12)
+                    }.padding([.top, .bottom], 24).padding(.leading, 12)
+                    Spacer()
                 }
+                .background(Color.rBlack100)
+                .cornerRadius(CornerRadius.rCornerRadius)
+                .padding([.leading, .trailing], 12)
             }
         }
     }
@@ -47,6 +46,6 @@ struct StatusCell: View {
 
 struct StatusCell_Previews: PreviewProvider {
     static var previews: some View {
-        StatusCell(name: "Sam Gorman", status: "free", activity: "Interview Comm Training for New Members", description: "Busy in under 30min")
+        StatusCell(name: "Sam Gorman", status: "free", activity: "[MDB] Interview Comm Training for New Members", description: "Busy in under 30min")
     }
 }

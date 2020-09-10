@@ -23,7 +23,6 @@ class ContactStore: ObservableObject {
     @Published var error: Error? = nil
     
      func fetchContacts() {
-        
         let store = CNContactStore()
         store.requestAccess(for: .contacts) { (granted, error) in
             if let error = error {

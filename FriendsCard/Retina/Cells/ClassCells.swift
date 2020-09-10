@@ -17,19 +17,16 @@ struct ClassCells: View {
         ZStack(alignment: .leading) {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
-                Divider().frame(height: 2).background(Color.rBlack200).listRowInsets(EdgeInsets())
+                Divider().frame(height: 1).background(Color.rBlack200)
                 Rectangle().frame(width: UIScreen.screenWidth, height: 60).foregroundColor(.clear)
-                Divider().frame(height: 2).background(Color.rBlack200).listRowInsets(EdgeInsets())
+                Divider().frame(height: 1).background(Color.rBlack200)
             }
             HStack {
-                
                 Text(self.name.capitalizingFirstLetter()).foregroundColor(.white).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, Space.rSpaceThree)
-                
-                HStack {
-                    Spacer()
-//                    Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceOne)
-                    Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceThree)
-                }
+                Spacer()
+//                Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceOne)
+                Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceThree)
+
             }
         }
     }

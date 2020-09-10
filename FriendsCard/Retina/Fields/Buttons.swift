@@ -200,6 +200,7 @@ struct retinaLeftButton: View {
     var isImage: Bool? = true
     var iconString: String?
     var color: Color = .rBlack200
+    var checked: Bool? = false
     var action: () -> Void
     
     var body: some View {
@@ -217,6 +218,9 @@ struct retinaLeftButton: View {
                         Text(text ?? "").retinaTypography(.h5_main)
                     }
                     Spacer()
+                    if checked ?? false {
+                        Image(systemName: "checkmark").padding(6).foregroundColor(.rWhite).retinaTypography(.h6_main)
+                    }
                 }
             }).style(.left, color: color).padding([.leading, .trailing], 24)
         }.frame(width: UIScreen.screenWidth, height: 60)

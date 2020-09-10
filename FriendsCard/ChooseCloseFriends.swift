@@ -12,14 +12,16 @@ import Alamofire
 import SwiftyJSON
 
 struct ChooseCloseFriends: View {
-    @ObservedObject var store: ContactStore
     @State private var searchText: String? = ""
-    @State var allContacts: [Contact]
     @Binding var currentCardState: String?
     
     @State var card : Card
     @State var selectionNumber : Int? = nil
     @State var nextPage : String? = nil
+    
+    @State var allContacts: [Contact] = [Contact]()
+
+    @State var error: Error? = nil
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -45,9 +47,9 @@ struct ChooseCloseFriends: View {
                 Spacer()
                 
                 Group {
-                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: ChooseCloseFriends(store: self.store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                 }
                 
                 BottomNavigationView(title: "Continue", action: {
@@ -58,25 +60,27 @@ struct ChooseCloseFriends: View {
                     }
                         
                     if self.selectionNumber == 0 {
-                        if self.card.id == "card1" {
-                            self.signUpCard1()
-                        } else if self.card.id == "card2" {
-                            self.signUpCard2()
-                        }
+                        if self.card.id == "card1" { self.signUpCard1() }
+                        else if self.card.id == "card2" { self.signUpCard2() }
                     } else {
-                        self.nextPage = "again"
+                        if UserDefaults.standard.data(forKey:self.card.selectionScreens[(self.selectionNumber ?? 0) - 1].userDefaultID) != nil {
+                            if self.card.id == "card1" { self.signUpCard1() }
+                            else if self.card.id == "card2" { self.signUpCard2() }
+                        } else {
+                            self.nextPage = "again"
+                        }
                     }
                 })
             }
         }
         .hideNavigationBar()
         .onAppear() {
+            self.fetchContacts()
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none
             UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
             UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
         }
-
     }
     
     func signUpCard1() {
@@ -135,6 +139,41 @@ struct ChooseCloseFriends: View {
                 self.nextPage = "card2"
             }
         } catch {  }
+    }
+    
+     func fetchContacts() {
+        let store = CNContactStore()
+        store.requestAccess(for: .contacts) { (granted, error) in
+            if let error = error {
+                print("failed to request access", error)
+                return
+            }
+            
+            if granted {
+                let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]
+                let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
+                
+                request.sortOrder = .givenName
+                
+                do {
+                    var contactsArray = [Contact]()
+                    try store.enumerateContacts(with: request, usingBlock: { (contact, stopPointer) in
+                        if (contact.phoneNumbers.first?.value.stringValue) != nil && (contact.name.trimmingCharacters(in: .whitespacesAndNewlines)) != "" {
+                            contactsArray.append(Contact(id: contact.identifier, name: contact.name, phoneNum: contact.phoneNumbers.first?.value.stringValue ?? "", emoji: "".randomEmoji(), selected: false))
+                            print(contact.name)
+                        }
+                    })
+                    
+                    DispatchQueue.main.async {
+                        self.allContacts = contactsArray
+                    }
+                } catch let error {
+                    print("Failed to enumerate contact", error)
+                }
+            } else {
+                print("access denied")
+            }
+        }
     }
 
 

@@ -20,9 +20,10 @@ struct ActivityView: View {
             List {
                 ForEach(self.friendLeaderboard, id: \.self) { (friend: LeaderboardProfile) in
                     LeaderCell(title: friend.name, subtitle: friend.score)
-                    .listRowInsets(EdgeInsets())
+                    .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                 }
             }
+            .padding(.top, Space.rSpaceTwo)
             
             Spacer()
         }
