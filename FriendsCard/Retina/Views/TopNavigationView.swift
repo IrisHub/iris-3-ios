@@ -15,6 +15,7 @@ struct TopNavigationView: View {
     var backButtonCommit : () -> Void = {}
     var rightButton: Bool = false
     var rightButtonIcon: String = ""
+    var rightButtonIconColor : Color = Color.rPink
     var rightButtonCommit : () -> Void = {}
     var searchBar: Bool = false
     var searchBarPlaceholder: String = "Search"
@@ -41,7 +42,7 @@ struct TopNavigationView: View {
                 .padding(.leading, 24)
                 Spacer()
                 if (self.rightButton) {
-                    retinaIconButton(image: (Image(systemName: rightButtonIcon)), foregroundColor: .rPink, action: {
+                    retinaIconButton(image: (Image(systemName: rightButtonIcon)), foregroundColor: rightButtonIconColor, action: {
                         withAnimation {
                             self.rightButtonCommit()
                         }

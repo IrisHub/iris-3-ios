@@ -16,7 +16,6 @@ struct PhoneNumberView: View {
     @State var emptyAlert = false
     @State var moveToNext: Bool = false
 
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var googleDelegate: GoogleDelegate
 
     var body: some View {

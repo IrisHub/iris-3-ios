@@ -15,7 +15,7 @@ struct ActivityView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            TopNavigationView(title: "Friend Activity", description: "You’re doing a great job so far, keep it up!", backButton: false, rightButton: true, rightButtonIcon: "xmark", rightButtonCommit: { self.leaderboardPresented = false }, searchBar: false, searchText: self.$searchText)
+            TopNavigationView(title: "Friend Activity", description: "You’re doing a great job so far, keep it up!", backButton: false, rightButton: true, rightButtonIcon: "xmark", rightButtonIconColor: Color.rWhite, rightButtonCommit: { self.leaderboardPresented = false }, searchBar: false, searchText: self.$searchText)
 
             List {
                 ForEach(self.friendLeaderboard, id: \.self) { (friend: LeaderboardProfile) in

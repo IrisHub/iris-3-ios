@@ -21,8 +21,26 @@ struct RetinaButtonStyle: ButtonStyle {
         case .outlineOnly: return AnyView(OutlineOnlyButton(color: color, configuration: configuration))
         case .ghost: return AnyView(GhostButton(color: color, configuration: configuration))
         case .search: return AnyView(SearchButton(color: color, configuration: configuration))
+        case .left: return AnyView(LeftButton(color: color, configuration: configuration))
         }
     }
+    
+    struct LeftButton: View {
+        var color: Color
+        let configuration: ButtonStyle.Configuration
+        @Environment(\.isEnabled) private var isEnabled: Bool
+        var body: some View {
+            configuration.label
+                .retinaTypography(.h6_main)
+                .foregroundColor(isEnabled ? .white : .rBlack200)
+                .padding([.leading, .trailing])
+                .frame(minHeight: 48)
+                .background(isEnabled ? color : Color.rBlack400.opacity(0.2))
+                .cornerRadius(CornerRadius.rCornerRadius)
+                .opacity(configuration.isPressed ? 0.7 : 1)
+        }
+    }
+
     
     struct SearchButton: View {
         var color: Color
@@ -128,7 +146,7 @@ extension Button {
 struct retinaButton: View {
     
     enum Style {
-        case fill, outline, outlineOnly, ghost, search
+        case fill, outline, outlineOnly, ghost, search, left
     }
     
     var text: String?
@@ -176,6 +194,35 @@ struct retinaSearchButton: View {
         }.frame(width: UIScreen.screenWidth, height: 90).background(backgroundColor)
     }
 }
+
+struct retinaLeftButton: View {
+    var text: String?
+    var isImage: Bool? = true
+    var iconString: String?
+    var color: Color = .rBlack200
+    var action: () -> Void
+    
+    var body: some View {
+        HStack {
+            Button(action: action, label: {
+                HStack() {
+                    HStack(spacing: 12) {
+                        if (iconString != "" && iconString != nil) {
+                            if (isImage ?? false) {
+                                Image(iconString ?? "").resizable().frame(width: 24, height: 24).padding(6)
+                            } else {
+                                Image(systemName: iconString ?? "").padding(6).foregroundColor(.rPink)
+                            }
+                        }
+                        Text(text ?? "").retinaTypography(.h5_main)
+                    }
+                    Spacer()
+                }
+            }).style(.left, color: color).padding([.leading, .trailing], 24)
+        }.frame(width: UIScreen.screenWidth, height: 60)
+    }
+}
+
 
 
 struct retinaIconButton: View {
@@ -237,6 +284,11 @@ public struct Input_Previews: PreviewProvider {
             HStack(spacing: 5) {
                 retinaSearchButton(text: "Text", action: { print("click") })
             }
+            
+            HStack(spacing: 5) {
+                retinaLeftButton(text: "Text", action: { print("click") })
+            }
+
             
             HStack(spacing: 5) {
                 retinaIconButton(image: (Image(systemName: "line.horizontal.3.decrease")), action: { print("click") })

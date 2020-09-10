@@ -21,36 +21,38 @@ struct PermissionsView: View {
     @State var bothAllowed: Bool = false
     @State var card : Card
     @State var searchText : String?
+    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
         ZStack {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: card.name, description: card.description, backButton: false, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: card.name, description: card.description, backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
                 
                 Spacer()
                 
                 if (self.card.permissions.contains(.calendar)) {
-                    retinaButton(text: "Allow access to calendar", style: .outlineOnly, color: .rPink, action: {
+                    retinaLeftButton(text: "Allow access to calendar", isImage: true, iconString: "calendar_logo", action: {
                         DispatchQueue.main.async {
                             GIDSignIn.sharedInstance().delegate = self.googleDelegate
                             GIDSignIn.sharedInstance().signIn()
                         }
-                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    })
                 }
 
                 if (self.card.permissions.contains(.contacts)) {
-                    retinaButton(text: "Allow access to contacts", style: .outlineOnly, color: .rPink, action: {
+                    retinaLeftButton(text: "Allow access to contacts", isImage: true, iconString: "contacts_logo", action: {
                         DispatchQueue.main.async {
                             self.store.fetchContacts()
                             self.contactsAllowed = true
                         }
-                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    })
                 }
                 
                 Spacer()
                 
-                NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.card.selectionScreens.count-1), isActive: $bothAllowed) { EmptyView() }
+                NavigationLink(destination: ChooseCloseFriends(store: store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.card.selectionScreens.count-1), isActive: $bothAllowed) { EmptyView() }.isDetailLink(false)
 
                 
                 BottomNavigationView(title: self.card.buttonTitle, action: {

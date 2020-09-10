@@ -45,20 +45,18 @@ struct Card {
 struct HomeView: View {
     @State var currentCardState: String? = nil
     @State var cardNumber: Int? = nil
-
     @ObservedObject var store: ContactStore = ContactStore()
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
     // important for the first time -> create an account
     @EnvironmentObject var googleDelegate: GoogleDelegate
-    
+    @State var searchText : String?
+
     @State var cards : [Card] = [
         Card(id: "card1", name: "Close Friends", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Close Friends", permissions: [.calendar, .contacts], selectionScreens: [
             SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Select", selection: .contacts, userDefaultID: "closeFriends")
         ]),
         Card(id: "card2", name: "Contacts", description: "This card tells you when your close friends are free and helps you stay connected. We all have a handful of people we know we should contact, but we don’t really know how to.", buttonTitle: "Choose Close Friends", permissions: [.contacts], selectionScreens: [
             SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Choose contacts", selection: .contacts, userDefaultID: "closeFriends"),
-            SelectionScreen(id: "screen2", title: "Choose contacts", description: "Choose who people you could use some help staying in contact with, and this card will help you keep in touch.", buttonTitle: "Select", selection: .contacts, userDefaultID: "distantFriends")
+            SelectionScreen(id: "screen2", title: "Choose Distant Friends", description: "Choose who people you could use some help staying in contact with, and this card will help you keep in touch.", buttonTitle: "Select", selection: .contacts, userDefaultID: "distantFriends")
         ]),
         Card(id: "card3", name: "Homework", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
             SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Piazza.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes")
@@ -70,51 +68,45 @@ struct HomeView: View {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             
             HStack {
-                VStack(alignment: .leading) {
-                    Group {
-                        Text("Home")
-                            .retinaTypography(.h4_secondary)
-                            .foregroundColor(.white)
-                        
-                        .padding(.top, UIApplication.topInset)
-                    }
+                VStack {
+                    TopNavigationView(title: "Home", description: "Iris tells you when your close friends are free and helps you stay connected.", backButton: false, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                     Spacer()
                     
-                    NavigationLink(destination: PermissionsView(store: self.store, currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }
+                    NavigationLink(destination: PermissionsView(store: self.store, currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }.isDetailLink(false)
 
                     NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: $currentCardState) { EmptyView() }
 
                     NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: $currentCardState) { EmptyView() }
 
                     
-                    retinaButton(text: "Friends Card", style: .outlineOnly, color: .rPink, action: {
+                    retinaLeftButton(text: "Friends Card", isImage: false, iconString: "", action: {
                         DispatchQueue.main.async {
                             self.logInCardOne()
                         }
-                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
-
-                    retinaButton(text: "Reminder Card", style: .outlineOnly, color: .rPink, action: {
+                    })
+                    
+                    retinaLeftButton(text: "Reminder Card", isImage: false, iconString: "", action: {
                         DispatchQueue.main.async {
                             self.logInCardTwo()
                         }
-                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    })
                     
-                    retinaButton(text: "Homework Card", style: .outlineOnly, color: .rPink, action: {
+                    retinaLeftButton(text: "Homework Card", isImage: false, iconString: "", action: {
                         DispatchQueue.main.async {
-                            self.currentCardState = "card3"
+//                            self.logInCardTwo()
                         }
-                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    })
                     
-                    retinaButton(text: "Lectures Card", style: .outlineOnly, color: .rPink, action: {
+                    retinaLeftButton(text: "Lectures Card", isImage: false, iconString: "", action: {
                         DispatchQueue.main.async {
-                            self.currentCardState = "card4"
+//                            self.logInCardTwo()
                         }
-                    }).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    })
                     
                     Spacer()
                     
-                }.padding(.leading, 24)
+                }
                 Spacer()
             }
         }

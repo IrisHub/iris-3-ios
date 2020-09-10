@@ -21,12 +21,13 @@ struct ChooseCloseFriends: View {
     @State var selectionNumber : Int? = nil
     @State var nextPage : String? = nil
 
-    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     var body: some View {
         ZStack {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: self.card.selectionScreens[self.selectionNumber ?? 0].title, description: self.card.selectionScreens[self.selectionNumber ?? 0].description, backButton: false, rightButton: false, searchBar: true, searchBarPlaceholder: "Friends", searchText: self.$searchText)
+                TopNavigationView(title: self.card.selectionScreens[self.selectionNumber ?? 0].title, description: self.card.selectionScreens[self.selectionNumber ?? 0].description, backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: true, searchBarPlaceholder: "Friends", searchText: self.$searchText)
 
                 List {
                     if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) {
@@ -44,9 +45,9 @@ struct ChooseCloseFriends: View {
                 Spacer()
                 
                 Group {
-                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: ChooseCloseFriends(store: self.store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState, store: self.store), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState, store: self.store), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: ChooseCloseFriends(store: self.store, allContacts: self.store.contacts, currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                 }
                 
                 BottomNavigationView(title: "Continue", action: {
