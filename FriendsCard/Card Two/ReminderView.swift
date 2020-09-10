@@ -52,10 +52,11 @@ struct ReminderView: View {
             self.getReminders()
         }
     }
-    
-    
-    
+        
     func getReminders() {
+        friendReminders = [DistantFriendProfile]()
+        friendLeaderboard = [LeaderboardProfile]()
+
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
         ]
@@ -82,6 +83,8 @@ struct ReminderView: View {
     }
     
     func reachedOut(phoneNumber: String) {
+        friendLeaderboard = [LeaderboardProfile]()
+
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber"),
             "messaged": phoneNumber
@@ -130,7 +133,7 @@ extension ReminderView {
         let vc = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
         let composeVC = MFMessageComposeViewController()
         composeVC.messageComposeDelegate = messageComposeDelegate
-        composeVC.body = "Hey " + name
+        composeVC.body = "Hey "
         composeVC.recipients = [phoneNumber]
         self.reachedOut(phoneNumber: phoneNumber)
 

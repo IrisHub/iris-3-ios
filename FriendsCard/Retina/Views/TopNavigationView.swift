@@ -90,7 +90,6 @@ struct TopNavigationView_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack() {
-            
             TopNavigationView(title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", backButton: true, rightButton: true, rightButtonIcon: "chart.bar", searchBar: true, searchBarPlaceholder: "Friends", searchText: $searchText)
 
             Spacer()

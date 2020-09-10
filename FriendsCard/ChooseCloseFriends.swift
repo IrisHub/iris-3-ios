@@ -20,6 +20,7 @@ struct ChooseCloseFriends: View {
     @State var nextPage : String? = nil
     
     @State var allContacts: [Contact] = [Contact]()
+    @State var classes: [Classes] = [Classes]()
 
     @State var error: Error? = nil
 
@@ -40,7 +41,12 @@ struct ChooseCloseFriends: View {
                             .listRowInsets(EdgeInsets())
                         }
                     } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) {
-                        
+                        ForEach(self.classes.filter {
+                            self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
+                        }, id: \.self.name) { (currentClass: Classes) in
+                            SelectionCell(contacts: self.$classes, contact: currentClass, isSingleSelect: false)
+                            .listRowInsets(EdgeInsets())
+                        }
                     }
                 }
 
@@ -49,23 +55,33 @@ struct ChooseCloseFriends: View {
                 Group {
                     NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                 }
                 
                 BottomNavigationView(title: "Continue", action: {
                     if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts.filter({ $0.selected == true }).count < 1 { return }
                     
+                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) && self.classes.filter({ $0.selected == true }).count < 1 { return }
+
                     if self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts {
                         UserDefaults.standard.set(try? PropertyListEncoder().encode(self.allContacts.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
                     }
+                    
+                    if self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes {
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(self.classes.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
+                    }
+
                         
                     if self.selectionNumber == 0 {
                         if self.card.id == "card1" { self.signUpCard1() }
                         else if self.card.id == "card2" { self.signUpCard2() }
+                        else if self.card.id == "card3" { self.signUpCard3() }
                     } else {
                         if UserDefaults.standard.data(forKey:self.card.selectionScreens[(self.selectionNumber ?? 0) - 1].userDefaultID) != nil {
                             if self.card.id == "card1" { self.signUpCard1() }
                             else if self.card.id == "card2" { self.signUpCard2() }
+                            else if self.card.id == "card2" { self.signUpCard3() }
                         } else {
                             self.nextPage = "again"
                         }
@@ -75,7 +91,11 @@ struct ChooseCloseFriends: View {
         }
         .hideNavigationBar()
         .onAppear() {
-            self.fetchContacts()
+            if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) {
+                self.fetchContacts()
+            } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) {
+                self.fetchClasses()
+            }
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none
             UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
@@ -92,7 +112,16 @@ struct ChooseCloseFriends: View {
         }
 
         do {
-            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", refresh_token: UserDefaults.standard.string(forKey: "refreshToken") ?? "", friend_ids: self.allContacts.filter({ $0.selected == true }).map({ $0.phoneNum }), friend_names: self.allContacts.filter({ $0.selected == true }).map({ $0.name }))
+            var peopleArray: [[Contact]] = [[Contact]]()
+            let sortedScreens = self.card.selectionScreens.sorted { $0.id < $1.id }
+            for i in 0..<sortedScreens.count {
+                if let data = UserDefaults.standard.value(forKey:sortedScreens[i].userDefaultID) as? Data {
+                    let people = (try? PropertyListDecoder().decode(Array<Contact>.self, from: data)) ?? [Contact]()
+                    peopleArray.append(people)
+                }
+            }
+
+            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", refresh_token: UserDefaults.standard.string(forKey: "refreshToken") ?? "", friend_ids: (peopleArray[0]).map({ $0.phoneNum }), friend_names: (peopleArray[0]).map({ $0.name }))
             let jsonData = try JSONEncoder().encode(user)
             let jsonString = String(data: jsonData, encoding: .utf8)!
             print(jsonString)
@@ -141,6 +170,37 @@ struct ChooseCloseFriends: View {
         } catch {  }
     }
     
+    func signUpCard3() {
+        struct User: Codable {
+            var user_id: String
+            var classes: [String]
+        }
+
+        do {
+            var classesArray: [[Classes]] = [[Classes]]()
+            let sortedScreens = self.card.selectionScreens.sorted { $0.id < $1.id }
+            for i in 0..<sortedScreens.count {
+                if let data = UserDefaults.standard.value(forKey:sortedScreens[i].userDefaultID) as? Data {
+                    let (currentClass) = (try? PropertyListDecoder().decode(Array<Classes>.self, from: data)) ?? [Classes]()
+                    classesArray.append(currentClass)
+                }
+            }
+
+            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", classes: (classesArray[0]).map({ $0.id }))
+            let jsonData = try JSONEncoder().encode(user)
+            let jsonString = String(data: jsonData, encoding: .utf8)!
+            print(jsonString)
+            
+            let parameters = convertToDictionary(text: jsonString)
+            let headers : HTTPHeaders = ["Content-Type": "application/json"]
+            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/contacts-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON { response in
+                UserDefaults.standard.set(true, forKey: "card3PermissionsComplete")
+                self.nextPage = "card3"
+            }
+        } catch {  }
+    }
+    
      func fetchContacts() {
         let store = CNContactStore()
         store.requestAccess(for: .contacts) { (granted, error) in
@@ -175,6 +235,30 @@ struct ChooseCloseFriends: View {
             }
         }
     }
+    
+    
+    func fetchClasses() {
+        self.classes = [Classes]()
+        
+        let parameters = [
+            "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
+        ]
+        let headers : HTTPHeaders = ["Content-Type": "application/json"]
+        print(parameters)
+        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/friends-get", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON { response in
+            do {
+                let json = try JSON(data: response.data ?? Data())
+                for (_,subJson):(String, JSON) in json["classes"] {
+                    let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
+                    self.classes.append(currentClass)
+                }
+            } catch {
+                print("error")
+            }
+        }
+    }
+
 
 
 }

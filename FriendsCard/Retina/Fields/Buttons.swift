@@ -9,9 +9,13 @@
 import SwiftUI
 
 // MARK: - Custom Button Styles
+enum Size {
+    case medium, large
+}
 
 struct RetinaButtonStyle: ButtonStyle {
     var color: Color
+    var size: Size
     var style: retinaButton.Style
     
     func makeBody(configuration: ButtonStyle.Configuration) -> some View {
@@ -21,12 +25,13 @@ struct RetinaButtonStyle: ButtonStyle {
         case .outlineOnly: return AnyView(OutlineOnlyButton(color: color, configuration: configuration))
         case .ghost: return AnyView(GhostButton(color: color, configuration: configuration))
         case .search: return AnyView(SearchButton(color: color, configuration: configuration))
-        case .left: return AnyView(LeftButton(color: color, configuration: configuration))
+        case .left: return AnyView(LeftButton(color: color, size: size, configuration: configuration))
         }
     }
     
     struct LeftButton: View {
         var color: Color
+        var size: Size
         let configuration: ButtonStyle.Configuration
         @Environment(\.isEnabled) private var isEnabled: Bool
         var body: some View {
@@ -34,7 +39,7 @@ struct RetinaButtonStyle: ButtonStyle {
                 .retinaTypography(.h6_main)
                 .foregroundColor(isEnabled ? .white : .rBlack200)
                 .padding([.leading, .trailing])
-                .frame(minHeight: 48)
+                .frame(minHeight: size == .medium ? 36 : 48)
                 .background(isEnabled ? color : Color.rBlack400.opacity(0.2))
                 .cornerRadius(CornerRadius.rCornerRadius)
                 .opacity(configuration.isPressed ? 0.7 : 1)
@@ -138,8 +143,8 @@ struct RetinaButtonStyle: ButtonStyle {
 
 extension Button {
     /// Changes the appearance of the button
-    func style(_ style: retinaButton.Style, color: Color) -> some View {
-        self.buttonStyle(RetinaButtonStyle(color: color, style: style))
+    func style(_ style: retinaButton.Style, color: Color, size: Size) -> some View {
+        self.buttonStyle(RetinaButtonStyle(color: color, size: size, style: style))
     }
 }
 
@@ -170,7 +175,7 @@ struct retinaButton: View {
                     Spacer()
                 }
             }
-        }).style(style, color: color)
+        }).style(style, color: color, size: .large)
     }
 }
 
@@ -190,17 +195,19 @@ struct retinaSearchButton: View {
                     }
                     Spacer()
                 }
-            }).style(.search, color: color).padding([.leading, .trailing], 24)
+            }).style(.search, color: color, size: .large).padding([.leading, .trailing], 24)
         }.frame(width: UIScreen.screenWidth, height: 90).background(backgroundColor)
     }
 }
 
 struct retinaLeftButton: View {
+    enum Left { case none, icon, image, emoji }
     var text: String?
-    var isImage: Bool? = true
+    var left: Left? = retinaLeftButton.Left.none
     var iconString: String?
     var color: Color = .rBlack200
     var checked: Bool? = false
+    var size: Size? = .large
     var action: () -> Void
     
     var body: some View {
@@ -209,21 +216,23 @@ struct retinaLeftButton: View {
                 HStack() {
                     HStack(spacing: 12) {
                         if (iconString != "" && iconString != nil) {
-                            if (isImage ?? false) {
+                            if (left == .icon) {
                                 Image(iconString ?? "").resizable().frame(width: 24, height: 24).padding(6)
-                            } else {
+                            } else if (left == .icon) {
                                 Image(systemName: iconString ?? "").padding(6).foregroundColor(.rPink)
+                            } else if (left == .emoji) {
+                                Text(iconString ?? "💎").retinaTypography( size == .medium ? .h6_main : .h5_main)
                             }
                         }
-                        Text(text ?? "").retinaTypography(.h5_main)
+                        Text(text ?? "").retinaTypography( size == .medium ? .h6_main : .h5_main)
                     }
                     Spacer()
                     if checked ?? false {
                         Image(systemName: "checkmark").padding(6).foregroundColor(.rWhite).retinaTypography(.h6_main)
                     }
                 }
-            }).style(.left, color: color).padding([.leading, .trailing], 24)
-        }.frame(width: UIScreen.screenWidth, height: 60)
+            }).style(.left, color: color, size: size ?? .large).padding([.leading, .trailing], 24)
+        }.frame(width: UIScreen.screenWidth, height: size == .medium ? 48 : 60)
     }
 }
 
@@ -300,7 +309,7 @@ public struct Input_Previews: PreviewProvider {
 
             
             Button(action: { print("click") }, label: { Text("Custom") })
-                .style(.outline, color: .rBlack400)
+                .style(.outline, color: .rBlack400, size: .large)
         }
     .padding(10)
     }

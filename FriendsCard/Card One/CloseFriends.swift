@@ -56,6 +56,8 @@ struct CloseFriends: View {
     }
     
     func getSchedules() {
+        self.friendSchedules = [CloseFriendSchedule]()
+
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
         ]

@@ -39,7 +39,7 @@ struct PermissionsView: View {
                 Spacer()
                 
                 if (self.card.permissions.contains(.calendar)) {
-                    retinaLeftButton(text: "Allow access to calendar", isImage: true, iconString: "calendar_logo", checked: (self.googleDelegate.signedIn || self.calendarAllowed) ? true : false, action: {
+                    retinaLeftButton(text: "Allow access to calendar", left: .image, iconString: "calendar_logo", checked: (self.googleDelegate.signedIn || self.calendarAllowed) ? true : false, action: {
                         DispatchQueue.main.async {
                             GIDSignIn.sharedInstance().delegate = self.googleDelegate
                             GIDSignIn.sharedInstance().signIn()
@@ -48,7 +48,7 @@ struct PermissionsView: View {
                 }
 
                 if (self.card.permissions.contains(.contacts)) {
-                    retinaLeftButton(text: "Allow access to contacts", isImage: true, iconString: "contacts_logo", checked: self.contactsAllowed ? true : false, action: {
+                    retinaLeftButton(text: "Allow access to contacts", left: .image, iconString: "contacts_logo", checked: self.contactsAllowed ? true : false, action: {
                         DispatchQueue.main.async {
                             CNContactStore().requestAccess(for: .contacts) { (granted, error) in
                                 if let error = error {
@@ -65,6 +65,13 @@ struct PermissionsView: View {
                     })
                 }
                 
+                if (self.card.permissions.contains(.none)) {
+                    retinaLeftButton(text: "No permissions required", left: retinaLeftButton.Left.none, checked: false, action: {
+                    })
+                    .disabled(true)
+                }
+
+                
                 Spacer()
                 
                 Group {
@@ -77,8 +84,8 @@ struct PermissionsView: View {
                     self.refreshPermissions()
                     self.selectionNumber = self.directCorrectly()
                     if (self.selectionNumber == -1) {
-                        if self.card.id == "card1" { self.nextPage = "card1" }
-                        else if self.card.id == "card2" { self.nextPage = "card2" }
+                        if self.card.id == "card1" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard1(); self.nextPage = "card1" }
+                        else if self.card.id == "card2" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard2(); self.nextPage = "card2" }
                     } else {
                         if (self.card.permissions.contains(.calendar) && self.card.permissions.contains(.contacts)) {
                             if self.contactsAllowed && self.googleDelegate.signedIn { self.bothAllowed = true }

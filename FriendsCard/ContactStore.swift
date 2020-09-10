@@ -9,13 +9,6 @@
 import SwiftUI
 import Contacts
 
-struct Contact: Hashable, Identifiable, Codable {
-    var id: String = "1"
-    var name: String
-    var phoneNum: String
-    var emoji: String
-    var selected: Bool = false
-}
 
 class ContactStore: ObservableObject {
     

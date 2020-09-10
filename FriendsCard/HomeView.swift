@@ -31,7 +31,6 @@ struct SelectionScreen {
     var userDefaultID: String
 }
 
-
 struct Card {
     var id : String
     var name : String
@@ -54,8 +53,8 @@ struct HomeView: View {
             SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Select", selection: .contacts, userDefaultID: "closeFriends")
         ]),
         Card(id: "card2", name: "Contacts", description: "This card tells you when your close friends are free and helps you stay connected. We all have a handful of people we know we should contact, but we don’t really know how to.", buttonTitle: "Choose Close Friends", permissions: [.contacts], selectionScreens: [
-            SelectionScreen(id: "screen2", title: "Choose Distant Friends", description: "Choose who people you could use some help staying in contact with, and this card will help you keep in touch.", buttonTitle: "Select", selection: .contacts, userDefaultID: "distantFriends"),
-            SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Choose contacts", selection: .contacts, userDefaultID: "closeFriends")
+            SelectionScreen(id: "screen2", title: "Choose Distant Friends", description: "Choose who people you could use some help staying in contact with, and this card will help you keep in touch.", buttonTitle: "Choose close friends", selection: .contacts, userDefaultID: "distantFriends"),
+            SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Choose distant friends", selection: .contacts, userDefaultID: "closeFriends")
         ]),
         Card(id: "card3", name: "Homework", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
             SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Piazza.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes")
@@ -79,25 +78,25 @@ struct HomeView: View {
                     NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: $currentCardState) { EmptyView() }
 
                     
-                    retinaLeftButton(text: "Friends Card", isImage: false, iconString: "", action: {
+                    retinaLeftButton(text: "Friends Card", left: retinaLeftButton.Left.none, iconString: "", action: {
                         DispatchQueue.main.async {
                             self.logInCardOne()
                         }
                     })
                     
-                    retinaLeftButton(text: "Reminder Card", isImage: false, iconString: "", action: {
+                    retinaLeftButton(text: "Reminder Card", left: retinaLeftButton.Left.none, iconString: "", action: {
                         DispatchQueue.main.async {
                             self.logInCardTwo()
                         }
                     })
                     
-                    retinaLeftButton(text: "Homework Card", isImage: false, iconString: "", action: {
+                    retinaLeftButton(text: "Homework Card", left: retinaLeftButton.Left.none, iconString: "", action: {
                         DispatchQueue.main.async {
-//                            self.logInCardTwo()
+                            self.logInCardThree()
                         }
                     })
                     
-                    retinaLeftButton(text: "Lectures Card", isImage: false, iconString: "", action: {
+                    retinaLeftButton(text: "Lectures Card", left: retinaLeftButton.Left.none, iconString: "", action: {
                         DispatchQueue.main.async {
 //                            self.logInCardTwo()
                         }
@@ -114,7 +113,8 @@ struct HomeView: View {
     
     func logInCardOne() {
         self.cardNumber = 0
-        if (UserDefaults.standard.bool(forKey: "card1PermissionsComplete")) {
+        print(UserDefaults.standard.bool(forKey: "card1PermissionsComplete"))
+        if (UserDefaults.standard.bool(forKey: "card1PermissionsComplete") == true) {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
             self.currentCardState = "card1"
         } else {
@@ -124,8 +124,17 @@ struct HomeView: View {
     
     func logInCardTwo() {
         self.cardNumber = 1
-        if (UserDefaults.standard.bool(forKey: "card2PermissionsComplete")) {
+        if (UserDefaults.standard.bool(forKey: "card2PermissionsComplete") == true) {
             self.currentCardState = "card2"
+        } else {
+            self.currentCardState =  "cardpermission"
+        }
+    }
+    
+    func logInCardThree() {
+        self.cardNumber = 2
+        if (UserDefaults.standard.bool(forKey: "card3PermissionsComplete") == true) {
+            self.currentCardState = "card3"
         } else {
             self.currentCardState =  "cardpermission"
         }
