@@ -21,7 +21,7 @@ struct LeaderCell: View {
                 Divider().frame(height: 1).background(Color.rBlack200)
             }
             HStack {
-                Text("🍾  " + title).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).padding(.leading, 24)
+                Text(title).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).padding(.leading, 24)
                 Spacer()
                 Text(subtitle).foregroundColor(.rPink).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).padding(.trailing, 24)
             }

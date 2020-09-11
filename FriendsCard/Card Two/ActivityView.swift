@@ -14,20 +14,22 @@ struct ActivityView: View {
     @State var searchText : String?
 
     var body: some View {
-        VStack(alignment: .leading) {
-            TopNavigationView(title: "Friend Activity", description: "You’re doing a great job so far, keep it up!", backButton: false, rightButton: true, rightButtonIcon: "xmark", rightButtonIconColor: Color.rWhite, rightButtonCommit: { self.leaderboardPresented = false }, searchBar: false, searchText: self.$searchText)
+        ZStack {
+            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            VStack(alignment: .leading) {
+                TopNavigationView(title: "Friend Activity", description: "You’re doing a great job so far, keep it up!", backButton: false, rightButton: true, rightButtonIcon: "xmark", rightButtonIconColor: Color.rWhite, rightButtonCommit: { self.leaderboardPresented = false }, searchBar: false, searchText: self.$searchText)
 
-            List {
-                ForEach(self.friendLeaderboard, id: \.self) { (friend: LeaderboardProfile) in
-                    LeaderCell(title: friend.name, subtitle: friend.score)
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
+                List {
+                    ForEach(self.friendLeaderboard, id: \.self) { (friend: LeaderboardProfile) in
+                        LeaderCell(title: friend.name, subtitle: friend.score)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
+                    }
                 }
+                .padding(.top, Space.rSpaceTwo)
+                
+                Spacer()
             }
-            .padding(.top, Space.rSpaceTwo)
-            
-            Spacer()
         }
-        .background(Color.rBlack400)
         .hideNavigationBar()
         .onAppear() {
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }

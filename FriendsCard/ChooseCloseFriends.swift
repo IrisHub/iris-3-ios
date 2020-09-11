@@ -19,8 +19,9 @@ struct ChooseCloseFriends: View {
     @State var selectionNumber : Int? = nil
     @State var nextPage : String? = nil
     
-    @State var allContacts: [Contact] = [Contact]()
-    @State var classes: [Classes] = [Classes]()
+    @State var allContacts: [Contact]? = [Contact]()
+    @State var allContacts2: [Contact] = [Contact]()
+    @State var classes: [Classes]? = [Classes]()
 
     @State var error: Error? = nil
 
@@ -32,25 +33,28 @@ struct ChooseCloseFriends: View {
             VStack {
                 TopNavigationView(title: self.card.selectionScreens[self.selectionNumber ?? 0].title, description: self.card.selectionScreens[self.selectionNumber ?? 0].description, backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: true, searchBarPlaceholder: "Friends", searchText: self.$searchText)
 
+                Spacer()
+                
                 List {
-                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) {
-                        ForEach(self.allContacts.filter {
+                    SelectionCell(contacts: self.$allContacts, classes: self.$classes, selectionType: .contacts, isSingleSelect: false)
+
+                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts?.count != 0 {
+                        ForEach(self.allContacts!.filter {
                             self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
                         }, id: \.self.name) { (contact: Contact) in
-                            SelectionCell(contacts: self.$allContacts, contact: contact, isSingleSelect: false)
+                            SelectionCell(contacts: self.$allContacts, contact: contact, classes: self.$classes, selectionType: .contacts, isSingleSelect: false)
                             .listRowInsets(EdgeInsets())
                         }
-                    } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) {
-                        ForEach(self.classes.filter {
+                    } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) && self.classes?.count != 0 {
+                        ForEach(self.classes!.filter {
                             self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
                         }, id: \.self.name) { (currentClass: Classes) in
-                            SelectionCell(contacts: self.$classes, contact: currentClass, isSingleSelect: false)
+                            SelectionCell(contacts: self.$allContacts, classes: self.$classes, currentClass: currentClass, selectionType: .classes, isSingleSelect: false)
                             .listRowInsets(EdgeInsets())
                         }
                     }
                 }
 
-                Spacer()
                 
                 Group {
                     NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
@@ -60,16 +64,16 @@ struct ChooseCloseFriends: View {
                 }
                 
                 BottomNavigationView(title: "Continue", action: {
-                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts.filter({ $0.selected == true }).count < 1 { return }
+                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts?.filter({ $0.selected == true }).count ?? 0 < 1 { return }
                     
-                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) && self.classes.filter({ $0.selected == true }).count < 1 { return }
+                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) && self.classes?.filter({ $0.selected == true }).count ?? 0 < 1 { return }
 
                     if self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts {
-                        UserDefaults.standard.set(try? PropertyListEncoder().encode(self.allContacts.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(self.allContacts?.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
                     }
                     
                     if self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes {
-                        UserDefaults.standard.set(try? PropertyListEncoder().encode(self.classes.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
+                        UserDefaults.standard.set(try? PropertyListEncoder().encode(self.classes?.filter({ $0.selected == true })), forKey:self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID)
                     }
 
                         
@@ -251,7 +255,7 @@ struct ChooseCloseFriends: View {
                 let json = try JSON(data: response.data ?? Data())
                 for (_,subJson):(String, JSON) in json["classes"] {
                     let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
-                    self.classes.append(currentClass)
+                    self.classes?.append(currentClass)
                 }
             } catch {
                 print("error")

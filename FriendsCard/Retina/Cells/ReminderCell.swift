@@ -12,6 +12,7 @@ struct ReminderCell: View {
     var name: String
     var phoneNumber: String
     var emoji: String
+    var messaged: Bool
     var buttonCommit: () -> Void = {}
 
     var body: some View {
@@ -34,7 +35,7 @@ struct ReminderCell: View {
                         .padding(.bottom, 12)
                         .fixedSize(horizontal: false, vertical: true)
                     
-                    retinaButton(text: "Text " + name.split(separator: " ").first!, style: .outlineOnly, color: .rPink, action: {
+                    retinaButton(text: messaged ? "Text sent!" : "Text " + name.split(separator: " ").first!, style: .outlineOnly, color: messaged ? .green : .rPink, action: {
                         DispatchQueue.main.async {
                             self.buttonCommit()
                         }
@@ -50,6 +51,6 @@ struct ReminderCell: View {
 
 struct ReminderCell_Previews: PreviewProvider {
     static var previews: some View {
-        ReminderCell(name: "Kanyes Thaker", phoneNumber: "818-203-3202", emoji: "🤪")
+        ReminderCell(name: "Kanyes Thaker", phoneNumber: "818-203-3202", emoji: "🤪", messaged: false)
     }
 }

@@ -31,7 +31,7 @@ struct DistantFriendProfile: Hashable, Identifiable, Codable {
     var id: String = "1"
     var name: String
     var emoji: String
-    var reachedOut: Bool
+    var messaged: Bool
 }
 
 struct LeaderboardProfile: Hashable, Identifiable, Codable {

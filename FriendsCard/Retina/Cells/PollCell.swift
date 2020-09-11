@@ -12,6 +12,7 @@ struct PollCell: View {
     var name: String
     var badgeTitle: String
     var badgeIcon: String
+    var voted: Bool = false
 
     var body: some View {
         ZStack(alignment: .leading) {
@@ -39,6 +40,12 @@ struct PollCell: View {
                     DispatchQueue.main.async {
                     }
                 })
+                HStack {
+                    if (voted) {
+                        retinaButton(text: "Undo", style: .ghost, color: Color.rPink, action: { print("click") }).padding(.leading, Space.rSpaceTwo)
+                        Spacer()
+                    }
+                }
             }
         }
     }

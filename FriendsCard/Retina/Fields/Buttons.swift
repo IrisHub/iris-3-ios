@@ -128,11 +128,11 @@ struct RetinaButtonStyle: ButtonStyle {
         @Environment(\.isEnabled) private var isEnabled: Bool
         var body: some View {
             configuration.label
-                .retinaTypography(.p5_main)
+                .retinaTypography(.h5_main)
                 .foregroundColor(isEnabled ? color : .rBlack400)
-                .padding()
-                .frame(minHeight: 56)
-                .background(Color.white)
+                .padding([.leading, .trailing], 12)
+                .frame(minHeight: 36)
+                .background(Color.clear)
                 .cornerRadius(CornerRadius.rCornerRadius)
                 .opacity(configuration.isPressed ? 0.7 : 1)
         }
@@ -149,7 +149,6 @@ extension Button {
 }
 
 struct retinaButton: View {
-    
     enum Style {
         case fill, outline, outlineOnly, ghost, search, left
     }
@@ -176,6 +175,7 @@ struct retinaButton: View {
                 }
             }
         }).style(style, color: color, size: .large)
+        
     }
 }
 
@@ -266,50 +266,54 @@ public struct Input_Previews: PreviewProvider {
     
     public static var previews: some View {
         VStack(spacing: 40) {
-            
-            HStack(spacing: 5) {
-                retinaButton(text: "Fill", style: .fill, action: { print("click") })
-                retinaButton(text: "Outline", style: .outlineOnly, color: .rBlack400, action: { print("click") })
-                retinaButton(text: "Ghost", style: .ghost, action: { print("click") })
-            }
-            
-            HStack(spacing: 5) {
-                retinaButton(text: "Danger", color: .rBlack400, action: { print("click") })
-                retinaButton(text: "Warning", color: .rBlack400, action: { print("click") })
-                retinaButton(text: "Success", color: .rBlack400, action: { print("click") })
-            }
-            
-            HStack(spacing: 5) {
-                retinaButton(text: "Disabled", style: .fill, action: { print("click") })
-                    .disabled(true)
-                retinaButton(text: "Disabled", style: .outline, action: { print("click") })
-                    .disabled(true)
-                retinaButton(text: "Disabled", style: .ghost, action: { print("click") })
-                    .disabled(true)
-            }
-            
-            HStack(spacing: 5) {
-                retinaButton(text: "Text", action: { print("click") })
-                retinaButton(text: "Text", image: cloudImg, action: { print("click") })
-                retinaButton(image: cloudImg, action: { print("click") })
-            }
-            
-            HStack(spacing: 5) {
-                retinaSearchButton(text: "Text", action: { print("click") })
-            }
-            
-            HStack(spacing: 5) {
-                retinaLeftButton(text: "Text", action: { print("click") })
-            }
+            ScrollView {
+                HStack(spacing: 5) {
+                    retinaButton(text: "Fill", style: .fill, action: { print("click") })
+                    retinaButton(text: "Outline", style: .outlineOnly, color: .rBlack400, action: { print("click") })
+                    retinaButton(text: "Ghost", style: .ghost, action: { print("click") })
+                }
+                
+                HStack(spacing: 5) {
+                    retinaButton(text: "Danger", color: .rBlack400, action: { print("click") })
+                    retinaButton(text: "Warning", color: .rBlack400, action: { print("click") })
+                    retinaButton(text: "Success", color: .rBlack400, action: { print("click") })
+                }
+                
+                HStack(spacing: 5) {
+                    retinaButton(text: "Disabled", style: .fill, action: { print("click") })
+                        .disabled(true)
+                    retinaButton(text: "Disabled", style: .outline, action: { print("click") })
+                        .disabled(true)
+                    retinaButton(text: "Disabled", style: .ghost, action: { print("click") })
+                        .disabled(true)
+                }
+                
+                HStack(spacing: 5) {
+                    retinaButton(text: "Text", action: { print("click") })
+                    retinaButton(text: "Text", image: cloudImg, action: { print("click") })
+                    retinaButton(image: cloudImg, action: { print("click") })
+                }
+                
+                HStack(spacing: 5) {
+                    retinaSearchButton(text: "Text", action: { print("click") })
+                }
+                
+                HStack(spacing: 5) {
+                    retinaLeftButton(text: "Text", action: { print("click") })
+                }
 
-            
-            HStack(spacing: 5) {
-                retinaIconButton(image: (Image(systemName: "line.horizontal.3.decrease")), action: { print("click") })
-            }
+                
+                HStack(spacing: 5) {
+                    retinaIconButton(image: (Image(systemName: "line.horizontal.3.decrease")), action: { print("click") })
+                }
 
-            
-            Button(action: { print("click") }, label: { Text("Custom") })
-                .style(.outline, color: .rBlack400, size: .large)
+                
+                Button(action: { print("click") }, label: { Text("Custom") })
+                    .style(.outline, color: .rBlack400, size: .large)
+                
+                retinaButton(text: "Pink Ghost", style: .ghost, color: Color.rPink, action: { print("click") })
+
+            }
         }
     .padding(10)
     }

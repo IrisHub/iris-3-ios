@@ -30,7 +30,7 @@ struct ReminderView: View {
 
                 List {
                     ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
-                        ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
+                        ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, messaged: friend.messaged, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
                             .listRowInsets(EdgeInsets())
                             .padding(.bottom, Space.rSpaceThree)
                     }
@@ -40,7 +40,7 @@ struct ReminderView: View {
             }
             
             ActivityView(leaderboardPresented: self.$leaderboardPresented, friendLeaderboard: self.$friendLeaderboard).padding([.top, .bottom], UIApplication.bottomInset)
-            .offset(x: 0, y: self.leaderboardPresented ? 0 : UIScreen.screenHeight + UIApplication.bottomInset)
+                .offset(x: 0, y: self.leaderboardPresented ? 0 : UIScreen.screenHeight + UIApplication.bottomInset)
         }
         .hideNavigationBar()
         .onAppear() {
@@ -68,7 +68,7 @@ struct ReminderView: View {
                 let json = try JSON(data: response.data ?? Data())
                 print(json)
                 for (_,subJson):(String, JSON) in json["current_contacts"] {
-                    let item = DistantFriendProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), reachedOut: subJson["messaged"].boolValue)
+                    let item = DistantFriendProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), messaged: subJson["messaged"].boolValue)
                     self.friendReminders.append(item)
                 }
                 
