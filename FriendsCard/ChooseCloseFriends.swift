@@ -19,9 +19,8 @@ struct ChooseCloseFriends: View {
     @State var selectionNumber : Int? = nil
     @State var nextPage : String? = nil
     
-    @State var allContacts: [Contact]? = [Contact]()
-    @State var allContacts2: [Contact] = [Contact]()
-    @State var classes: [Classes]? = [Classes]()
+    @State var allContacts: [Contact]? = nil
+    @State var classes: [Classes]? = nil
 
     @State var error: Error? = nil
 
@@ -36,16 +35,14 @@ struct ChooseCloseFriends: View {
                 Spacer()
                 
                 List {
-                    SelectionCell(contacts: self.$allContacts, classes: self.$classes, selectionType: .contacts, isSingleSelect: false)
-
-                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts?.count != 0 {
+                    if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts?.count != 0 && self.allContacts != nil {
                         ForEach(self.allContacts!.filter {
                             self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
                         }, id: \.self.name) { (contact: Contact) in
                             SelectionCell(contacts: self.$allContacts, contact: contact, classes: self.$classes, selectionType: .contacts, isSingleSelect: false)
                             .listRowInsets(EdgeInsets())
                         }
-                    } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) && self.classes?.count != 0 {
+                    } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) && self.classes?.count != 0 && self.classes != nil {
                         ForEach(self.classes!.filter {
                             self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
                         }, id: \.self.name) { (currentClass: Classes) in
@@ -60,6 +57,7 @@ struct ChooseCloseFriends: View {
                     NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                 }
                 
@@ -81,11 +79,13 @@ struct ChooseCloseFriends: View {
                         if self.card.id == "card1" { self.signUpCard1() }
                         else if self.card.id == "card2" { self.signUpCard2() }
                         else if self.card.id == "card3" { self.signUpCard3() }
+                        else if self.card.id == "card4" { self.signUpCard4() }
                     } else {
                         if UserDefaults.standard.data(forKey:self.card.selectionScreens[(self.selectionNumber ?? 0) - 1].userDefaultID) != nil {
                             if self.card.id == "card1" { self.signUpCard1() }
                             else if self.card.id == "card2" { self.signUpCard2() }
-                            else if self.card.id == "card2" { self.signUpCard3() }
+                            else if self.card.id == "card3" { self.signUpCard3() }
+                            else if self.card.id == "card4" { self.signUpCard4() }
                         } else {
                             self.nextPage = "again"
                         }
@@ -98,7 +98,11 @@ struct ChooseCloseFriends: View {
             if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) {
                 self.fetchContacts()
             } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) {
-                self.fetchClasses()
+                if (self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID == "classes") {
+                    self.fetchClasses()
+                } else if  (self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID == "classes2") {
+                    self.fetchClasses2()
+                }
             }
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none
@@ -177,7 +181,8 @@ struct ChooseCloseFriends: View {
     func signUpCard3() {
         struct User: Codable {
             var user_id: String
-            var classes: [String]
+            var class_ids: [String]
+            var class_names: [String]
         }
 
         do {
@@ -190,20 +195,53 @@ struct ChooseCloseFriends: View {
                 }
             }
 
-            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", classes: (classesArray[0]).map({ $0.id }))
+            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", class_ids: (classesArray[0]).map({ $0.id }), class_names: (classesArray[0]).map({ $0.name }))
             let jsonData = try JSONEncoder().encode(user)
             let jsonString = String(data: jsonData, encoding: .utf8)!
             print(jsonString)
             
             let parameters = convertToDictionary(text: jsonString)
             let headers : HTTPHeaders = ["Content-Type": "application/json"]
-            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/contacts-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card3PermissionsComplete")
                 self.nextPage = "card3"
             }
         } catch {  }
     }
+        
+    func signUpCard4() {
+        struct User: Codable {
+            var user_id: String
+            var class_ids: [String]
+            var class_names: [String]
+        }
+
+        do {
+            var classesArray: [[Classes]] = [[Classes]]()
+            let sortedScreens = self.card.selectionScreens.sorted { $0.id < $1.id }
+            for i in 0..<sortedScreens.count {
+                if let data = UserDefaults.standard.value(forKey:sortedScreens[i].userDefaultID) as? Data {
+                    let (currentClass) = (try? PropertyListDecoder().decode(Array<Classes>.self, from: data)) ?? [Classes]()
+                    classesArray.append(currentClass)
+                }
+            }
+
+            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", class_ids: (classesArray[0]).map({ $0.id }), class_names: (classesArray[0]).map({ $0.name }))
+            let jsonData = try JSONEncoder().encode(user)
+            let jsonString = String(data: jsonData, encoding: .utf8)!
+            print(jsonString)
+            
+            let parameters = convertToDictionary(text: jsonString)
+            let headers : HTTPHeaders = ["Content-Type": "application/json"]
+            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON { response in
+                UserDefaults.standard.set(true, forKey: "card4PermissionsComplete")
+                self.nextPage = "card4"
+            }
+        } catch {  }
+    }
+
     
      func fetchContacts() {
         let store = CNContactStore()
@@ -244,17 +282,14 @@ struct ChooseCloseFriends: View {
     func fetchClasses() {
         self.classes = [Classes]()
         
-        let parameters = [
-            "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
-        ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
-        print(parameters)
-        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/friends-get", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-classes-list", method: .post, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())
                 for (_,subJson):(String, JSON) in json["classes"] {
                     let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
+                    print(currentClass.name)
                     self.classes?.append(currentClass)
                 }
             } catch {
@@ -262,6 +297,26 @@ struct ChooseCloseFriends: View {
             }
         }
     }
+    
+    func fetchClasses2() {
+        self.classes = [Classes]()
+        
+        let headers : HTTPHeaders = ["Content-Type": "application/json"]
+        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-classes-list", method: .post, encoding: JSONEncoding.default, headers: headers)
+            .responseJSON { response in
+            do {
+                let json = try JSON(data: response.data ?? Data())
+                for (_,subJson):(String, JSON) in json["classes"] {
+                    let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
+                    print(currentClass.name)
+                    self.classes?.append(currentClass)
+                }
+            } catch {
+                print("error")
+            }
+        }
+    }
+
 
 
 

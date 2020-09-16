@@ -1,23 +1,22 @@
 //
-//  ProblemsView.swift
+//  LecturePollsView.swift
 //  FriendsCard
 //
-//  Created by Shalin on 9/10/20.
+//  Created by Shalin on 9/16/20.
 //  Copyright © 2020 Shalin. All rights reserved.
 //
 
 import SwiftUI
 
-struct ProblemsView: View {
+struct LecturePollsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var className: String
-    @State var assignmentName: String
+    @State var lectureName: String
     
     @State var classID: String
-    @State var assignmentID: String
     
-    @State var problems: [Problems] = [Problems]()
-    @Binding var polls: [Poll]
+    @State var lectures: [Lectures] = [Lectures]()
+    @Binding var polls: [[Poll]]
     @State var searchText : String?
 
     @State var editViewPresented: Bool = false
@@ -26,13 +25,14 @@ struct ProblemsView: View {
         ZStack {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: assignmentName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: true, rightButtonIcon: "pencil", rightButtonIconColor: Color.rPink, rightButtonCommit: { self.editViewPresented = false }, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: lectureName + ", " + className, description: "Share with other students in your class how hard the lecture was to understand.", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
-                    ForEach(self.problems, id: \.self) { (problem: Problems) in
-                        
-                        PollCell(name: problem.name, badgeTitle: problem.averageTime, badgeIcon: "clock", polls: self.polls, classID: self.classID, assignmentID: self.assignmentID, problemID: problem.id)
-                        .listRowInsets(EdgeInsets())
+                    ForEach(self.lectures, id: \.self) { (lecture: Lectures) in
+                        ForEach(self.polls, id: \.self) { (poll: [Poll]) in
+                            PollCell(name: "How was the lecture?", badgeTitle: lecture.averageTime, badgeIcon: "clock", polls: poll, classID: self.classID, problemID: lecture.id)
+                            .listRowInsets(EdgeInsets())
+                        }
                     }
                 }
                 Spacer()
@@ -47,4 +47,5 @@ struct ProblemsView: View {
             UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
         }
     }
+
 }

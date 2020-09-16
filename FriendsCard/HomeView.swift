@@ -58,6 +58,9 @@ struct HomeView: View {
         ]),
         Card(id: "card3", name: "Homework", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
             SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Piazza.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes")
+        ]),
+        Card(id: "card4", name: "Lectures", description: "This card tells you how difficult lectures are, reported by other students.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Berkeley Time.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes2")
         ])
     ]
 
@@ -71,11 +74,17 @@ struct HomeView: View {
 
                     Spacer()
                     
-                    NavigationLink(destination: PermissionsView(currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }.isDetailLink(false)
+                    Group {
+                        NavigationLink(destination: PermissionsView(currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }.isDetailLink(false)
 
-                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: $currentCardState) { EmptyView() }
 
-                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: $currentCardState) { EmptyView() }
+                        
+                        NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: $currentCardState) { EmptyView() }
+                        
+                        NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: $currentCardState) { EmptyView() }
+                    }
 
                     
                     retinaLeftButton(text: "Friends Card", left: retinaLeftButton.Left.none, iconString: "", action: {
@@ -98,7 +107,7 @@ struct HomeView: View {
                     
                     retinaLeftButton(text: "Lectures Card", left: retinaLeftButton.Left.none, iconString: "", action: {
                         DispatchQueue.main.async {
-//                            self.logInCardTwo()
+                            self.logInCardFour()
                         }
                     })
                     
@@ -135,6 +144,15 @@ struct HomeView: View {
         self.cardNumber = 2
         if (UserDefaults.standard.bool(forKey: "card3PermissionsComplete") == true) {
             self.currentCardState = "card3"
+        } else {
+            self.currentCardState =  "cardpermission"
+        }
+    }
+    
+    func logInCardFour() {
+        self.cardNumber = 3
+        if (UserDefaults.standard.bool(forKey: "card4PermissionsComplete") == true) {
+            self.currentCardState = "card4"
         } else {
             self.currentCardState =  "cardpermission"
         }

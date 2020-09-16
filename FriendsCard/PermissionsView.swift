@@ -78,6 +78,7 @@ struct PermissionsView: View {
                     NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.selectionNumber), isActive: $bothAllowed) { EmptyView() }.isDetailLink(false)
                 }
                 
@@ -88,6 +89,7 @@ struct PermissionsView: View {
                         if self.card.id == "card1" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard1(); self.nextPage = "card1" }
                         else if self.card.id == "card2" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard2(); self.nextPage = "card2" }
                         else if self.card.id == "card3" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard3(); self.nextPage = "card3" }
+                        else if self.card.id == "card4" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard4(); self.nextPage = "card4" }
                     } else {
                         if (self.card.permissions.contains(.calendar) && self.card.permissions.contains(.contacts)) {
                             if self.contactsAllowed && self.googleDelegate.signedIn { self.bothAllowed = true }

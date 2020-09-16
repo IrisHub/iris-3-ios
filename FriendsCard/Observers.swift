@@ -41,6 +41,12 @@ struct LeaderboardProfile: Hashable, Identifiable, Codable {
     var onIris: Bool = false
 }
 
+struct Poll: Hashable, Identifiable, Codable {
+    var id: String = "1"
+    var name: String
+    var emoji: String
+}
+
 struct Classes: Hashable, Identifiable, Codable {
     var id: String = "1"
     var name: String
@@ -62,4 +68,16 @@ struct Problems: Hashable, Identifiable, Codable {
     var averageTime: String
     var votes: [Int]
 }
+
+struct Lectures: Hashable, Identifiable, Codable {
+    var id: String = "1"
+    var classID: String = "1"
+    var name: String
+    var averageTime: String
+    var polls: [[Int]]
+    var maxVotes: [Int]
+    var votePercentages: [Int]
+    var userVote: [Int]
+}
+
 

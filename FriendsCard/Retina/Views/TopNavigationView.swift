@@ -23,6 +23,7 @@ struct TopNavigationView: View {
     @Binding var searchText: String?
 
     var body: some View {
+        
         VStack(alignment: .leading) {
             if (self.backButton) {
                 HStack {
@@ -64,7 +65,7 @@ struct TopNavigationView: View {
         .padding(.top, UIApplication.topInset*2)
         .clipped()
         .animation(.default)
-        .background(backgroundColor)
+        .background(Color.rBlack400)
     }
 }
 
