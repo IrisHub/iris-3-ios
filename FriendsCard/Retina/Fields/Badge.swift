@@ -27,8 +27,9 @@ struct Badge: View {
                     .retinaTypography(.h5_main)
                     .foregroundColor(.rPink)
             }
-            .padding([.leading, .trailing], Space.rSpaceTwo).padding([.top, .bottom], self.size == .h4 ? Space.rSpaceTwo: Space.rSpaceOne)
+            .padding([.leading, .trailing], Space.rSpaceTwo).padding([.top, .bottom], self.size == .h4 ? Space.rSpaceTwo: Space.rSpaceOne/2)
             .background(Color.pink.opacity(0.2))
+            .cornerRadius(CornerRadius.rCornerRadius)
         }
     }
 }

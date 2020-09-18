@@ -38,7 +38,6 @@ struct RetinaButtonStyle: ButtonStyle {
             configuration.label
                 .retinaTypography(.h6_main)
                 .foregroundColor(isEnabled ? .white : .rBlack200)
-                .padding([.leading, .trailing])
                 .frame(minHeight: size == .medium ? 36 : 48)
                 .background(isEnabled ? color : Color.rBlack400.opacity(0.2))
                 .cornerRadius(CornerRadius.rCornerRadius)
@@ -208,30 +207,39 @@ struct retinaLeftButton: View {
     var color: Color = .rBlack200
     var checked: Bool? = false
     var size: Size? = .large
+    var progress: CGFloat? = 0.0
     var action: () -> Void
     
     var body: some View {
         HStack {
-            Button(action: action, label: {
-                HStack() {
-                    HStack(spacing: 12) {
-                        if (iconString != "" && iconString != nil) {
-                            if (left == .icon) {
-                                Image(iconString ?? "").resizable().frame(width: 24, height: 24).padding(6)
-                            } else if (left == .icon) {
-                                Image(systemName: iconString ?? "").padding(6).foregroundColor(.rPink)
-                            } else if (left == .emoji) {
-                                Text(iconString ?? "💎").retinaTypography( size == .medium ? .h6_main : .h5_main)
+            GeometryReader { geometry in
+                Button(action: self.action, label: {
+                    ZStack(alignment: .leading) {
+                        Rectangle().frame(width: (self.progress ?? 0.0) * (UIScreen.screenWidth-48), height: geometry.size.height-12)
+                        .foregroundColor(Color.rPink)
+                        .animation(.default)
+
+                        HStack {
+                            HStack(spacing: 12) {
+                                if (self.iconString != "" && self.iconString != nil) {
+                                    if (self.left == .icon) {
+                                        Image(self.iconString ?? "").resizable().frame(width: 24, height: 24).padding(6)
+                                    } else if (self.left == .icon) {
+                                        Image(systemName: self.iconString ?? "").padding(6).foregroundColor(.rPink)
+                                    } else if (self.left == .emoji) {
+                                        Text(self.iconString ?? "💎").retinaTypography( self.size == .medium ? .h6_main : .h5_main)
+                                    }
+                                }
+                                Text(self.text ?? "").retinaTypography( self.size == .medium ? .h6_main : .h5_main)
+                            }.padding([.leading, .trailing], 12)
+                            Spacer()
+                            if self.checked ?? false {
+                                Image(systemName: "checkmark").padding(6).foregroundColor(.rWhite).retinaTypography(.h6_main)
                             }
                         }
-                        Text(text ?? "").retinaTypography( size == .medium ? .h6_main : .h5_main)
                     }
-                    Spacer()
-                    if checked ?? false {
-                        Image(systemName: "checkmark").padding(6).foregroundColor(.rWhite).retinaTypography(.h6_main)
-                    }
-                }
-            }).style(.left, color: color, size: size ?? .large).padding([.leading, .trailing], 24)
+                }).style(.left, color: self.color, size: self.size ?? .large).padding([.leading, .trailing], 24)
+            }
         }.frame(width: UIScreen.screenWidth, height: size == .medium ? 48 : 60)
     }
 }
@@ -299,7 +307,7 @@ public struct Input_Previews: PreviewProvider {
                 }
                 
                 HStack(spacing: 5) {
-                    retinaLeftButton(text: "Text", action: { print("click") })
+                    retinaLeftButton(text: "Text", size: .medium, progress: 0.50, action: { print("click") })
                 }
 
                 

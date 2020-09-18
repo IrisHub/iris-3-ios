@@ -25,6 +25,10 @@
 		B17632952500A8F00074922F /* Observers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17632942500A8F00074922F /* Observers.swift */; };
 		B17632972501FA450074922F /* ContactStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17632962501FA450074922F /* ContactStore.swift */; };
 		B17868C32511C534008D51C3 /* LecturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17868C22511C534008D51C3 /* LecturesView.swift */; };
+		B1810D8D2514230E0060E001 /* CollaborationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D8C2514230E0060E001 /* CollaborationView.swift */; };
+		B1810D8F2514231D0060E001 /* SeePeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D8E2514231D0060E001 /* SeePeopleView.swift */; };
+		B1810D92251423300060E001 /* AddTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D91251423300060E001 /* AddTagsView.swift */; };
+		B1810D942514587C0060E001 /* BroadcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D932514587C0060E001 /* BroadcastCell.swift */; };
 		B1BA453E24FB84E200E14C27 /* LeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450824FB84E200E14C27 /* LeaderCell.swift */; };
 		B1BA453F24FB84E200E14C27 /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450924FB84E200E14C27 /* SelectionCell.swift */; };
 		B1BA454024FB84E200E14C27 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450A24FB84E200E14C27 /* StatusCell.swift */; };
@@ -115,6 +119,10 @@
 		B17632942500A8F00074922F /* Observers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observers.swift; sourceTree = "<group>"; };
 		B17632962501FA450074922F /* ContactStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactStore.swift; sourceTree = "<group>"; };
 		B17868C22511C534008D51C3 /* LecturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturesView.swift; sourceTree = "<group>"; };
+		B1810D8C2514230E0060E001 /* CollaborationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaborationView.swift; sourceTree = "<group>"; };
+		B1810D8E2514231D0060E001 /* SeePeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeePeopleView.swift; sourceTree = "<group>"; };
+		B1810D91251423300060E001 /* AddTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagsView.swift; sourceTree = "<group>"; };
+		B1810D932514587C0060E001 /* BroadcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastCell.swift; sourceTree = "<group>"; };
 		B1BA450824FB84E200E14C27 /* LeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderCell.swift; sourceTree = "<group>"; };
 		B1BA450924FB84E200E14C27 /* SelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
 		B1BA450A24FB84E200E14C27 /* StatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
@@ -232,6 +240,9 @@
 		B151A282250A4FC500534657 /* Card Five */ = {
 			isa = PBXGroup;
 			children = (
+				B1810D8C2514230E0060E001 /* CollaborationView.swift */,
+				B1810D8E2514231D0060E001 /* SeePeopleView.swift */,
+				B1810D91251423300060E001 /* AddTagsView.swift */,
 			);
 			path = "Card Five";
 			sourceTree = "<group>";
@@ -325,6 +336,7 @@
 				B1BA450A24FB84E200E14C27 /* StatusCell.swift */,
 				B1BA456A24FBBFDF00E14C27 /* ReminderCell.swift */,
 				B151A27E250A036C00534657 /* PollCell.swift */,
+				B1810D932514587C0060E001 /* BroadcastCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -741,6 +753,7 @@
 			files = (
 				B1BA454F24FB84E200E14C27 /* Palette.swift in Sources */,
 				B1BA455124FB84E200E14C27 /* Extensions.swift in Sources */,
+				B1810D8D2514230E0060E001 /* CollaborationView.swift in Sources */,
 				B1BA454B24FB84E200E14C27 /* Search.swift in Sources */,
 				B1BA454724FB84E200E14C27 /* Toggles.swift in Sources */,
 				B151A288250A5E6500534657 /* ProblemsView.swift in Sources */,
@@ -759,6 +772,7 @@
 				B1BA454C24FB84E200E14C27 /* TopNavigationView.swift in Sources */,
 				B151A2772508F8FB00534657 /* ClassCells.swift in Sources */,
 				B151A2792508FCD800534657 /* BottomNavigationView.swift in Sources */,
+				B1810D92251423300060E001 /* AddTagsView.swift in Sources */,
 				B151A27F250A036C00534657 /* PollCell.swift in Sources */,
 				B1BA454924FB84E200E14C27 /* HorizontalLabel.swift in Sources */,
 				B1D0978B2505BFA90048286B /* PhoneNumberView.swift in Sources */,
@@ -770,10 +784,12 @@
 				B1BA454A24FB84E200E14C27 /* Banner.swift in Sources */,
 				B1BA454124FB84E200E14C27 /* InviteCell.swift in Sources */,
 				B151A285250A500500534657 /* ClassesView.swift in Sources */,
+				B1810D942514587C0060E001 /* BroadcastCell.swift in Sources */,
 				B1BA456424FB84E200E14C27 /* CloseFriends.swift in Sources */,
 				B1BA456324FB84E200E14C27 /* ActivityView.swift in Sources */,
 				B17868C32511C534008D51C3 /* LecturesView.swift in Sources */,
 				B1EE973825122DC200655F03 /* LecturePollsView.swift in Sources */,
+				B1810D8F2514231D0060E001 /* SeePeopleView.swift in Sources */,
 				B1BA454024FB84E200E14C27 /* StatusCell.swift in Sources */,
 				B1BA456524FB84E200E14C27 /* AppDelegate.swift in Sources */,
 				B1BA454D24FB84E200E14C27 /* Typography.swift in Sources */,
@@ -948,7 +964,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;
@@ -971,7 +987,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;

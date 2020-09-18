@@ -61,6 +61,9 @@ struct HomeView: View {
         ]),
         Card(id: "card4", name: "Lectures", description: "This card tells you how difficult lectures are, reported by other students.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
             SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Berkeley Time.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes2")
+        ]),
+        Card(id: "card5", name: "Collaboration", description: "This card helps you collaborate in a new way with peers in your class.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Berkeley Time.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes")
         ])
     ]
 
@@ -84,6 +87,8 @@ struct HomeView: View {
                         NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: $currentCardState) { EmptyView() }
                         
                         NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: $currentCardState) { EmptyView() }
+                        
+                        NavigationLink(destination: CollaborationView(currentCardState: self.$currentCardState), tag: "card5", selection: $currentCardState) { EmptyView() }
                     }
 
                     
@@ -110,6 +115,13 @@ struct HomeView: View {
                             self.logInCardFour()
                         }
                     })
+                    
+                    retinaLeftButton(text: "Collaboration Card", left: retinaLeftButton.Left.none, iconString: "", action: {
+                        DispatchQueue.main.async {
+                            self.logInCardFive()
+                        }
+                    })
+
                     
                     Spacer()
                     
@@ -153,6 +165,15 @@ struct HomeView: View {
         self.cardNumber = 3
         if (UserDefaults.standard.bool(forKey: "card4PermissionsComplete") == true) {
             self.currentCardState = "card4"
+        } else {
+            self.currentCardState =  "cardpermission"
+        }
+    }
+    
+    func logInCardFive() {
+        self.cardNumber = 4
+        if (UserDefaults.standard.bool(forKey: "card5PermissionsComplete") == true) {
+            self.currentCardState = "card5"
         } else {
             self.currentCardState =  "cardpermission"
         }

@@ -1,14 +1,14 @@
 //
-//  ProblemsView.swift
+//  SeePeopleView.swift
 //  FriendsCard
 //
-//  Created by Shalin on 9/10/20.
+//  Created by Shalin on 9/17/20.
 //  Copyright © 2020 Shalin. All rights reserved.
 //
 
 import SwiftUI
 
-struct ProblemsView: View {
+struct SeePeopleView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var className: String
     @State var assignmentName: String
@@ -16,22 +16,28 @@ struct ProblemsView: View {
     @State var classID: String
     @State var assignmentID: String
     
-    @State var problems: [Problems] = [Problems]()
-    @Binding var polls: [Poll]
+    @State var broadcasters: [Broadcaster] = [Broadcaster]()
+    @State var assignments: [Assignments] = [Assignments]()
+    @State var name: String
+    @State var avatar: String
+    @State var tags: [String]
+    
     @State var searchText : String?
-
-    @State var editViewPresented: Bool = false
+    
+    @State var addTagsPresented: Bool = false
 
     var body: some View {
         ZStack {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: assignmentName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: true, rightButtonIcon: "pencil", rightButtonIconColor: Color.rPink, rightButtonCommit: { self.editViewPresented = false }, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: assignmentName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
+
+                Divider().frame(height: 1).background(Color.rBlack200)
+                Text("Needs help on").foregroundColor(.rGrey100).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
 
                 List {
-                    ForEach(self.problems, id: \.self) { (problem: Problems) in
-                        
-                        PollCell(name: problem.name, badgeTitle: problem.averageTime, badgeIcon: "clock", polls: self.polls, classID: self.classID, assignmentID: self.assignmentID, problemID: problem.id)
+                    ForEach(self.broadcasters, id: \.self) { (broadcaster: Broadcaster) in
+                        BroadcastCell(name: broadcaster.name, emoji: broadcaster.icon, badgeTitles: broadcaster.tags)
                         .listRowInsets(EdgeInsets())
                         .padding(.bottom, Space.rSpaceFour)
                     }
@@ -41,7 +47,6 @@ struct ProblemsView: View {
         }
         .hideNavigationBar()
         .onAppear() {
-            print(self.polls)
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none
             UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()

@@ -16,6 +16,7 @@ struct LecturesView: View {
     @State var lectures: [Lectures] = [Lectures]()
     @State var polls: [[Poll]] = [[Poll]]()
     @State var searchText : String?
+    @State var selection: String? = nil
 
     var body: some View {
         ZStack {
@@ -30,10 +31,11 @@ struct LecturesView: View {
                             
                             ForEach(self.lectures.filter({ $0.classID == currentClass.id }), id: \.self) { (lecture: Lectures) in
                                 
-                                NavigationLink(destination: LecturePollsView(className: currentClass.name, lectureName: lecture.name, classID: lecture.classID, polls: self.$polls)) {
+                                NavigationLink(destination: LecturePollsView(className: currentClass.name, lectureName: lecture.name, classID: lecture.classID, polls: self.$polls), tag: lecture.name, selection: self.$selection) {
                                     ClassCells(name: lecture.name, badgeTitle: lecture.averageTime, badgeIcon: "clock")
-                                    .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                                 }
+                                .isDetailLink(false)
+                                .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                             }
                         }
                     }
@@ -43,6 +45,7 @@ struct LecturesView: View {
         }
         .hideNavigationBar()
         .onAppear() {
+            self.selection = nil
             self.fetchClasses()
             if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
             UITableView.appearance().separatorStyle = .none
@@ -68,8 +71,8 @@ struct LecturesView: View {
                 print(json)
                 for (i,pollsJson):(String, JSON) in json["polls"] {
                     var pollArray = [Poll]()
-                    for (i,polls):(String, JSON) in json[i] {
-                        let poll = Poll(id: i, name: pollsJson["text"].stringValue, emoji: pollsJson["icon"].stringValue)
+                    for (i,polls):(String, JSON) in pollsJson[i] {
+                        let poll = Poll(id: i, name: polls["text"].stringValue, emoji: polls["icon"].stringValue)
                         pollArray.append(poll)
                     }
                     self.polls.append(pollArray)

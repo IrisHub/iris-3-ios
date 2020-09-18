@@ -53,11 +53,19 @@ struct Classes: Hashable, Identifiable, Codable {
     var selected: Bool = false
 }
 
+struct Avatar: Hashable, Codable {
+    var name: String = ""
+    var icon: String = ""
+}
+
+
 struct Assignments: Hashable, Identifiable, Codable {
     var id: String = "1"
     var classID: String = "1"
     var name: String
-    var averageTime: String
+    var averageTime: String = "0"
+    var userBroadcasted: Bool = false
+    var userBroadcastTags: [String] = []
 }
 
 struct Problems: Hashable, Identifiable, Codable {
@@ -79,5 +87,15 @@ struct Lectures: Hashable, Identifiable, Codable {
     var votePercentages: [Int]
     var userVote: [Int]
 }
+
+struct Broadcaster: Hashable, Identifiable, Codable {
+    var id: String = "1"
+    var classID: String = "1"
+    var assignmentID: String = "1"
+    var name: String
+    var icon: String
+    var tags: [String]
+}
+
 
 

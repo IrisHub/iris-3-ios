@@ -1,8 +1,8 @@
 //
-//  ClassesView.swift
+//  CollaborationView.swift
 //  FriendsCard
 //
-//  Created by Shalin on 9/10/20.
+//  Created by Shalin on 9/17/20.
 //  Copyright © 2020 Shalin. All rights reserved.
 //
 
@@ -10,12 +10,12 @@ import SwiftUI
 import Alamofire
 import SwiftyJSON
 
-struct ClassesView: View {
+struct CollaborationView: View {
     @Binding var currentCardState: String?
+    @State var avatar: Avatar = Avatar()
     @State var classes: [Classes] = [Classes]()
     @State var assignments: [Assignments] = [Assignments]()
-    @State var problems: [Problems] = [Problems]()
-    @State var polls: [Poll] = [Poll]()
+    @State var broadcasters: [Broadcaster] = [Broadcaster]()
     @State var searchText : String?
     @State var selection: String? = nil
 
@@ -23,7 +23,7 @@ struct ClassesView: View {
         ZStack {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: "Share Homework Length", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "Collaboration", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     ForEach(self.classes, id: \.self) { (currentClass: Classes) in
@@ -32,7 +32,7 @@ struct ClassesView: View {
                             
                             ForEach(self.assignments.filter({ $0.classID == currentClass.id }), id: \.self) { (assignment: Assignments) in
                                 
-                                NavigationLink(destination: ProblemsView(className: currentClass.name, assignmentName: assignment.name, classID: currentClass.id, assignmentID: assignment.id, problems: self.problems.filter({ $0.classID == currentClass.id && $0.assignmentID == assignment.id }), polls: self.$polls), tag: assignment.name, selection: self.$selection) {
+                                NavigationLink(destination: SeePeopleView(className: currentClass.name, assignmentName: assignment.name, classID: currentClass.id, assignmentID: assignment.id, broadcasters: self.broadcasters.filter({ $0.classID == currentClass.id && $0.assignmentID == assignment.id }), assignments: self.assignments.filter({ $0.id == assignment.id }), name: self.avatar.name, avatar: self.avatar.icon, tags: assignment.userBroadcastTags), tag: assignment.name, selection: self.$selection) {
                                     ClassCells(name: assignment.name, badgeTitle: assignment.averageTime, badgeIcon: "clock")
                                 }
                                 .isDetailLink(false)
@@ -58,8 +58,7 @@ struct ClassesView: View {
     func fetchClasses() {
         self.classes = [Classes]()
         self.assignments = [Assignments]()
-        self.problems = [Problems]()
-        self.polls = [Poll]()
+        self.broadcasters = [Broadcaster]()
 
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
@@ -71,11 +70,7 @@ struct ClassesView: View {
             do {
                 let json = try JSON(data: response.data ?? Data())
                 print(json)
-                for (i,pollsJson):(String, JSON) in json["polls"][0] {
-                    let poll = Poll(id: i, name: pollsJson["text"].stringValue, emoji: pollsJson["icon"].stringValue)
-                    print(poll)
-                    self.polls.append(poll)
-                }
+                self.avatar = Avatar(name: json["current_user_broadcast_name"].stringValue, icon: json["current_user_broadcast_icon"].stringValue)
 
                 
                 for (_,subJson):(String, JSON) in json["classes"] {
@@ -83,12 +78,12 @@ struct ClassesView: View {
                     self.classes.append(currentClass)
                     
                     for (_,subJson2):(String, JSON) in subJson["assignments"] {
-                        let assignment = Assignments(id: subJson2["assignment_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_name"].stringValue, averageTime: subJson2["assignment_avg_time"].stringValue)
+                        let assignment = Assignments(id: subJson2["assignment_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_name"].stringValue, userBroadcasted: subJson2["current_user_broadcasted"].boolValue, userBroadcastTags: subJson2["current_user_broadcast_tags"].arrayValue.map { $0.stringValue})
                         self.assignments.append(assignment)
                         
-                        for (_,subJson3):(String, JSON) in subJson2["assignment_components"] {
-                            let problem = Problems(id: subJson3["component_id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["component_name"].stringValue, averageTime: subJson3["component_avg_time"].stringValue, votes: subJson3["component_votes"].arrayValue.map { $0.intValue})
-                            self.problems.append(problem)
+                        for (_,subJson3):(String, JSON) in subJson2["other_users"] {
+                            let otherUsers = Broadcaster(id: subJson3["id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["broadcast_name"].stringValue, icon: subJson3["broadcast_icon"].stringValue, tags: subJson3["broadcast_tags"].arrayValue.map { $0.stringValue})
+                            self.broadcasters.append(otherUsers)
                         }
                     }
                 }
@@ -98,8 +93,7 @@ struct ClassesView: View {
         }
         
         self.classes.sort{ $0.id > $1.id }
-        self.problems.sort{ $0.id > $1.id }
+        self.broadcasters.sort{ $0.id > $1.id }
         self.assignments.sort{ $0.id > $1.id }
     }
-
 }
