@@ -65,7 +65,7 @@ struct CollaborationView: View {
         ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
         print(parameters)
-        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-classes-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/collaboration-classes-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())

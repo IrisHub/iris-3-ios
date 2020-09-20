@@ -109,7 +109,7 @@
 		B151A27E250A036C00534657 /* PollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollCell.swift; sourceTree = "<group>"; };
 		B151A284250A500500534657 /* ClassesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassesView.swift; sourceTree = "<group>"; };
 		B151A287250A5E6500534657 /* ProblemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsView.swift; sourceTree = "<group>"; };
-		B156555E24F70E8D00FEAA70 /* FriendsCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FriendsCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B156555E24F70E8D00FEAA70 /* Iris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Iris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B156557424F70E9100FEAA70 /* FriendsCardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendsCardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B156557824F70E9100FEAA70 /* FriendsCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCardTests.swift; sourceTree = "<group>"; };
 		B156557A24F70E9100FEAA70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -262,7 +262,7 @@
 		B156555F24F70E8D00FEAA70 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B156555E24F70E8D00FEAA70 /* FriendsCard.app */,
+				B156555E24F70E8D00FEAA70 /* Iris.app */,
 				B156557424F70E9100FEAA70 /* FriendsCardTests.xctest */,
 				B156557F24F70E9100FEAA70 /* FriendsCardUITests.xctest */,
 			);
@@ -479,7 +479,7 @@
 				B120E6B6250752CA00CBB2CE /* NavigationStack */,
 			);
 			productName = FriendsCard;
-			productReference = B156555E24F70E8D00FEAA70 /* FriendsCard.app */;
+			productReference = B156555E24F70E8D00FEAA70 /* Iris.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B156557324F70E9100FEAA70 /* FriendsCardTests */ = {
@@ -975,7 +975,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.shalinshah.iris.FriendsCard;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Iris;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -998,7 +998,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.shalinshah.iris.FriendsCard;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Iris;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

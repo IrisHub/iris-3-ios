@@ -269,7 +269,7 @@ struct ChooseCloseFriends: View {
             
             let parameters = convertToDictionary(text: jsonString)
             let headers : HTTPHeaders = ["Content-Type": "application/json"]
-            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/collaboration-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card5PermissionsComplete")
                 self.nextPage = "card5"
