@@ -94,7 +94,7 @@ struct Broadcaster: Hashable, Identifiable, Codable {
     var assignmentID: String = "1"
     var name: String
     var icon: String
-    var tags: [String]
+    var tags: String
 }
 
 

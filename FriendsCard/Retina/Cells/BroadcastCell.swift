@@ -11,7 +11,7 @@ import SwiftUI
 struct BroadcastCell: View {
     var name: String
     var emoji: String
-    var badgeTitles: [String]
+    var badgeTitle: String
     var buttonCommit: () -> Void = {}
 
     var body: some View {
@@ -34,11 +34,7 @@ struct BroadcastCell: View {
                 
                 VStack(alignment: .leading) {
                     Text(self.name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
-                    HStack {
-                        ForEach(self.badgeTitles, id: \.self) { (badgeTitle: String) in
-                            Badge(text: badgeTitle, size: .h5).padding(.top, Space.rSpaceTwo)
-                        }
-                    }
+                    Badge(text: self.badgeTitle, size: .h5).padding(.top, Space.rSpaceTwo)
                 }.padding(.leading, Space.rSpaceTwo)
                 
                 Spacer()
@@ -49,6 +45,6 @@ struct BroadcastCell: View {
 
 struct BroadcastCell_Previews: PreviewProvider {
     static var previews: some View {
-        BroadcastCell(name: "Sam Gorman", emoji: "🤮", badgeTitles: [ "1", "3a", "5"])
+        BroadcastCell(name: "Sam Gorman", emoji: "🤮", badgeTitle: "1, 3a, 5")
     }
 }

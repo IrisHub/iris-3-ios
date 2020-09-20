@@ -20,12 +20,10 @@ struct SeePeopleView: View {
     @State var assignments: [Assignments] = [Assignments]()
     @State var name: String
     @State var avatar: String
-    @State var tags: [String]
+    @State var tags: String
     
     @State var searchText : String?
     
-    @State var addTagsPresented: Bool = false
-
     var body: some View {
         ZStack {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
@@ -37,7 +35,7 @@ struct SeePeopleView: View {
 
                 List {
                     ForEach(self.broadcasters, id: \.self) { (broadcaster: Broadcaster) in
-                        BroadcastCell(name: broadcaster.name, emoji: broadcaster.icon, badgeTitles: broadcaster.tags)
+                        BroadcastCell(name: broadcaster.name, emoji: broadcaster.icon, badgeTitle: broadcaster.tags)
                         .listRowInsets(EdgeInsets())
                         .padding(.bottom, Space.rSpaceFour)
                     }

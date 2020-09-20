@@ -82,7 +82,7 @@ struct CollaborationView: View {
                         self.assignments.append(assignment)
                         
                         for (_,subJson3):(String, JSON) in subJson2["other_users"] {
-                            let otherUsers = Broadcaster(id: subJson3["id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["broadcast_name"].stringValue, icon: subJson3["broadcast_icon"].stringValue, tags: subJson3["broadcast_tags"].arrayValue.map { $0.stringValue})
+                            let otherUsers = Broadcaster(id: subJson3["id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["broadcast_name"].stringValue, icon: subJson3["broadcast_icon"].stringValue, tags: subJson3["broadcast_tags"].stringValue)
                             self.broadcasters.append(otherUsers)
                         }
                     }

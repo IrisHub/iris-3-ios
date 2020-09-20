@@ -27,7 +27,6 @@
 		B17868C32511C534008D51C3 /* LecturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17868C22511C534008D51C3 /* LecturesView.swift */; };
 		B1810D8D2514230E0060E001 /* CollaborationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D8C2514230E0060E001 /* CollaborationView.swift */; };
 		B1810D8F2514231D0060E001 /* SeePeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D8E2514231D0060E001 /* SeePeopleView.swift */; };
-		B1810D92251423300060E001 /* AddTagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D91251423300060E001 /* AddTagsView.swift */; };
 		B1810D942514587C0060E001 /* BroadcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D932514587C0060E001 /* BroadcastCell.swift */; };
 		B1BA453E24FB84E200E14C27 /* LeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450824FB84E200E14C27 /* LeaderCell.swift */; };
 		B1BA453F24FB84E200E14C27 /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450924FB84E200E14C27 /* SelectionCell.swift */; };
@@ -66,7 +65,6 @@
 		B1BA456024FB84E200E14C27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B1BA453124FB84E200E14C27 /* LaunchScreen.storyboard */; };
 		B1BA456124FB84E200E14C27 /* ChooseCloseFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453324FB84E200E14C27 /* ChooseCloseFriends.swift */; };
 		B1BA456224FB84E200E14C27 /* ReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453524FB84E200E14C27 /* ReminderView.swift */; };
-		B1BA456324FB84E200E14C27 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453624FB84E200E14C27 /* ActivityView.swift */; };
 		B1BA456424FB84E200E14C27 /* CloseFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453824FB84E200E14C27 /* CloseFriends.swift */; };
 		B1BA456524FB84E200E14C27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453924FB84E200E14C27 /* AppDelegate.swift */; };
 		B1BA456624FB84E200E14C27 /* GoogleDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA453A24FB84E200E14C27 /* GoogleDelegate.swift */; };
@@ -121,7 +119,6 @@
 		B17868C22511C534008D51C3 /* LecturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturesView.swift; sourceTree = "<group>"; };
 		B1810D8C2514230E0060E001 /* CollaborationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaborationView.swift; sourceTree = "<group>"; };
 		B1810D8E2514231D0060E001 /* SeePeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeePeopleView.swift; sourceTree = "<group>"; };
-		B1810D91251423300060E001 /* AddTagsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagsView.swift; sourceTree = "<group>"; };
 		B1810D932514587C0060E001 /* BroadcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastCell.swift; sourceTree = "<group>"; };
 		B1BA450824FB84E200E14C27 /* LeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderCell.swift; sourceTree = "<group>"; };
 		B1BA450924FB84E200E14C27 /* SelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
@@ -160,7 +157,6 @@
 		B1BA453224FB84E200E14C27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B1BA453324FB84E200E14C27 /* ChooseCloseFriends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseCloseFriends.swift; sourceTree = "<group>"; };
 		B1BA453524FB84E200E14C27 /* ReminderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderView.swift; sourceTree = "<group>"; };
-		B1BA453624FB84E200E14C27 /* ActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		B1BA453824FB84E200E14C27 /* CloseFriends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseFriends.swift; sourceTree = "<group>"; };
 		B1BA453924FB84E200E14C27 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1BA453A24FB84E200E14C27 /* GoogleDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleDelegate.swift; sourceTree = "<group>"; };
@@ -242,7 +238,6 @@
 			children = (
 				B1810D8C2514230E0060E001 /* CollaborationView.swift */,
 				B1810D8E2514231D0060E001 /* SeePeopleView.swift */,
-				B1810D91251423300060E001 /* AddTagsView.swift */,
 			);
 			path = "Card Five";
 			sourceTree = "<group>";
@@ -426,7 +421,6 @@
 			isa = PBXGroup;
 			children = (
 				B1BA453524FB84E200E14C27 /* ReminderView.swift */,
-				B1BA453624FB84E200E14C27 /* ActivityView.swift */,
 			);
 			path = "Card Two";
 			sourceTree = "<group>";
@@ -772,7 +766,6 @@
 				B1BA454C24FB84E200E14C27 /* TopNavigationView.swift in Sources */,
 				B151A2772508F8FB00534657 /* ClassCells.swift in Sources */,
 				B151A2792508FCD800534657 /* BottomNavigationView.swift in Sources */,
-				B1810D92251423300060E001 /* AddTagsView.swift in Sources */,
 				B151A27F250A036C00534657 /* PollCell.swift in Sources */,
 				B1BA454924FB84E200E14C27 /* HorizontalLabel.swift in Sources */,
 				B1D0978B2505BFA90048286B /* PhoneNumberView.swift in Sources */,
@@ -786,7 +779,6 @@
 				B151A285250A500500534657 /* ClassesView.swift in Sources */,
 				B1810D942514587C0060E001 /* BroadcastCell.swift in Sources */,
 				B1BA456424FB84E200E14C27 /* CloseFriends.swift in Sources */,
-				B1BA456324FB84E200E14C27 /* ActivityView.swift in Sources */,
 				B17868C32511C534008D51C3 /* LecturesView.swift in Sources */,
 				B1EE973825122DC200655F03 /* LecturePollsView.swift in Sources */,
 				B1810D8F2514231D0060E001 /* SeePeopleView.swift in Sources */,

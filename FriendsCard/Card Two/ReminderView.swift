@@ -16,7 +16,6 @@ struct ReminderView: View {
     @State var friendReminders: [DistantFriendProfile] = [DistantFriendProfile]()
     @State var friendLeaderboard: [LeaderboardProfile] = [LeaderboardProfile]()
 
-    @State var leaderboardPresented: Bool = false
     @State var searchText : String?
 
     // The delegate required by `MFMessageComposeViewController`
