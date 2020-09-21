@@ -26,7 +26,7 @@ struct SeePeopleView: View {
     
     var body: some View {
         ZStack {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
                 TopNavigationView(title: assignmentName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
@@ -44,11 +44,5 @@ struct SeePeopleView: View {
             }
         }
         .hideNavigationBar()
-        .onAppear() {
-            if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
-            UITableView.appearance().separatorStyle = .none
-            UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
-            UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
-        }
     }
 }

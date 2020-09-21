@@ -28,31 +28,33 @@ struct ChooseCloseFriends: View {
 
     var body: some View {
         ZStack {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: self.card.selectionScreens[self.selectionNumber ?? 0].title, description: self.card.selectionScreens[self.selectionNumber ?? 0].description, backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: true, searchBarPlaceholder: "Friends", searchText: self.$searchText)
+                TopNavigationView(title: self.card.selectionScreens[self.selectionNumber ?? 0].title, description: self.card.selectionScreens[self.selectionNumber ?? 0].description, backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: true, searchBarPlaceholder: self.card.searchTitle, searchText: self.$searchText)
 
-                Spacer()
-                
                 List {
                     if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .contacts) && self.allContacts?.count != 0 && self.allContacts != nil {
                         ForEach(self.allContacts!.filter {
-                            self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
+                            (self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false || (self.searchText ?? "").isEmpty) ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
                         }, id: \.self.name) { (contact: Contact) in
                             SelectionCell(contacts: self.$allContacts, contact: contact, classes: self.$classes, selectionType: .contacts, isSingleSelect: false)
-                            .listRowInsets(EdgeInsets())
+                            .listRowInsets(.init(top: 0, leading: -12, bottom: -1, trailing: 0))
+                            .background(Color.rBlack500)
+                            .animation(.none)
                         }
                     } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) && self.classes?.count != 0 && self.classes != nil {
                         ForEach(self.classes!.filter {
-                            self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
+                            (self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false || (self.searchText ?? "").isEmpty) ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
                         }, id: \.self.name) { (currentClass: Classes) in
                             SelectionCell(contacts: self.$allContacts, classes: self.$classes, currentClass: currentClass, selectionType: .classes, isSingleSelect: false)
-                            .listRowInsets(EdgeInsets())
+                            .listRowInsets(.init(top: 0, leading: -12, bottom: -1, trailing: 0))
+                            .background(Color.rBlack500)
+                            .animation(.none)
                         }
                     }
                 }
+                .listStyle(SidebarListStyle())
 
-                
                 Group {
                     NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
@@ -107,10 +109,6 @@ struct ChooseCloseFriends: View {
                     self.fetchClasses2()
                 }
             }
-            if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
-            UITableView.appearance().separatorStyle = .none
-            UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
-            UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
         }
     }
     

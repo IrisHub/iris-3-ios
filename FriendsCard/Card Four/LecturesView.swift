@@ -20,7 +20,7 @@ struct LecturesView: View {
 
     var body: some View {
         ZStack {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
                 TopNavigationView(title: "Lectures", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
@@ -47,10 +47,6 @@ struct LecturesView: View {
         .onAppear() {
             self.selection = nil
             self.fetchClasses()
-            if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
-            UITableView.appearance().separatorStyle = .none
-            UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
-            UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
         }
     }
     

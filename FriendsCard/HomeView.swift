@@ -33,7 +33,9 @@ struct SelectionScreen {
 
 struct Card {
     var id : String
+    var heading : String
     var name : String
+    var searchTitle: String
     var description: String
     var buttonTitle: String
     var permissions: [Permissions]
@@ -49,23 +51,29 @@ struct HomeView: View {
     @State var searchText : String?
 
     @State var cards : [Card] = [
-        Card(id: "card1", name: "Close Friends", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Close Friends", permissions: [.calendar, .contacts], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Select", selection: .contacts, userDefaultID: "closeFriends")
+        Card(id: "card1", heading: "CARD01 SEPTEMBER19-2020", name: "WHEN2MEET MY CLOSE FRIENDS", searchTitle: "CONTACTS", description: "Know when your friends are free without having to ask.", buttonTitle: "CHOOSE CLOSE FRIENDS", permissions: [.calendar, .contacts], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "CHOOSE CLOSE FRIENDS", description: "We’ll tell you when they’re free or busy.", buttonTitle: "CHOOSE CLOSE FRIENDS", selection: .contacts, userDefaultID: "closeFriends")
         ]),
-        Card(id: "card2", name: "Contacts", description: "This card tells you when your close friends are free and helps you stay connected. We all have a handful of people we know we should contact, but we don’t really know how to.", buttonTitle: "Choose Close Friends", permissions: [.contacts], selectionScreens: [
-            SelectionScreen(id: "screen2", title: "Choose Distant Friends", description: "Choose who people you could use some help staying in contact with, and this card will help you keep in touch.", buttonTitle: "Choose close friends", selection: .contacts, userDefaultID: "distantFriends"),
-            SelectionScreen(id: "screen1", title: "Choose Close Friends", description: "We’ll tell you when they’re free or busy.", buttonTitle: "Choose distant friends", selection: .contacts, userDefaultID: "closeFriends")
+        Card(id: "card2", heading: "CARD02 SEPTEMBER19-2020", name: "SAVE OSKI, SAVE YOUR FRIENDS", searchTitle: "CONTACTS", description: "Keep Oski alive by remembering to text the people you care about.", buttonTitle: "CHOOSE CLOSE FRIENDS", permissions: [.contacts], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "CHOOSE CLOSE FRIENDS", description: "We’ll tell you when they’re free or busy.", buttonTitle: "CHOOSE CLOSE FRIENDS", selection: .contacts, userDefaultID: "closeFriends")
         ]),
-        Card(id: "card3", name: "Homework", description: "This card tells you when your close friends are free and helps you stay connected.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Piazza.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes")
+        Card(id: "card3", heading: "CARD03 SEPTEMBER19-2020", name: "\"HOW LONG IS THE HOMEWORK?\"", searchTitle: "CLASSES", description: "How long the homework actually takes.", buttonTitle: "CHOOSE YOUR CLASSES", permissions: [.none], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Piazza.  We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
         ]),
-        Card(id: "card4", name: "Lectures", description: "This card tells you how difficult lectures are, reported by other students.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Berkeley Time.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes2")
+        Card(id: "card4", heading: "CARD04 SEPTEMBER19-2020", name: "FINESSE THE LECTURE", searchTitle: "CLASSES", description: "Share with your peers what lectures to watch when.", buttonTitle: "CHOOSE YOUR CLASSES", permissions: [.none], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Berkeley Time.  We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
         ]),
-        Card(id: "card5", name: "Collaboration", description: "This card helps you collaborate in a new way with peers in your class.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "Choose your classes", description: "Right now, we only support classes that are on Berkeley Time.  We’re adding more each day.", buttonTitle: "Select", selection: .classes, userDefaultID: "classes")
+        Card(id: "card5", heading: "CARD05 SEPTEMBER19-2020", name: "VIRTUAL STUDY GROUP", searchTitle: "CLASSES", description: "Collab when your study group isn’t responding, or doesn’t exist.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Berkeley Time.  We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
         ])
     ]
+    
+    @State var nowDate: Date = Date()
+    var timer: Timer {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in
+            self.nowDate = Date()
+        }
+    }
 
     var body: some View {
         ZStack {
@@ -73,10 +81,6 @@ struct HomeView: View {
             
             HStack {
                 VStack {
-                    TopNavigationView(title: "Home", description: "Iris tells you when your close friends are free and helps you stay connected.", backButton: false, rightButton: false, searchBar: false, searchText: self.$searchText)
-
-                    Spacer()
-                    
                     Group {
                         NavigationLink(destination: PermissionsView(currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }.isDetailLink(false)
 
@@ -90,38 +94,62 @@ struct HomeView: View {
                         
                         NavigationLink(destination: CollaborationView(currentCardState: self.$currentCardState), tag: "card5", selection: $currentCardState) { EmptyView() }
                     }
+                    
+                    ScrollView(showsIndicators: false) {
+                        Image("heart").padding(.top, 48)
 
-                    
-                    retinaLeftButton(text: "Friends Card", left: retinaLeftButton.Left.none, iconString: "", action: {
-                        DispatchQueue.main.async {
-                            self.logInCardOne()
-                        }
-                    })
-                    
-                    retinaLeftButton(text: "Reminder Card", left: retinaLeftButton.Left.none, iconString: "", action: {
-                        DispatchQueue.main.async {
-                            self.logInCardTwo()
-                        }
-                    })
-                    
-                    retinaLeftButton(text: "Homework Card", left: retinaLeftButton.Left.none, iconString: "", action: {
-                        DispatchQueue.main.async {
-                            self.logInCardThree()
-                        }
-                    })
-                    
-                    retinaLeftButton(text: "Lectures Card", left: retinaLeftButton.Left.none, iconString: "", action: {
-                        DispatchQueue.main.async {
-                            self.logInCardFour()
-                        }
-                    })
-                    
-                    retinaLeftButton(text: "Collaboration Card", left: retinaLeftButton.Left.none, iconString: "", action: {
-                        DispatchQueue.main.async {
-                            self.logInCardFive()
-                        }
-                    })
+                        HStack {
+                            Text("PACK03: " + countDownString()).retinaTypography(.h4_main).foregroundColor(.rPink).padding([.leading, .top], 24)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .onAppear(perform: {
+                                    _ = self.timer
+                                })
 
+                            Spacer()
+                        }
+
+                        HStack {
+                            Text("PACK02: FRIENDS FOREVER").retinaTypography(.h4_main).foregroundColor(.rWhite).padding([.bottom, .leading, .top], 24)
+                                .fixedSize(horizontal: false, vertical: true)
+                            Spacer()
+                        }
+
+                        retinaLeftButton(text: "WHEN2MEET MY CLOSE FRIENDS", left: retinaLeftButton.Left.none, iconString: "", action: {
+                            DispatchQueue.main.async {
+                                self.logInCardOne()
+                            }
+                        })
+                        
+                        retinaLeftButton(text: "SAVE OSKI, SAVE YOUR FRIENDSHIP  ", left: retinaLeftButton.Left.none, iconString: "", action: {
+                            DispatchQueue.main.async {
+                                self.logInCardTwo()
+                            }
+                        })
+                        
+                        HStack {
+                            Text("PACK01: CROWDSOURCE YOUR CLASSES").retinaTypography(.h4_main).foregroundColor(.rWhite).padding([.bottom, .leading, .top], 24)
+                                .fixedSize(horizontal: false, vertical: true)
+                            Spacer()
+                        }
+
+                        retinaLeftButton(text: "\"HOW LONG IS THE HW?\"", left: retinaLeftButton.Left.none, iconString: "", action: {
+                            DispatchQueue.main.async {
+                                self.logInCardThree()
+                            }
+                        })
+                        
+                        retinaLeftButton(text: "FINESSE THE LECTURE", left: retinaLeftButton.Left.none, iconString: "", action: {
+                            DispatchQueue.main.async {
+                                self.logInCardFour()
+                            }
+                        })
+                        
+                        retinaLeftButton(text: "VIRTUAL STUDY GROUP", left: retinaLeftButton.Left.none, iconString: "", action: {
+                            DispatchQueue.main.async {
+                                self.logInCardFive()
+                            }
+                        })
+                    }
                     
                     Spacer()
                     
@@ -177,6 +205,29 @@ struct HomeView: View {
         } else {
             self.currentCardState =  "cardpermission"
         }
+    }
+    
+    func countDownString() -> String {
+        var components = DateComponents()
+        components.year = 2020
+        components.month = 10
+        components.day = 3
+        components.hour = 18
+        components.minute = 0
+        components.second = 0
+        let date = Calendar.current.date(from: components) ?? Date()
+
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let components2 = calendar
+            .dateComponents([.day, .hour, .minute, .second],
+                            from: nowDate,
+                            to: date)
+        return String(format: "%02dD %02dH %02dM %02dS",
+                      components2.day ?? 00,
+                      components2.hour ?? 00,
+                      components2.minute ?? 00,
+                      components2.second ?? 00)
     }
 
 }

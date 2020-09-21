@@ -25,11 +25,11 @@ struct ReminderView: View {
         ZStack {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack() {
-                TopNavigationView(title: "For this week", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: true, rightButtonIcon: "chart.bar", rightButtonCommit: { self.leaderboardPresented = true }, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "For this week", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
-                        ReminderCell(name: friend.name, phoneNumber: friend.id, emoji: friend.emoji, messaged: friend.messaged, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
+                        ReminderCell(name: friend.name, frequency: "", messaged: friend.messaged, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
                             .listRowInsets(EdgeInsets())
                             .padding(.bottom, Space.rSpaceThree)
                     }
@@ -37,17 +37,9 @@ struct ReminderView: View {
                 .padding(.top, Space.rSpaceTwo)
                 Spacer()
             }
-            
-            ActivityView(leaderboardPresented: self.$leaderboardPresented, friendLeaderboard: self.$friendLeaderboard).padding([.top, .bottom], UIApplication.bottomInset)
-                .offset(x: 0, y: self.leaderboardPresented ? 0 : UIScreen.screenHeight + UIApplication.bottomInset)
         }
         .hideNavigationBar()
         .onAppear() {
-            if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
-            UITableView.appearance().separatorStyle = .none
-            UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
-            UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
-
             self.getReminders()
         }
     }

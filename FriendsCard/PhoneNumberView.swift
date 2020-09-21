@@ -22,40 +22,45 @@ struct PhoneNumberView: View {
         ZStack {
             Color.rBlack400.edgesIgnoringSafeArea(.all)
             VStack {
+                Spacer()
+                HStack {
+                    Image("oski")
+                    Spacer()
+                }.frame(height: 150)
+            }
+            
+
+            VStack {
                 VStack(alignment: .leading) {
-                    Text("What’s your phone number? ").retinaTypography(.h4_main).foregroundColor(.rWhite).padding([.leading, .bottom], 24)
+                    Text("YOUR CAL STARTER PACK x ONLINE SCHOOL SAVIOR  x ENDER OF THE CAL STANFORD RIVALRY X MOFFITT 2.0").retinaTypography(.h6_main).foregroundColor(.rPink).padding([.leading, .trailing], 24).padding(.bottom, 12)
+
+                    Text("WELCOME TO IRIS").retinaTypography(.h1_main).foregroundColor(.rWhite).padding([.leading, .trailing], 24).padding(.bottom, 12)
                     
-                    RetinaTextField("Enter your phone number", input: $input, onCommit: {print("party")})
+                    RetinaTextField("ENTER YOUR PHONE #", input: $input, onCommit: {print("party")})
                         .textContentType(.telephoneNumber)
                         .keyboardType(.numberPad)
+                        .frame(width: UIScreen.screenWidth - 60)
+                        .padding(.leading, 24)
                     
                     if (self.errorAlert || self.emptyAlert) {
                         Text(self.emptyAlert ? "Enter something and try again." : "Invalid code entered, please try again.").retinaTypography(.p6_main).foregroundColor(.rRed).padding([.leading, .top], 24)
                     }
-                }.padding(.top, UIScreen.screenHeight/5)
+                }.padding(.top, 24)
                 Spacer()
-                    
-                BottomNavigationView(title: "Submit", action: {self.verifyCode()})
-                .offset(y: -self.value)
-                .animation(.spring())
-                .onAppear {
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) {
-                        (notif) in
-                        if let rect = notif.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect {
-                            let keyboardHeight = rect.height
-                            self.value = keyboardHeight
-                        }
-                    }
-                    
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) {
-                        (notif) in
-                        self.value = 0
-                    }
-                }
-
             }
+                                    
+            VStack {
+                Spacer()
+                BottomNavigationView(title: "Submit", action: {self.verifyCode()})
+                .isHidden(self.input == "", remove: self.input == "")
+                .animation(.easeInOut)
+            }
+
             NavigationLink(destination: HomeView().environmentObject(googleDelegate), isActive: $moveToNext) { EmptyView() }
         }
+        .onTapGesture(count: 1, perform: {
+            self.hideKeyboard()
+        })
         .hideNavigationBar()
     }
     

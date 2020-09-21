@@ -22,7 +22,7 @@ struct PollCell: View {
 
     var body: some View {
         ZStack(alignment: .leading) {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
                 HStack {
                     Text(self.name.capitalizingFirstLetter()).foregroundColor(.white).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, Space.rSpaceThree)

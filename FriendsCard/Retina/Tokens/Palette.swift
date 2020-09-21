@@ -31,6 +31,10 @@ extension Color {
     
     // PURPLE
     static let rPurple = Color("r-purple")
+    
+    // Green
+    static let rGreen = Color("r-green")
+
 }
 
 struct Color_Previews: PreviewProvider {
@@ -52,6 +56,8 @@ struct Color_Previews: PreviewProvider {
                 .foregroundColor(.rGrey100)
                 Rectangle().size(CGSize(width: 50, height: 50))
                 .foregroundColor(.rRed)
+                Rectangle().size(CGSize(width: 50, height: 50))
+                .foregroundColor(.rGreen)
             }
         }
     .padding()

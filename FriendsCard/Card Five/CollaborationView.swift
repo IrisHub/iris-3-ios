@@ -21,7 +21,7 @@ struct CollaborationView: View {
 
     var body: some View {
         ZStack {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
                 TopNavigationView(title: "Collaboration", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
@@ -48,10 +48,6 @@ struct CollaborationView: View {
         .onAppear() {
             self.selection = nil
             self.fetchClasses()
-            if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
-            UITableView.appearance().separatorStyle = .none
-            UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
-            UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
         }
     }
     
@@ -78,7 +74,7 @@ struct CollaborationView: View {
                     self.classes.append(currentClass)
                     
                     for (_,subJson2):(String, JSON) in subJson["assignments"] {
-                        let assignment = Assignments(id: subJson2["assignment_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_name"].stringValue, userBroadcasted: subJson2["current_user_broadcasted"].boolValue, userBroadcastTags: subJson2["current_user_broadcast_tags"].arrayValue.map { $0.stringValue})
+                        let assignment = Assignments(id: subJson2["assignment_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_name"].stringValue, userBroadcasted: subJson2["current_user_broadcasted"].boolValue, userBroadcastTags: subJson2["current_user_broadcast_tags"].stringValue)
                         self.assignments.append(assignment)
                         
                         for (_,subJson3):(String, JSON) in subJson2["other_users"] {

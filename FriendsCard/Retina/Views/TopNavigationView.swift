@@ -27,13 +27,13 @@ struct TopNavigationView: View {
         VStack(alignment: .leading) {
             if (self.backButton) {
                 HStack {
-                    retinaIconButton(image: (Image(systemName: "chevron.left")), action: {
+                    retinaIconButton(image: (Image(systemName: "chevron.left")), backgroundColor: .clear, action: {
                         withAnimation {
                             self.backButtonCommit()
                         }
                     })
                     Spacer()
-                }.padding(.leading, 24)
+                }.padding([.leading, .bottom], 6)
             }
 
             HStack {
@@ -62,10 +62,9 @@ struct TopNavigationView: View {
                 Search(isBack: false, isFilter: true, placeholder: self.searchBarPlaceholder, searchText: $searchText, buttonCommit: {  })
             }
         }
-        .padding(.top, UIApplication.topInset*2)
         .clipped()
         .animation(.default)
-        .background(Color.rBlack400)
+        .background(Color.rBlack500)
     }
 }
 

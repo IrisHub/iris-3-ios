@@ -26,7 +26,7 @@ struct Search: View {
                     }) {
                         Image(systemName: isBack ? "chevron.left" : (isFilter ? "line.horizontal.3.decrease" : "magnifyingglass"))
                         .retinaTypography(.h5_main)
-                        .foregroundColor(.rPink)
+                        .foregroundColor(.rWhite)
                     }.padding(6).padding(.leading, 12)
 
                                         

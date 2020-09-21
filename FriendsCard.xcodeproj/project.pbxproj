@@ -28,6 +28,9 @@
 		B1810D8D2514230E0060E001 /* CollaborationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D8C2514230E0060E001 /* CollaborationView.swift */; };
 		B1810D8F2514231D0060E001 /* SeePeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D8E2514231D0060E001 /* SeePeopleView.swift */; };
 		B1810D942514587C0060E001 /* BroadcastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1810D932514587C0060E001 /* BroadcastCell.swift */; };
+		B183DC51251821FF008D0416 /* TopNavigationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183DC50251821FF008D0416 /* TopNavigationHeader.swift */; };
+		B183DC5D2518AED9008D0416 /* Menlo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B183DC5B2518AED8008D0416 /* Menlo-Regular.ttf */; };
+		B183DC5E2518AED9008D0416 /* Menlo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B183DC5C2518AED9008D0416 /* Menlo-Bold.ttf */; };
 		B1BA453E24FB84E200E14C27 /* LeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450824FB84E200E14C27 /* LeaderCell.swift */; };
 		B1BA453F24FB84E200E14C27 /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450924FB84E200E14C27 /* SelectionCell.swift */; };
 		B1BA454024FB84E200E14C27 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450A24FB84E200E14C27 /* StatusCell.swift */; };
@@ -50,14 +53,6 @@
 		B1BA455124FB84E200E14C27 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA451F24FB84E200E14C27 /* Extensions.swift */; };
 		B1BA455224FB84E200E14C27 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA452124FB84E200E14C27 /* Gradient.swift */; };
 		B1BA455324FB84E200E14C27 /* Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA452224FB84E200E14C27 /* Devices.swift */; };
-		B1BA455424FB84E200E14C27 /* DMSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1BA452424FB84E200E14C27 /* DMSans-Regular.ttf */; };
-		B1BA455524FB84E200E14C27 /* DMSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1BA452524FB84E200E14C27 /* DMSans-Medium.ttf */; };
-		B1BA455624FB84E200E14C27 /* DMSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1BA452624FB84E200E14C27 /* DMSans-Bold.ttf */; };
-		B1BA455724FB84E200E14C27 /* DMSerifDisplay-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1BA452724FB84E200E14C27 /* DMSerifDisplay-Italic.ttf */; };
-		B1BA455824FB84E200E14C27 /* DMSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1BA452824FB84E200E14C27 /* DMSans-BoldItalic.ttf */; };
-		B1BA455924FB84E200E14C27 /* DMSerifDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1BA452924FB84E200E14C27 /* DMSerifDisplay-Regular.ttf */; };
-		B1BA455A24FB84E200E14C27 /* DMSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1BA452A24FB84E200E14C27 /* DMSans-MediumItalic.ttf */; };
-		B1BA455B24FB84E200E14C27 /* DMSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1BA452B24FB84E200E14C27 /* DMSans-Italic.ttf */; };
 		B1BA455C24FB84E200E14C27 /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA452C24FB84E200E14C27 /* CornerRadius.swift */; };
 		B1BA455D24FB84E200E14C27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1BA452D24FB84E200E14C27 /* Assets.xcassets */; };
 		B1BA455E24FB84E200E14C27 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA452E24FB84E200E14C27 /* HomeView.swift */; };
@@ -120,6 +115,9 @@
 		B1810D8C2514230E0060E001 /* CollaborationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaborationView.swift; sourceTree = "<group>"; };
 		B1810D8E2514231D0060E001 /* SeePeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeePeopleView.swift; sourceTree = "<group>"; };
 		B1810D932514587C0060E001 /* BroadcastCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastCell.swift; sourceTree = "<group>"; };
+		B183DC50251821FF008D0416 /* TopNavigationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopNavigationHeader.swift; sourceTree = "<group>"; };
+		B183DC5B2518AED8008D0416 /* Menlo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Menlo-Regular.ttf"; sourceTree = "<group>"; };
+		B183DC5C2518AED9008D0416 /* Menlo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Menlo-Bold.ttf"; sourceTree = "<group>"; };
 		B1BA450824FB84E200E14C27 /* LeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderCell.swift; sourceTree = "<group>"; };
 		B1BA450924FB84E200E14C27 /* SelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
 		B1BA450A24FB84E200E14C27 /* StatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
@@ -142,14 +140,6 @@
 		B1BA451F24FB84E200E14C27 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B1BA452124FB84E200E14C27 /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		B1BA452224FB84E200E14C27 /* Devices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Devices.swift; sourceTree = "<group>"; };
-		B1BA452424FB84E200E14C27 /* DMSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-Regular.ttf"; sourceTree = "<group>"; };
-		B1BA452524FB84E200E14C27 /* DMSans-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-Medium.ttf"; sourceTree = "<group>"; };
-		B1BA452624FB84E200E14C27 /* DMSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-Bold.ttf"; sourceTree = "<group>"; };
-		B1BA452724FB84E200E14C27 /* DMSerifDisplay-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSerifDisplay-Italic.ttf"; sourceTree = "<group>"; };
-		B1BA452824FB84E200E14C27 /* DMSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-BoldItalic.ttf"; sourceTree = "<group>"; };
-		B1BA452924FB84E200E14C27 /* DMSerifDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSerifDisplay-Regular.ttf"; sourceTree = "<group>"; };
-		B1BA452A24FB84E200E14C27 /* DMSans-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-MediumItalic.ttf"; sourceTree = "<group>"; };
-		B1BA452B24FB84E200E14C27 /* DMSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DMSans-Italic.ttf"; sourceTree = "<group>"; };
 		B1BA452C24FB84E200E14C27 /* CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		B1BA452D24FB84E200E14C27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1BA452E24FB84E200E14C27 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -364,6 +354,7 @@
 		B1BA451824FB84E200E14C27 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B183DC50251821FF008D0416 /* TopNavigationHeader.swift */,
 				B1BA451924FB84E200E14C27 /* TopNavigationView.swift */,
 				B151A2782508FCD800534657 /* BottomNavigationView.swift */,
 			);
@@ -397,14 +388,8 @@
 		B1BA452324FB84E200E14C27 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				B1BA452424FB84E200E14C27 /* DMSans-Regular.ttf */,
-				B1BA452524FB84E200E14C27 /* DMSans-Medium.ttf */,
-				B1BA452624FB84E200E14C27 /* DMSans-Bold.ttf */,
-				B1BA452724FB84E200E14C27 /* DMSerifDisplay-Italic.ttf */,
-				B1BA452824FB84E200E14C27 /* DMSans-BoldItalic.ttf */,
-				B1BA452924FB84E200E14C27 /* DMSerifDisplay-Regular.ttf */,
-				B1BA452A24FB84E200E14C27 /* DMSans-MediumItalic.ttf */,
-				B1BA452B24FB84E200E14C27 /* DMSans-Italic.ttf */,
+				B183DC5C2518AED9008D0416 /* Menlo-Bold.ttf */,
+				B183DC5B2518AED8008D0416 /* Menlo-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -571,17 +556,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1BA455724FB84E200E14C27 /* DMSerifDisplay-Italic.ttf in Resources */,
-				B1BA455424FB84E200E14C27 /* DMSans-Regular.ttf in Resources */,
 				B1BA455D24FB84E200E14C27 /* Assets.xcassets in Resources */,
-				B1BA455B24FB84E200E14C27 /* DMSans-Italic.ttf in Resources */,
 				B1BA455F24FB84E200E14C27 /* Preview Assets.xcassets in Resources */,
-				B1BA455824FB84E200E14C27 /* DMSans-BoldItalic.ttf in Resources */,
-				B1BA455A24FB84E200E14C27 /* DMSans-MediumItalic.ttf in Resources */,
+				B183DC5D2518AED9008D0416 /* Menlo-Regular.ttf in Resources */,
 				B1BA456024FB84E200E14C27 /* LaunchScreen.storyboard in Resources */,
-				B1BA455624FB84E200E14C27 /* DMSans-Bold.ttf in Resources */,
-				B1BA455524FB84E200E14C27 /* DMSans-Medium.ttf in Resources */,
-				B1BA455924FB84E200E14C27 /* DMSerifDisplay-Regular.ttf in Resources */,
+				B183DC5E2518AED9008D0416 /* Menlo-Bold.ttf in Resources */,
 				B1BA454224FB84E200E14C27 /* loading.json in Resources */,
 				B1BA455024FB84E200E14C27 /* ColorPalette.xcassets in Resources */,
 			);
@@ -781,6 +760,7 @@
 				B1BA456424FB84E200E14C27 /* CloseFriends.swift in Sources */,
 				B17868C32511C534008D51C3 /* LecturesView.swift in Sources */,
 				B1EE973825122DC200655F03 /* LecturePollsView.swift in Sources */,
+				B183DC51251821FF008D0416 /* TopNavigationHeader.swift in Sources */,
 				B1810D8F2514231D0060E001 /* SeePeopleView.swift in Sources */,
 				B1BA454024FB84E200E14C27 /* StatusCell.swift in Sources */,
 				B1BA456524FB84E200E14C27 /* AppDelegate.swift in Sources */,
@@ -961,7 +941,7 @@
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = FriendsCard/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -984,7 +964,7 @@
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = FriendsCard/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

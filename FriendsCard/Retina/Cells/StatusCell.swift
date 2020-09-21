@@ -16,23 +16,29 @@ struct StatusCell: View {
     
     var body: some View {
         ZStack {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
+            VStack {
+                Divider().frame(height: 1).background(Color.rBlack200)
+                Rectangle().frame(width: UIScreen.screenWidth, height: 204).foregroundColor(.clear)
+                Divider().frame(height: 1).background(Color.rBlack200)
+            }
+
             VStack {
                 HStack {
-                    Circle()
-                        .fill(self.status == "busy" ? Color.rRed : Color.green)
-                        .frame(width: 12, height: 12)
+                    Rectangle()
+                        .fill(self.status == "busy" ? Color.rRed : Color.rGreen)
+                        .frame(width: 18, height: 18)
                         .padding(.leading, 24)
                     
                     Text(name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, 12)
                     
                     Spacer()
-                }
+                }.padding(.bottom, 12)
 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(self.activity).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 12)
-                        Text(self.description).foregroundColor(.white).retinaTypography(.h6_main).fixedSize(horizontal: false, vertical: true).padding(.top, 12)
+                        Text(self.activity).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 6)
+                        Text(self.description).foregroundColor(.white).retinaTypography(.h6_main).fixedSize(horizontal: false, vertical: true)
                     }.padding([.top, .bottom], 24).padding(.leading, 12)
                     Spacer()
                 }

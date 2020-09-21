@@ -13,8 +13,8 @@ public struct RetinaTypography: ViewModifier {
     
     private enum Family: String {
         case
-        main = "DMSans",
-        secondary = "DMSerifDisplay"
+        main = "Menlo",
+        secondary = "Helvetica"
     }
     
     private enum Weight: String {

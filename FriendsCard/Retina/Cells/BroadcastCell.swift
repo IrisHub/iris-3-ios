@@ -16,7 +16,7 @@ struct BroadcastCell: View {
 
     var body: some View {
         ZStack(alignment: .leading) {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
                 Divider().frame(height: 1).background(Color.rBlack200)
                 Rectangle().frame(width: UIScreen.screenWidth, height: 72).foregroundColor(.clear)
@@ -24,17 +24,28 @@ struct BroadcastCell: View {
             }
             HStack {
                 ZStack {
-                    Circle()
-                        .fill(Color.rBlack100)
-                        .frame(width: 48, height: 48)
+                    Color.rBlack100.edgesIgnoringSafeArea(.all)
 
                     Text(emoji)
                         .retinaTypography(.h4_main)
-                }.padding(.leading, Space.rSpaceThree)
+                    
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Circle()
+                                .fill(Color.green)
+                                .frame(width: 12, height: 12)
+                        }
+                    }
+                }
+                .frame(width: 60, height: 60)
+                .padding(.leading, Space.rSpaceThree)
+                
                 
                 VStack(alignment: .leading) {
                     Text(self.name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
-                    Badge(text: self.badgeTitle, size: .h5).padding(.top, Space.rSpaceTwo)
+                    Badge(text: self.badgeTitle, size: .h5)
                 }.padding(.leading, Space.rSpaceTwo)
                 
                 Spacer()

@@ -222,8 +222,8 @@ struct retinaLeftButton: View {
                         HStack {
                             HStack(spacing: 12) {
                                 if (self.iconString != "" && self.iconString != nil) {
-                                    if (self.left == .icon) {
-                                        Image(self.iconString ?? "").resizable().frame(width: 24, height: 24).padding(6)
+                                    if (self.left == .image) {
+                                        Image(self.iconString ?? "").resizable().frame(width: 18, height: 18)
                                     } else if (self.left == .icon) {
                                         Image(systemName: self.iconString ?? "").padding(6).foregroundColor(.rPink)
                                     } else if (self.left == .emoji) {
@@ -231,10 +231,10 @@ struct retinaLeftButton: View {
                                     }
                                 }
                                 Text(self.text ?? "").retinaTypography( self.size == .medium ? .h6_main : .h5_main)
-                            }.padding([.leading, .trailing], 12)
+                        }.padding([.leading], 12)
                             Spacer()
                             if self.checked ?? false {
-                                Image(systemName: "checkmark").padding(6).foregroundColor(.rWhite).retinaTypography(.h6_main)
+                                Image(systemName: "checkmark").foregroundColor(.rWhite).retinaTypography(.h6_main).padding(.trailing, 12).padding([.leading, .top, .bottom], 6)
                             }
                         }
                     }
@@ -309,6 +309,13 @@ public struct Input_Previews: PreviewProvider {
                 HStack(spacing: 5) {
                     retinaLeftButton(text: "Text", size: .medium, progress: 0.50, action: { print("click") })
                 }
+                
+                HStack(spacing: 5) {
+                    retinaLeftButton(text: "ALLOW ACCESS TO CALENDAR", left: .image, iconString: "calendar_logo", checked: true, action: { })
+
+//                    retinaLeftButton(text: "Text", size: .medium, progress: 0.50, action: { print("click") })
+                }
+
 
                 
                 HStack(spacing: 5) {

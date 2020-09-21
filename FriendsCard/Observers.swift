@@ -65,7 +65,7 @@ struct Assignments: Hashable, Identifiable, Codable {
     var name: String
     var averageTime: String = "0"
     var userBroadcasted: Bool = false
-    var userBroadcastTags: [String] = []
+    var userBroadcastTags: String = ""
 }
 
 struct Problems: Hashable, Identifiable, Codable {

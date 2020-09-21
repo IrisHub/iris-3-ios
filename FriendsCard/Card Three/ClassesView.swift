@@ -21,14 +21,14 @@ struct ClassesView: View {
 
     var body: some View {
         ZStack {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
                 TopNavigationView(title: "Share Homework Length", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     ForEach(self.classes, id: \.self) { (currentClass: Classes) in
                         Group {
-                            Text(currentClass.name).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 12)
+                            Text(currentClass.name).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 12).padding(.top, 36)
                             
                             ForEach(self.assignments.filter({ $0.classID == currentClass.id }), id: \.self) { (assignment: Assignments) in
                                 
@@ -48,10 +48,6 @@ struct ClassesView: View {
         .onAppear() {
             self.selection = nil
             self.fetchClasses()
-            if #available(iOS 14.0, *) {} else { UITableView.appearance().tableFooterView = UIView() }
-            UITableView.appearance().separatorStyle = .none
-            UITableViewCell.appearance().backgroundColor = Color.rBlack400.uiColor()
-            UITableView.appearance().backgroundColor = Color.rBlack400.uiColor()
         }
     }
     

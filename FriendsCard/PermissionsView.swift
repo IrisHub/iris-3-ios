@@ -32,14 +32,13 @@ struct PermissionsView: View {
 
     var body: some View {
         ZStack {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
-            VStack {
-                TopNavigationView(title: card.name, description: card.description, backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
+            VStack(alignment: .leading) {
+                TopNavigationHeader(heading: card.heading, title: card.name, description: card.description, backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() })
                 
-                Spacer()
                 
                 if (self.card.permissions.contains(.calendar)) {
-                    retinaLeftButton(text: "Allow access to calendar", left: .image, iconString: "calendar_logo", checked: (self.googleDelegate.signedIn || self.calendarAllowed) ? true : false, action: {
+                    retinaLeftButton(text: "ALLOW ACCESS TO CALENDAR", left: .image, iconString: "calendar_logo", checked: (self.googleDelegate.signedIn || self.calendarAllowed) ? true : false, action: {
                         DispatchQueue.main.async {
                             GIDSignIn.sharedInstance().delegate = self.googleDelegate
                             GIDSignIn.sharedInstance().signIn()
@@ -48,7 +47,7 @@ struct PermissionsView: View {
                 }
 
                 if (self.card.permissions.contains(.contacts)) {
-                    retinaLeftButton(text: "Allow access to contacts", left: .image, iconString: "contacts_logo", checked: self.contactsAllowed ? true : false, action: {
+                    retinaLeftButton(text: "ALLOW ACCESS TO CONTACTS", left: .image, iconString: "contacts_logo", checked: self.contactsAllowed ? true : false, action: {
                         DispatchQueue.main.async {
                             CNContactStore().requestAccess(for: .contacts) { (granted, error) in
                                 if let error = error {
@@ -66,14 +65,11 @@ struct PermissionsView: View {
                 }
                 
                 if (self.card.permissions.contains(.none)) {
-                    retinaLeftButton(text: "No permissions required", left: retinaLeftButton.Left.none, checked: false, action: {
+                    retinaLeftButton(text: "NO PERMISSIONS NEEDED", left: retinaLeftButton.Left.none, checked: false, action: {
                     })
-//                    .disabled(true)
                 }
 
-                
                 Spacer()
-                
                 Group {
                     NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
                     NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)

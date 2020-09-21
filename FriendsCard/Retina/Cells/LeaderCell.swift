@@ -14,7 +14,7 @@ struct LeaderCell: View {
     
     var body: some View {
         ZStack(alignment: .leading) {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
                 Divider().frame(height: 1).background(Color.rBlack200)
                 Rectangle().frame(width: UIScreen.screenWidth, height: 60).foregroundColor(.clear)

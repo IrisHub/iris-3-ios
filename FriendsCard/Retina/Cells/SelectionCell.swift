@@ -73,7 +73,7 @@ struct SelectionCell: View {
             }
         }) {
             ZStack(alignment: .leading) {
-                Rectangle().frame(width: UIScreen.screenWidth, height: 60).foregroundColor(.rBlack400)
+                Rectangle().frame(width: UIScreen.screenWidth, height: 60).foregroundColor(.rBlack500)
                 HStack {
                     if (self.contact != nil) {
                         ZStack {
