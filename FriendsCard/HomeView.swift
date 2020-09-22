@@ -44,11 +44,12 @@ struct Card {
 
 
 struct HomeView: View {
-    @State var currentCardState: String? = nil
+//    @State var currentCardState: String? = nil
     @State var cardNumber: Int? = nil
     // important for the first time -> create an account
     @EnvironmentObject var googleDelegate: GoogleDelegate
     @State var searchText : String?
+    @EnvironmentObject var screenCoordinator: ScreenCoordinator
 
     @State var cards : [Card] = [
         Card(id: "card1", heading: "CARD01 SEPTEMBER19-2020", name: "WHEN2MEET MY CLOSE FRIENDS", searchTitle: "CONTACTS", description: "Know when your friends are free without having to ask.", buttonTitle: "CHOOSE CLOSE FRIENDS", permissions: [.calendar, .contacts], selectionScreens: [
@@ -82,17 +83,17 @@ struct HomeView: View {
             HStack {
                 VStack {
                     Group {
-                        NavigationLink(destination: PermissionsView(currentCardState: self.$currentCardState, card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate), tag: "cardpermission", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: PermissionsView(card: self.cards[self.cardNumber ?? 0]).environmentObject(self.googleDelegate).environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.cardpermission, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
 
-                        NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: CloseFriends().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card1, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
 
-                        NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: ReminderView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card2, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
                         
-                        NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: ClassesView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card3, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
                         
-                        NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: LecturesView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card4, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
                         
-                        NavigationLink(destination: CollaborationView(currentCardState: self.$currentCardState), tag: "card5", selection: $currentCardState) { EmptyView() }
+                        NavigationLink(destination: CollaborationView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card5, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
                     }
                     
                     ScrollView(showsIndicators: false) {
@@ -165,45 +166,45 @@ struct HomeView: View {
         print(UserDefaults.standard.bool(forKey: "card1PermissionsComplete"))
         if (UserDefaults.standard.bool(forKey: "card1PermissionsComplete") == true) {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-            self.currentCardState = "card1"
+            self.screenCoordinator.selectedPushItem = .card1
         } else {
-            self.currentCardState =  "cardpermission"
+            self.screenCoordinator.selectedPushItem = .cardpermission
         }
     }
     
     func logInCardTwo() {
         self.cardNumber = 1
         if (UserDefaults.standard.bool(forKey: "card2PermissionsComplete") == true) {
-            self.currentCardState = "card2"
+            self.screenCoordinator.selectedPushItem = .card2
         } else {
-            self.currentCardState =  "cardpermission"
+            self.screenCoordinator.selectedPushItem = .cardpermission
         }
     }
     
     func logInCardThree() {
         self.cardNumber = 2
         if (UserDefaults.standard.bool(forKey: "card3PermissionsComplete") == true) {
-            self.currentCardState = "card3"
+            self.screenCoordinator.selectedPushItem = .card3
         } else {
-            self.currentCardState =  "cardpermission"
+            self.screenCoordinator.selectedPushItem = .cardpermission
         }
     }
     
     func logInCardFour() {
         self.cardNumber = 3
         if (UserDefaults.standard.bool(forKey: "card4PermissionsComplete") == true) {
-            self.currentCardState = "card4"
+            self.screenCoordinator.selectedPushItem = .card4
         } else {
-            self.currentCardState =  "cardpermission"
+            self.screenCoordinator.selectedPushItem = .cardpermission
         }
     }
     
     func logInCardFive() {
         self.cardNumber = 4
         if (UserDefaults.standard.bool(forKey: "card5PermissionsComplete") == true) {
-            self.currentCardState = "card5"
+            self.screenCoordinator.selectedPushItem = .card5
         } else {
-            self.currentCardState =  "cardpermission"
+            self.screenCoordinator.selectedPushItem = .cardpermission
         }
     }
     

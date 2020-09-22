@@ -11,7 +11,9 @@ import Alamofire
 import SwiftyJSON
 
 struct LecturesView: View {
-    @Binding var currentCardState: String?
+//    @Binding var currentCardState: String?
+    @EnvironmentObject var screenCoordinator: ScreenCoordinator
+
     @State var classes: [Classes] = [Classes]()
     @State var lectures: [Lectures] = [Lectures]()
     @State var polls: [[Poll]] = [[Poll]]()
@@ -22,7 +24,7 @@ struct LecturesView: View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: "FINESSE THE LECTURE", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "FINESSE THE LECTURE", description: "", backButton: true, backButtonCommit: { self.screenCoordinator.selectedPushItem = .home }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     ForEach(self.classes, id: \.self) { (currentClass: Classes) in

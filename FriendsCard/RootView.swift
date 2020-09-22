@@ -10,13 +10,14 @@ import SwiftUI
 
 struct RootView: View {
     @EnvironmentObject var googleDelegate: GoogleDelegate
+    @EnvironmentObject var screenCoordinator: ScreenCoordinator
 
     var body: some View {
         NavigationView {
             if !UserDefaults.standard.bool(forKey: "onboardingComplete") {
-                PhoneNumberView().environmentObject(googleDelegate)
+                PhoneNumberView().environmentObject(googleDelegate).environmentObject(screenCoordinator)
             } else {
-                HomeView().environmentObject(googleDelegate)
+                HomeView().environmentObject(googleDelegate).environmentObject(screenCoordinator)
             }
         }
         .hideNavigationBar()

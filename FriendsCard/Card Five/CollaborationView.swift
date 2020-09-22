@@ -11,7 +11,9 @@ import Alamofire
 import SwiftyJSON
 
 struct CollaborationView: View {
-    @Binding var currentCardState: String?
+//    @Binding var currentCardState: String?
+    @EnvironmentObject var screenCoordinator: ScreenCoordinator
+
     @State var avatar: Avatar = Avatar()
     @State var classes: [Classes] = [Classes]()
     @State var assignments: [Assignments] = [Assignments]()
@@ -23,7 +25,7 @@ struct CollaborationView: View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: "VIRTUAL STUDY GROUP", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "VIRTUAL STUDY GROUP", description: "", backButton: true, backButtonCommit: { self.screenCoordinator.selectedPushItem = .home }, rightButton: false, searchBar: false, searchText: self.$searchText)
                 
                 Spacer()
                 List {
@@ -47,7 +49,6 @@ struct CollaborationView: View {
                 Spacer()
             }
         }
-        .textFieldAlert(isShowing: $isShowingAlert, text: $alertInput, title: "What do you need help on?")
         .hideNavigationBar()
         .onAppear() {
             self.selection = nil

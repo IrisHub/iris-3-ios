@@ -10,28 +10,28 @@ import UIKit
 import SwiftUI
 import GoogleSignIn
 
+final class ScreenCoordinator: ObservableObject {
+    @Published var selectedPushItem: PushedItem?
+    
+    enum PushedItem: String {
+        case card1, card2, card3, card4, card5, cardpermission, home, again
+    }
+}
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var screenCoordinator = ScreenCoordinator()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
-//        // Create the SwiftUI view that provides the window contents.
-//        let contentView = ContentView()
-//
-//        // Use a UIHostingController as window root view controller.
-//        if let windowScene = scene as? UIWindowScene {
-//            let window = UIWindow(windowScene: windowScene)
-//            window.rootViewController = UIHostingController(rootView: contentView)
-//            self.window = window
-//            window.makeKeyAndVisible()
-//        }
-        
         let googleDelegate = (UIApplication.shared.delegate as! AppDelegate).googleDelegate
         
         // Add googleDelegate as an environment object
-        let contentView = RootView().environmentObject(googleDelegate)
+        let contentView = RootView()
+            .environmentObject(googleDelegate)
+            .environmentObject(screenCoordinator)
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView: contentView)
@@ -39,62 +39,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
-        
-        // Get the googleDelegate from AppDelegate
-//        let googleDelegate = (UIApplication.shared.delegate as! AppDelegate).googleDelegate
-//        
-//        if !UserDefaults.standard.bool(forKey: "onboardingComplete") {
-//            // Add googleDelegate as an environment object
-//            let contentView = PhoneNumberView().environmentObject(googleDelegate)
-//            if let windowScene = scene as? UIWindowScene {
-//                let window = UIWindow(windowScene: windowScene)
-//                window.rootViewController = UIHostingController(rootView: contentView)
-//                GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
-//                self.window = window
-//                window.makeKeyAndVisible()
-//            }
-//        } else {
-//            // Add googleDelegate as an environment object
-//            let contentView = HomeView().environmentObject(googleDelegate)
-//            if let windowScene = scene as? UIWindowScene {
-//                let window = UIWindow(windowScene: windowScene)
-//                window.rootViewController = UIHostingController(rootView: contentView)
-//                GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
-//                self.window = window
-//                window.makeKeyAndVisible()
-//            }
-//        }
-        
-//        print(UserDefaults.standard.bool(forKey: "onboardingComplete"))
-//
-//            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-//            self.store.fetchContacts()
-//
-//            let contentView = HomeView(store: store)
-//            if let windowScene = scene as? UIWindowScene {
-//                let window = UIWindow(windowScene: windowScene)
-//                window.rootViewController = UIHostingController(rootView: contentView)
-//                self.window = window
-//                window.makeKeyAndVisible()
-//            }
-//        } else {
-//            // Get the googleDelegate from AppDelegate
-//            let googleDelegate = (UIApplication.shared.delegate as! AppDelegate).googleDelegate
-//
-//            // Add googleDelegate as an environment object
-//            let contentView = WelcomeView().environmentObject(googleDelegate)
-//
-//            if let windowScene = scene as? UIWindowScene {
-//                let window = UIWindow(windowScene: windowScene)
-//                window.rootViewController = UIHostingController(rootView: contentView)
-//
-//                // Set presentingViewControll to rootViewController
-//                GIDSignIn.sharedInstance().presentingViewController = window.rootViewController
-//
-//                self.window = window
-//                window.makeKeyAndVisible()
-//            }
-//        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

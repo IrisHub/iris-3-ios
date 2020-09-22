@@ -12,7 +12,9 @@ import Alamofire
 import SwiftyJSON
 
 struct CloseFriends: View {
-    @Binding var currentCardState: String?
+//    @Binding var currentCardState: String?
+    @EnvironmentObject var screenCoordinator: ScreenCoordinator
+
     @State var friendSchedules: [CloseFriendSchedule] = [CloseFriendSchedule]()
     @State var searchText : String?
 
@@ -23,7 +25,7 @@ struct CloseFriends: View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading) {
-                TopNavigationView(title: "MY CLOSE FRIENDS", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "MY CLOSE FRIENDS", description: "", backButton: true, backButtonCommit: { self.screenCoordinator.selectedPushItem = .home }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     if (self.friendSchedules.filter { $0.onIris }.count != 0) {

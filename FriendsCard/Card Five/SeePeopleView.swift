@@ -57,6 +57,7 @@ struct SeePeopleView: View {
                 Spacer()
             }
         }
+        .textFieldAlert(isShowing: $isShowingAlert, text: $alertInput, title: "What do you need help on?")
         .hideNavigationBar()
     }
 }

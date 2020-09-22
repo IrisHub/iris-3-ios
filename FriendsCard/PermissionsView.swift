@@ -15,12 +15,13 @@ import Contacts
 
 struct PermissionsView: View {
     @EnvironmentObject var googleDelegate: GoogleDelegate
-    @Binding var currentCardState: String?
+//    @Binding var currentCardState: String?
+    @EnvironmentObject var screenCoordinator: ScreenCoordinator
 
     @State var calendarAllowed: Bool = false
     @State var contactsAllowed: Bool = false
     @State var bothAllowed: Bool = false
-    @State var nextPage : String? = nil
+    @State var nextPage : ScreenCoordinator.PushedItem? = nil
     @State var selectionNumber : Int? = nil
     
     @State var card : Card
@@ -71,23 +72,23 @@ struct PermissionsView: View {
 
                 Spacer()
                 Group {
-                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: CollaborationView(currentCardState: self.$currentCardState), tag: "card5", selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.selectionNumber), isActive: $bothAllowed) { EmptyView() }
+                    NavigationLink(destination: CloseFriends().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card1, selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ReminderView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card2, selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ClassesView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card3, selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: LecturesView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card4, selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: CollaborationView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card5, selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ChooseCloseFriends(card: self.card, selectionNumber: self.selectionNumber).environmentObject(self.screenCoordinator), isActive: $bothAllowed) { EmptyView() }
                 }
                 
                 BottomNavigationView(title: self.card.buttonTitle, action: {
                     self.refreshPermissions()
                     self.selectionNumber = self.directCorrectly()
                     if (self.selectionNumber == -1) {
-                        if self.card.id == "card1" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard1(); self.nextPage = "card1" }
-                        else if self.card.id == "card2" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard2(); self.nextPage = "card2" }
-                        else if self.card.id == "card3" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard3(); self.nextPage = "card3" }
-                        else if self.card.id == "card4" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard4(); self.nextPage = "card4" }
-                        else if self.card.id == "card5" { ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card).signUpCard5(); self.nextPage = "card5" }
+                        if self.card.id == ScreenCoordinator.PushedItem.card1.rawValue { ChooseCloseFriends(card: self.card).signUpCard1(); self.nextPage = ScreenCoordinator.PushedItem.card1 }
+                        else if self.card.id == ScreenCoordinator.PushedItem.card2.rawValue { ChooseCloseFriends(card: self.card).signUpCard2(); self.nextPage = ScreenCoordinator.PushedItem.card2 }
+                        else if self.card.id == ScreenCoordinator.PushedItem.card3.rawValue { ChooseCloseFriends(card: self.card).signUpCard3(); self.nextPage = ScreenCoordinator.PushedItem.card3 }
+                        else if self.card.id == ScreenCoordinator.PushedItem.card4.rawValue { ChooseCloseFriends(card: self.card).signUpCard4(); self.nextPage = ScreenCoordinator.PushedItem.card4 }
+                        else if self.card.id == ScreenCoordinator.PushedItem.card5.rawValue { ChooseCloseFriends(card: self.card).signUpCard5(); self.nextPage = ScreenCoordinator.PushedItem.card5 }
                     } else {
                         if (self.card.permissions.contains(.calendar) && self.card.permissions.contains(.contacts)) {
                             if self.contactsAllowed && self.googleDelegate.signedIn { self.bothAllowed = true }
@@ -101,13 +102,18 @@ struct PermissionsView: View {
             }
         }
         .onAppear() {
+//            if (currentCardState == nil) {
+//                self.currentCardState = UserDefaults.standard.string(forKey: "currentCardState")
+//            } else {
+//                UserDefaults.standard.set(currentCardState, forKey: "currentCardState")
+//            }
             self.contactsAllowed = UserDefaults.standard.bool(forKey: "contactsAllowed")
             self.calendarAllowed = UserDefaults.standard.bool(forKey: "calendarAllowed")
         }
         .onReceive(self.googleDelegate.$signedIn) { _ in
-            print(self.currentCardState, "self.currentCardState")
+//            print(self.currentCardState, "self.currentCardState")
             print("ContentView appeared!")
-            self.currentCardState = "cardpermission"
+            self.screenCoordinator.selectedPushItem = .cardpermission
         }
         .hideNavigationBar()
     }

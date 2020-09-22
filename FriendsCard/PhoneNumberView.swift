@@ -17,6 +17,7 @@ struct PhoneNumberView: View {
     @State var moveToNext: Bool = false
 
     @EnvironmentObject var googleDelegate: GoogleDelegate
+    @EnvironmentObject var screenCoordinator: ScreenCoordinator
 
     var body: some View {
         ZStack {
@@ -56,7 +57,7 @@ struct PhoneNumberView: View {
                 .animation(.easeInOut)
             }
 
-            NavigationLink(destination: HomeView().environmentObject(googleDelegate), isActive: $moveToNext) { EmptyView() }
+            NavigationLink(destination: HomeView().environmentObject(googleDelegate).environmentObject(self.screenCoordinator), isActive: $moveToNext) { EmptyView() }
         }
         .onTapGesture(count: 1, perform: {
             self.hideKeyboard()

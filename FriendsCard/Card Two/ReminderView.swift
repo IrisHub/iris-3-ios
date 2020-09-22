@@ -12,7 +12,9 @@ import Alamofire
 import SwiftyJSON
 
 struct ReminderView: View {
-    @Binding var currentCardState: String?
+//    @Binding var currentCardState: String?
+    @EnvironmentObject var screenCoordinator: ScreenCoordinator
+
     @State var friendReminders: [DistantFriendProfile] = [DistantFriendProfile]()
     @State var friendLeaderboard: [LeaderboardProfile] = [LeaderboardProfile]()
 
@@ -25,7 +27,7 @@ struct ReminderView: View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack() {
-                TopNavigationView(title: "STAY IN TOUCH", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "STAY IN TOUCH", description: "", backButton: true, backButtonCommit: { self.screenCoordinator.selectedPushItem = .home }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     if (self.friendReminders.count != 0) {
