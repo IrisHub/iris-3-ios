@@ -57,7 +57,7 @@ struct PhoneNumberView: View {
                 .animation(.easeInOut)
             }
 
-            NavigationLink(destination: HomeView().environmentObject(googleDelegate).environmentObject(self.screenCoordinator), isActive: $moveToNext) { EmptyView() }
+            NavigationLink(destination: HomeView().environmentObject(googleDelegate).environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.home, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
         }
         .onTapGesture(count: 1, perform: {
             self.hideKeyboard()
@@ -82,6 +82,7 @@ struct PhoneNumberView: View {
         
         UserDefaults.standard.set(true, forKey: "onboardingComplete")
         self.moveToNext = true
+        self.screenCoordinator.selectedPushItem = .home
     }
 }
 

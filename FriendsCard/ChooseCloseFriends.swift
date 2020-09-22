@@ -18,7 +18,7 @@ struct ChooseCloseFriends: View {
 
     @State var card : Card
     @State var selectionNumber : Int? = nil
-    @State var nextPage : ScreenCoordinator.PushedItem? = nil
+    @State var nextPage : String? = nil
     
     @State var allContacts: [Contact]? = nil
     @State var classes: [Classes]? = nil
@@ -54,12 +54,12 @@ struct ChooseCloseFriends: View {
                 }
 
                 Group {
-                    NavigationLink(destination: CloseFriends().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card1, selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: ReminderView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card2, selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: ClassesView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card3, selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: LecturesView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card4, selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: CollaborationView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card5, selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: ChooseCloseFriends(card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1).environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.again, selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: CloseFriends().environmentObject(self.screenCoordinator), tag: "card1", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ReminderView().environmentObject(self.screenCoordinator), tag: "card2", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ClassesView().environmentObject(self.screenCoordinator), tag: "card3", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: LecturesView().environmentObject(self.screenCoordinator), tag: "card4", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: CollaborationView().environmentObject(self.screenCoordinator), tag: "card5", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ChooseCloseFriends(card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1).environmentObject(self.screenCoordinator), tag: "again", selection: self.$nextPage) { EmptyView() }
                 }
                 
                 BottomNavigationView(title: "Continue", action: {
@@ -77,20 +77,20 @@ struct ChooseCloseFriends: View {
 
                         
                     if self.selectionNumber == 0 {
-                        if self.card.id == ScreenCoordinator.PushedItem.card1.rawValue { self.signUpCard1() }
-                        else if self.card.id == ScreenCoordinator.PushedItem.card2.rawValue { self.signUpCard2() }
-                        else if self.card.id == ScreenCoordinator.PushedItem.card3.rawValue { self.signUpCard3() }
-                        else if self.card.id == ScreenCoordinator.PushedItem.card4.rawValue { self.signUpCard4() }
-                        else if self.card.id == ScreenCoordinator.PushedItem.card5.rawValue { self.signUpCard5() }
+                        if self.card.id == "card1" { self.signUpCard1() }
+                        else if self.card.id == "card2" { self.signUpCard2() }
+                        else if self.card.id == "card3" { self.signUpCard3() }
+                        else if self.card.id == "card4" { self.signUpCard4() }
+                        else if self.card.id == "card5" { self.signUpCard5() }
                     } else {
                         if UserDefaults.standard.data(forKey:self.card.selectionScreens[(self.selectionNumber ?? 0) - 1].userDefaultID) != nil {
-                            if self.card.id == ScreenCoordinator.PushedItem.card1.rawValue { self.signUpCard1() }
-                            else if self.card.id == ScreenCoordinator.PushedItem.card2.rawValue { self.signUpCard2() }
-                            else if self.card.id == ScreenCoordinator.PushedItem.card3.rawValue { self.signUpCard3() }
-                            else if self.card.id == ScreenCoordinator.PushedItem.card4.rawValue { self.signUpCard4() }
-                            else if self.card.id == ScreenCoordinator.PushedItem.card5.rawValue { self.signUpCard5() }
+                            if self.card.id == "card1" { self.signUpCard1() }
+                            else if self.card.id == "card2" { self.signUpCard2() }
+                            else if self.card.id == "card3" { self.signUpCard3() }
+                            else if self.card.id == "card4" { self.signUpCard4() }
+                            else if self.card.id == "card5" { self.signUpCard5() }
                         } else {
-                            self.nextPage = .again
+                            self.nextPage = "again"
                         }
                     }
                 })
@@ -138,7 +138,7 @@ struct ChooseCloseFriends: View {
             AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/friends-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card1PermissionsComplete")
-                self.nextPage = ScreenCoordinator.PushedItem.card1
+                self.nextPage = "card1"
             }
         } catch {  }
     }
@@ -170,7 +170,7 @@ struct ChooseCloseFriends: View {
             AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/contacts-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card2PermissionsComplete")
-                self.nextPage = ScreenCoordinator.PushedItem.card2
+                self.nextPage = "card2"
             }
         } catch {  }
     }
@@ -202,7 +202,7 @@ struct ChooseCloseFriends: View {
             AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card3PermissionsComplete")
-                self.nextPage = ScreenCoordinator.PushedItem.card3
+                self.nextPage = "card3"
             }
         } catch {  }
     }
@@ -234,7 +234,7 @@ struct ChooseCloseFriends: View {
             AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/lectures-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card4PermissionsComplete")
-                self.nextPage = ScreenCoordinator.PushedItem.card4
+                self.nextPage = "card4"
             }
         } catch {  }
     }
@@ -266,7 +266,7 @@ struct ChooseCloseFriends: View {
             AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/collaboration-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card5PermissionsComplete")
-                self.nextPage = ScreenCoordinator.PushedItem.card5
+                self.nextPage = "card5"
             }
         } catch {  }
     }
