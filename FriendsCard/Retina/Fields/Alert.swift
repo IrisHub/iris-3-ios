@@ -26,10 +26,10 @@ struct TextFieldAlert<Presenting>: View where Presenting: View {
                     .opacity(0.8)
                     .blur(radius: 6)
                     
-                    VStack {
-                        Text(self.title)
+                    VStack(alignment: .leading) {
+                        Text(self.title).foregroundColor(.rWhite).retinaTypography(.p5_main).padding(.bottom, Space.rSpaceThree)
 
-                        RetinaTextField("1,2,3C,7", input: self.$text, onCommit: {print("party")})
+                        RetinaTextField("#3a, #4b-e, #6", input: self.$text, onCommit: {print("party")})
                             .keyboardType(.default)
 
                         HStack {
@@ -39,8 +39,8 @@ struct TextFieldAlert<Presenting>: View where Presenting: View {
                                     self.hideKeyboard()
                                 }
                             }) {
-                                Text("Cancel")
-                            }.padding([.leading, .top], 24)
+                                Text("CANCEL").foregroundColor(.rWhite).retinaTypography(.p5_main)
+                            }.padding([.top], Space.rSpaceTwo)
                             Spacer()
                             Button(action: {
                                 withAnimation {
@@ -48,8 +48,8 @@ struct TextFieldAlert<Presenting>: View where Presenting: View {
                                     self.hideKeyboard()
                                 }
                             }) {
-                                Text("Share")
-                            }.padding([.trailing, .top], 24)
+                                Text("SHARE").foregroundColor(.rPurple).retinaTypography(.h5_main)
+                            }.padding([.top], Space.rSpaceTwo)
                         }
                     }
                     .padding(Space.rSpaceThree)

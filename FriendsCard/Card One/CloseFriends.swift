@@ -30,7 +30,7 @@ struct CloseFriends: View {
                 List {
                     if (self.friendSchedules.filter { $0.onIris }.count != 0) {
                         Text("Calendars").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
-                        .padding([.leading, .bottom], 24)
+                        .padding([.leading, .bottom, .trailing], 24)
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     }
 

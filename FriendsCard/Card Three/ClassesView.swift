@@ -31,7 +31,7 @@ struct ClassesView: View {
                     ForEach(self.classes, id: \.self) { (currentClass: Classes) in
                         Group {
                             Text(currentClass.name).foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
-                            .padding([.leading], 24).padding(.top, 36)
+                            .padding([.leading, .bottom, .trailing], 24).padding(.top, 36)
                             .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .background(Color.rBlack500)
 
