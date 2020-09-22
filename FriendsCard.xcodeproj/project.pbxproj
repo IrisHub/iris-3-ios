@@ -31,7 +31,7 @@
 		B183DC51251821FF008D0416 /* TopNavigationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183DC50251821FF008D0416 /* TopNavigationHeader.swift */; };
 		B183DC5D2518AED9008D0416 /* Menlo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B183DC5B2518AED8008D0416 /* Menlo-Regular.ttf */; };
 		B183DC5E2518AED9008D0416 /* Menlo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B183DC5C2518AED9008D0416 /* Menlo-Bold.ttf */; };
-		B1BA453E24FB84E200E14C27 /* LeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450824FB84E200E14C27 /* LeaderCell.swift */; };
+		B183DC7225195F5A008D0416 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183DC7125195F5A008D0416 /* AlertView.swift */; };
 		B1BA453F24FB84E200E14C27 /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450924FB84E200E14C27 /* SelectionCell.swift */; };
 		B1BA454024FB84E200E14C27 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450A24FB84E200E14C27 /* StatusCell.swift */; };
 		B1BA454124FB84E200E14C27 /* InviteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450B24FB84E200E14C27 /* InviteCell.swift */; };
@@ -118,7 +118,7 @@
 		B183DC50251821FF008D0416 /* TopNavigationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopNavigationHeader.swift; sourceTree = "<group>"; };
 		B183DC5B2518AED8008D0416 /* Menlo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Menlo-Regular.ttf"; sourceTree = "<group>"; };
 		B183DC5C2518AED9008D0416 /* Menlo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Menlo-Bold.ttf"; sourceTree = "<group>"; };
-		B1BA450824FB84E200E14C27 /* LeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeaderCell.swift; sourceTree = "<group>"; };
+		B183DC7125195F5A008D0416 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		B1BA450924FB84E200E14C27 /* SelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
 		B1BA450A24FB84E200E14C27 /* StatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
 		B1BA450B24FB84E200E14C27 /* InviteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteCell.swift; sourceTree = "<group>"; };
@@ -315,12 +315,11 @@
 			isa = PBXGroup;
 			children = (
 				B1BA450924FB84E200E14C27 /* SelectionCell.swift */,
-				B1BA450824FB84E200E14C27 /* LeaderCell.swift */,
-				B1BA450B24FB84E200E14C27 /* InviteCell.swift */,
 				B151A2762508F8FB00534657 /* ClassCells.swift */,
-				B1BA450A24FB84E200E14C27 /* StatusCell.swift */,
 				B1BA456A24FBBFDF00E14C27 /* ReminderCell.swift */,
 				B151A27E250A036C00534657 /* PollCell.swift */,
+				B1BA450A24FB84E200E14C27 /* StatusCell.swift */,
+				B1BA450B24FB84E200E14C27 /* InviteCell.swift */,
 				B1810D932514587C0060E001 /* BroadcastCell.swift */,
 			);
 			path = Cells;
@@ -357,6 +356,7 @@
 				B183DC50251821FF008D0416 /* TopNavigationHeader.swift */,
 				B1BA451924FB84E200E14C27 /* TopNavigationView.swift */,
 				B151A2782508FCD800534657 /* BottomNavigationView.swift */,
+				B183DC7125195F5A008D0416 /* AlertView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -741,7 +741,6 @@
 				B1BA455324FB84E200E14C27 /* Devices.swift in Sources */,
 				B1BA456B24FBBFDF00E14C27 /* ReminderCell.swift in Sources */,
 				B1BA455C24FB84E200E14C27 /* CornerRadius.swift in Sources */,
-				B1BA453E24FB84E200E14C27 /* LeaderCell.swift in Sources */,
 				B1BA454C24FB84E200E14C27 /* TopNavigationView.swift in Sources */,
 				B151A2772508F8FB00534657 /* ClassCells.swift in Sources */,
 				B151A2792508FCD800534657 /* BottomNavigationView.swift in Sources */,
@@ -766,6 +765,7 @@
 				B1BA456524FB84E200E14C27 /* AppDelegate.swift in Sources */,
 				B1BA454D24FB84E200E14C27 /* Typography.swift in Sources */,
 				B1BA454524FB84E200E14C27 /* TextFields.swift in Sources */,
+				B183DC7225195F5A008D0416 /* AlertView.swift in Sources */,
 				B1BA454824FB84E200E14C27 /* Images.swift in Sources */,
 				B1BA456724FB84E200E14C27 /* PermissionsView.swift in Sources */,
 				B1BA454424FB84E200E14C27 /* LoadingView.swift in Sources */,

@@ -23,39 +23,40 @@ struct PollCell: View {
     var body: some View {
         ZStack(alignment: .leading) {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
-            VStack {
-                HStack {
-                    Text(self.name.capitalizingFirstLetter()).foregroundColor(.white).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, Space.rSpaceThree)
-                    Spacer()
-                    if !(badgeTitle == "0") {
-                        Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceThree)
-                    }
-                }
                 VStack {
-                    ForEach(self.polls, id: \.self) { (poll: Poll) in
-                        retinaLeftButton(text: poll.name, left: .emoji, iconString: poll.emoji, size: .medium, action: {
-                            DispatchQueue.main.async {
-                                if (self.assignmentID != nil) {
-                                    self.fetchClasses(classID: self.classID, assignmentID: self.assignmentID ?? "", problemID: self.problemID, value: Int(poll.id) ?? 0)
-                                } else {
-                                    
-                                }
-                            }
-                        })
-                    }
-                }
-                
-                HStack {
-                    if (voted) {
-                        retinaButton(text: "Undo", style: .ghost, color: Color.rPink, action: { print("click") }).padding(.leading, Space.rSpaceTwo)
+                    HStack {
+                        Text(self.name.capitalizingFirstLetter()).foregroundColor(.white).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, Space.rSpaceThree)
                         Spacer()
+                        Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceThree)
+                            .isHidden(badgeTitle == "0")
+                    }
+                    VStack {
+                        ForEach(self.polls, id: \.self) { (poll: Poll) in
+                            retinaLeftButton(text: poll.name, left: .emoji, iconString: poll.emoji, size: .medium, action: {
+                                DispatchQueue.main.async {
+                                    if (self.assignmentID != nil) {
+                                        self.pressPoll(classID: self.classID, assignmentID: self.assignmentID ?? "", problemID: self.problemID, value: Int(poll.id) ?? 0)
+                                    } else {
+                                        
+                                    }
+                                }
+                            }).padding([.bottom], -12)
+                        }
+                    }
+                    
+                    HStack {
+                        if (voted) {
+                            retinaButton(text: "Undo", style: .ghost, color: Color.rPink, action: {
+                                self.pressPoll(classID: self.classID, assignmentID: self.assignmentID ?? "", problemID: self.problemID, value: -1)
+                            }).padding(.leading, Space.rSpaceTwo)
+                            Spacer()
+                        }
                     }
                 }
-            }
         }
     }
     
-    func fetchClasses(classID: String, assignmentID: String, problemID: String, value: Int) {
+    func pressPoll(classID: String, assignmentID: String, problemID: String, value: Int) {
         let parameters : [String : Any] = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber") as Any,
             "class_id": classID,
@@ -77,7 +78,7 @@ struct PollCell: View {
                             if (subJson2["assignment_id"].stringValue == assignmentID) {
                                 for (_,subJson3):(String, JSON) in subJson2["assignment_components"] {
                                     if (subJson3["component_id"].stringValue == problemID) {
-                                        let problem = Problems(id: subJson3["component_id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["component_name"].stringValue, averageTime: subJson3["component_avg_time"].stringValue, votes: subJson3["component_votes"].arrayValue.map { $0.intValue})
+                                        let problem = Problems(id: subJson3["component_id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["component_name"].stringValue, averageTime: subJson3["component_avg_time"].stringValue, votes: subJson3["component_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson3["component_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson3["user_votes"].intValue)
                                         self.name = problem.name
                                         self.badgeTitle = problem.averageTime
                                         print(problem)

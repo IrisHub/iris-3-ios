@@ -38,30 +38,27 @@ struct ChooseCloseFriends: View {
                             (self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false || (self.searchText ?? "").isEmpty) ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
                         }, id: \.self.name) { (contact: Contact) in
                             SelectionCell(contacts: self.$allContacts, contact: contact, classes: self.$classes, selectionType: .contacts, isSingleSelect: false)
-                            .listRowInsets(.init(top: 0, leading: -12, bottom: -1, trailing: 0))
-                            .background(Color.rBlack500)
                             .animation(.none)
+                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                         }
                     } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) && self.classes?.count != 0 && self.classes != nil {
                         ForEach(self.classes!.filter {
                             (self.searchText?.filter { !$0.isWhitespace }.isEmpty ?? false || (self.searchText ?? "").isEmpty) ? true : $0.name.lowercased().contains(self.searchText?.lowercased() ?? "")
                         }, id: \.self.name) { (currentClass: Classes) in
                             SelectionCell(contacts: self.$allContacts, classes: self.$classes, currentClass: currentClass, selectionType: .classes, isSingleSelect: false)
-                            .listRowInsets(.init(top: 0, leading: -12, bottom: -1, trailing: 0))
-                            .background(Color.rBlack500)
                             .animation(.none)
+                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                         }
                     }
                 }
-                .listStyle(SidebarListStyle())
 
                 Group {
-                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: CollaborationView(currentCardState: self.$currentCardState), tag: "card5", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: CollaborationView(currentCardState: self.$currentCardState), tag: "card5", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1), tag: "again", selection: self.$nextPage) { EmptyView() }
                 }
                 
                 BottomNavigationView(title: "Continue", action: {
@@ -150,8 +147,6 @@ struct ChooseCloseFriends: View {
             var user_id: String
             var close_friend_ids: [String]
             var close_friend_names: [String]
-            var distant_friend_ids: [String]
-            var distant_friend_names: [String]
         }
 
         do {
@@ -164,7 +159,7 @@ struct ChooseCloseFriends: View {
                 }
             }
 
-            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", close_friend_ids: (peopleArray[0]).map({ $0.phoneNum }), close_friend_names: (peopleArray[0]).map({ $0.name }), distant_friend_ids: (peopleArray[1]).map({ $0.phoneNum }), distant_friend_names: (peopleArray[1]).map({ $0.name }))
+            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", close_friend_ids: (peopleArray[0]).map({ $0.phoneNum }), close_friend_names: (peopleArray[0]).map({ $0.name }))
             let jsonData = try JSONEncoder().encode(user)
             let jsonString = String(data: jsonData, encoding: .utf8)!
             print(jsonString)
@@ -235,7 +230,7 @@ struct ChooseCloseFriends: View {
             
             let parameters = convertToDictionary(text: jsonString)
             let headers : HTTPHeaders = ["Content-Type": "application/json"]
-            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/lectures-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card4PermissionsComplete")
                 self.nextPage = "card4"

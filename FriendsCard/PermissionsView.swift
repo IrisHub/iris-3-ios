@@ -71,12 +71,12 @@ struct PermissionsView: View {
 
                 Spacer()
                 Group {
-                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: CollaborationView(currentCardState: self.$currentCardState), tag: "card5", selection: self.$nextPage) { EmptyView() }.isDetailLink(false)
-                    NavigationLink(destination: ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.selectionNumber), isActive: $bothAllowed) { EmptyView() }.isDetailLink(false)
+                    NavigationLink(destination: CloseFriends(currentCardState: self.$currentCardState), tag: "card1", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ReminderView(currentCardState: self.$currentCardState), tag: "card2", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ClassesView(currentCardState: self.$currentCardState), tag: "card3", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: LecturesView(currentCardState: self.$currentCardState), tag: "card4", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: CollaborationView(currentCardState: self.$currentCardState), tag: "card5", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ChooseCloseFriends(currentCardState: self.$currentCardState, card: self.card, selectionNumber: self.selectionNumber), isActive: $bothAllowed) { EmptyView() }
                 }
                 
                 BottomNavigationView(title: self.card.buttonTitle, action: {

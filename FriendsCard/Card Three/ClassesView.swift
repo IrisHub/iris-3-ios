@@ -23,19 +23,22 @@ struct ClassesView: View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: "Share Homework Length", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "\"HOW LONG IS THE HW?\"", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     ForEach(self.classes, id: \.self) { (currentClass: Classes) in
                         Group {
-                            Text(currentClass.name).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 12).padding(.top, 36)
+                            Text(currentClass.name).foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                            .padding([.leading], 24).padding(.top, 36)
+                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .background(Color.rBlack500)
+
                             
                             ForEach(self.assignments.filter({ $0.classID == currentClass.id }), id: \.self) { (assignment: Assignments) in
                                 
-                                NavigationLink(destination: ProblemsView(className: currentClass.name, assignmentName: assignment.name, classID: currentClass.id, assignmentID: assignment.id, problems: self.problems.filter({ $0.classID == currentClass.id && $0.assignmentID == assignment.id }), polls: self.$polls), tag: assignment.name, selection: self.$selection) {
+                                NavigationLink(destination: ProblemsView(className: currentClass.name, assignmentName: assignment.name, classID: currentClass.id, assignmentID: assignment.id, problems: self.problems.filter({ $0.classID == currentClass.id && $0.assignmentID == assignment.id }), polls: self.$polls), tag: currentClass.name + assignment.name, selection: self.$selection) {
                                     ClassCells(name: assignment.name, badgeTitle: assignment.averageTime, badgeIcon: "clock")
                                 }
-                                .isDetailLink(false)
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                             }
                         }
@@ -83,7 +86,7 @@ struct ClassesView: View {
                         self.assignments.append(assignment)
                         
                         for (_,subJson3):(String, JSON) in subJson2["assignment_components"] {
-                            let problem = Problems(id: subJson3["component_id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["component_name"].stringValue, averageTime: subJson3["component_avg_time"].stringValue, votes: subJson3["component_votes"].arrayValue.map { $0.intValue})
+                            let problem = Problems(id: subJson3["component_id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["component_name"].stringValue, averageTime: subJson3["component_avg_time"].stringValue, votes: subJson3["component_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson3["component_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson3["user_votes"].intValue)
                             self.problems.append(problem)
                         }
                     }

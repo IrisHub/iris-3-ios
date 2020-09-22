@@ -18,7 +18,7 @@ struct TopNavigationView: View {
     var rightButtonIconColor : Color = Color.rPink
     var rightButtonCommit : () -> Void = {}
     var searchBar: Bool = false
-    var searchBarPlaceholder: String = "Search"
+    var searchBarPlaceholder: String = "SEARCH"
     var backgroundColor: Color = Color.clear
     @Binding var searchText: String?
 
@@ -38,7 +38,7 @@ struct TopNavigationView: View {
 
             HStack {
                 Text(self.title)
-                .retinaTypography(.h4_main)
+                .retinaTypography(.p3_main)
                 .foregroundColor(.white)
                 .padding(.leading, 24)
                 .fixedSize(horizontal: false, vertical: true)

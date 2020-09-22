@@ -22,19 +22,21 @@ struct LecturesView: View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: "Lectures", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "FINESSE THE LECTURE", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     ForEach(self.classes, id: \.self) { (currentClass: Classes) in
                         Group {
-                            Text(currentClass.name).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 12)
+                            Text(currentClass.name).foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                            .padding([.leading], 24).padding(.top, 36)
+                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .background(Color.rBlack500)
                             
                             ForEach(self.lectures.filter({ $0.classID == currentClass.id }), id: \.self) { (lecture: Lectures) in
                                 
-                                NavigationLink(destination: LecturePollsView(className: currentClass.name, lectureName: lecture.name, classID: lecture.classID, polls: self.$polls), tag: lecture.name, selection: self.$selection) {
+                                NavigationLink(destination: LecturePollsView(className: currentClass.name, lectureName: lecture.name, classID: lecture.classID, polls: self.$polls), tag: currentClass.name + lecture.name, selection: self.$selection) {
                                     ClassCells(name: lecture.name, badgeTitle: lecture.averageTime, badgeIcon: "clock")
                                 }
-                                .isDetailLink(false)
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                             }
                         }
@@ -60,7 +62,7 @@ struct LecturesView: View {
         ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
         print(parameters)
-        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-classes-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/lectures-classes-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())
@@ -80,7 +82,7 @@ struct LecturesView: View {
                     self.classes.append(currentClass)
                     
                     for (_,subJson2):(String, JSON) in subJson["lectures"] {
-                        let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_id"].stringValue, averageTime: "3min", polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson2["component_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson2["user_vote"].arrayValue.map { $0.intValue })
+                        let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_id"].stringValue, averageTime: "3min", polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson2["component_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson2["user_votes"].arrayValue.map { $0.intValue })
                             
                         self.lectures.append(lecture)
                     }

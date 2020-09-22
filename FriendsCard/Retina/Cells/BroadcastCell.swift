@@ -12,40 +12,57 @@ struct BroadcastCell: View {
     var name: String
     var emoji: String
     var badgeTitle: String
-    var buttonCommit: () -> Void = {}
+    var isCurrentUser: Bool
+    var editBroadcast: () -> Void = {}
 
     var body: some View {
         ZStack(alignment: .leading) {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
-            VStack {
-                Divider().frame(height: 1).background(Color.rBlack200)
-                Rectangle().frame(width: UIScreen.screenWidth, height: 72).foregroundColor(.clear)
-                Divider().frame(height: 1).background(Color.rBlack200)
+            if (!isCurrentUser) {
+                VStack {
+                    Divider().frame(height: 1).background(Color.rBlack200)
+                    Rectangle().frame(width: UIScreen.screenWidth, height: 72).foregroundColor(.clear)
+                    Divider().frame(height: 1).background(Color.rBlack200)
+                }
             }
+            
             HStack {
                 ZStack {
                     Color.rBlack100.edgesIgnoringSafeArea(.all)
 
                     Text(emoji)
-                        .retinaTypography(.h4_main)
+                        .retinaTypography(isCurrentUser ? .h3_main : .h4_main)
                     
                     VStack {
                         Spacer()
                         HStack {
                             Spacer()
                             Circle()
-                                .fill(Color.green)
-                                .frame(width: 12, height: 12)
+                                .fill(Color.rGreen)
+                                .frame(width: isCurrentUser ? 24 : 18, height: isCurrentUser ? 24 : 18)
+                                .offset(x: isCurrentUser ? 6 : 3,y: isCurrentUser ? 6 : 3)
+                                .overlay(Circle().stroke(Color.rBlack300, lineWidth: 2).offset(x: isCurrentUser ? 6 : 3,y: isCurrentUser ? 6 : 3))
                         }
                     }
                 }
-                .frame(width: 60, height: 60)
+                .frame(width: isCurrentUser ? 72 : 60, height: isCurrentUser ? 72 : 60)
                 .padding(.leading, Space.rSpaceThree)
                 
                 
                 VStack(alignment: .leading) {
-                    Text(self.name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
-                    Badge(text: self.badgeTitle, size: .h5)
+                    HStack {
+                        Text(self.name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                        if (isCurrentUser) {
+                            Text("(ME)").foregroundColor(.rBlack100).retinaTypography(.h5_main)
+                        }
+                    }
+                    Button(action: {
+                        DispatchQueue.main.async {
+                            self.editBroadcast()
+                        }
+                    }) {
+                        Badge(text: self.badgeTitle, icon: isCurrentUser ? "pencil" : "", size: .h5)
+                    }
                 }.padding(.leading, Space.rSpaceTwo)
                 
                 Spacer()
@@ -56,6 +73,6 @@ struct BroadcastCell: View {
 
 struct BroadcastCell_Previews: PreviewProvider {
     static var previews: some View {
-        BroadcastCell(name: "Sam Gorman", emoji: "🤮", badgeTitle: "1, 3a, 5")
+        BroadcastCell(name: "Sam Gorman", emoji: "🤮", badgeTitle: "1, 3a, 5", isCurrentUser: true)
     }
 }

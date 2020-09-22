@@ -75,6 +75,8 @@ struct Problems: Hashable, Identifiable, Codable {
     var name: String
     var averageTime: String
     var votes: [Int]
+    var votePercentages: [Int]
+    var userVote: Int
 }
 
 struct Lectures: Hashable, Identifiable, Codable {

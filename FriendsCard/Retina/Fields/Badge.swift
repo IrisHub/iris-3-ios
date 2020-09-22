@@ -17,9 +17,9 @@ struct Badge: View {
     var body: some View {
         ZStack {
             HStack {
-                if icon != nil {
+                if icon != nil || icon == "" {
                     Image(systemName: icon ?? "" )
-                    .retinaTypography(.p5_main)
+                    .retinaTypography(.h5_secondary)
                     .foregroundColor(.rPink)
                 }
 

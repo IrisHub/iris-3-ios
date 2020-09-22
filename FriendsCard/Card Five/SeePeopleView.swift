@@ -21,8 +21,10 @@ struct SeePeopleView: View {
     @State var name: String
     @State var avatar: String
     @State var tags: String
-    
     @State var searchText : String?
+    
+    @State private var isShowingAlert = false
+    @State private var alertInput = ""
     
     var body: some View {
         ZStack {
@@ -30,12 +32,24 @@ struct SeePeopleView: View {
             VStack {
                 TopNavigationView(title: assignmentName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
-                Divider().frame(height: 1).background(Color.rBlack200)
-                Text("Needs help on").foregroundColor(.rGrey100).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                BroadcastCell(name: "Anonymous Le Conte", emoji: "🔭", badgeTitle: " I need help on...", isCurrentUser: true, editBroadcast: {
+                    withAnimation {
+                        self.isShowingAlert.toggle()
+                    }
+                })
 
+                Divider().frame(height: 1).background(Color.rBlack200)
+                
                 List {
+                    if (self.broadcasters.count != 0) {
+                        Text("Needs help on").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                        .padding([.leading, .bottom], 24)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .background(Color.rBlack500)
+                    }
+                    
                     ForEach(self.broadcasters, id: \.self) { (broadcaster: Broadcaster) in
-                        BroadcastCell(name: broadcaster.name, emoji: broadcaster.icon, badgeTitle: broadcaster.tags)
+                        BroadcastCell(name: broadcaster.name, emoji: broadcaster.icon, badgeTitle: broadcaster.tags, isCurrentUser: false)
                         .listRowInsets(EdgeInsets())
                         .padding(.bottom, Space.rSpaceFour)
                     }

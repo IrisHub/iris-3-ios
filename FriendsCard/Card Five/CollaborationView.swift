@@ -18,24 +18,27 @@ struct CollaborationView: View {
     @State var broadcasters: [Broadcaster] = [Broadcaster]()
     @State var searchText : String?
     @State var selection: String? = nil
-
+    
     var body: some View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: "Collaboration", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
-
+                TopNavigationView(title: "VIRTUAL STUDY GROUP", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                
+                Spacer()
                 List {
                     ForEach(self.classes, id: \.self) { (currentClass: Classes) in
                         Group {
-                            Text(currentClass.name).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 12)
+                            Text(currentClass.name).foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                            .padding([.leading], 24).padding(.top, 36)
+                            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            .background(Color.rBlack500)
                             
                             ForEach(self.assignments.filter({ $0.classID == currentClass.id }), id: \.self) { (assignment: Assignments) in
                                 
                                 NavigationLink(destination: SeePeopleView(className: currentClass.name, assignmentName: assignment.name, classID: currentClass.id, assignmentID: assignment.id, broadcasters: self.broadcasters.filter({ $0.classID == currentClass.id && $0.assignmentID == assignment.id }), assignments: self.assignments.filter({ $0.id == assignment.id }), name: self.avatar.name, avatar: self.avatar.icon, tags: assignment.userBroadcastTags), tag: assignment.name, selection: self.$selection) {
                                     ClassCells(name: assignment.name, badgeTitle: assignment.averageTime, badgeIcon: "clock")
                                 }
-                                .isDetailLink(false)
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                             }
                         }
@@ -44,6 +47,7 @@ struct CollaborationView: View {
                 Spacer()
             }
         }
+        .textFieldAlert(isShowing: $isShowingAlert, text: $alertInput, title: "What do you need help on?")
         .hideNavigationBar()
         .onAppear() {
             self.selection = nil

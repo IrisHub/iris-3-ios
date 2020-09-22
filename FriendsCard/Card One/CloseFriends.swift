@@ -23,32 +23,31 @@ struct CloseFriends: View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading) {
-                TopNavigationView(title: "Close Friends", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "MY CLOSE FRIENDS", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     if (self.friendSchedules.filter { $0.onIris }.count != 0) {
-                        Text("Calendars").foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
-                        .listRowInsets(EdgeInsets())
+                        Text("Calendars").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                        .padding([.leading, .bottom], 24)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     }
 
                     ForEach(self.friendSchedules.filter { $0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
                         StatusCell(name: contact.name, status: contact.busy ? "busy" : "free", activity: contact.activity, description: contact.status)
-                        .background(Color.rBlack500)
-                        .listRowInsets(.init(top: 0, leading: -12, bottom: -1, trailing: 0))
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                     }
                     
                     if (self.friendSchedules.filter { !$0.onIris }.count != 0) {
-                        Text("Invite to Iris").foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
-                        .listRowInsets(EdgeInsets())
+                        Text("Invite to Iris").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                        .padding([.leading, .bottom], 24)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     }
 
                     ForEach(self.friendSchedules.filter { !$0.onIris }, id: \.self) { (contact: CloseFriendSchedule) in
-                        InviteCell(name: contact.name, buttonText: "Invite", buttonCommit: {self.presentMessageCompose(name: contact.name, phoneNumber: contact.id)})
-                        .background(Color.rBlack500)
-                        .listRowInsets(.init(top: 0, leading: -12, bottom: -1, trailing: 0))
+                        InviteCell(name: contact.name, buttonText: "Invite", messaged: false, buttonCommit: {self.presentMessageCompose(name: contact.name, phoneNumber: contact.id)})
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                     }
                 }
-                .listStyle(SidebarListStyle())
                 
                 Spacer()
 

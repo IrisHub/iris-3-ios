@@ -23,15 +23,20 @@ struct ReminderView: View {
 
     var body: some View {
         ZStack {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack() {
-                TopNavigationView(title: "For this week", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: "STAY IN TOUCH", description: "", backButton: true, backButtonCommit: { self.currentCardState = nil }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
+                    if (self.friendReminders.count != 0) {
+                        Text("Remind me").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                        .padding([.leading, .bottom], 24)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    }
+
                     ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
                         ReminderCell(name: friend.name, frequency: "", messaged: friend.messaged, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
-                            .listRowInsets(EdgeInsets())
-                            .padding(.bottom, Space.rSpaceThree)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                     }
                 }
                 .padding(.top, Space.rSpaceTwo)

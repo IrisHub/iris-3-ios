@@ -13,7 +13,8 @@ struct StatusCell: View {
     var status: String
     var activity: String
     var description: String
-    
+    var buttonCommit: () -> Void = {}
+
     var body: some View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
@@ -23,28 +24,34 @@ struct StatusCell: View {
                 Divider().frame(height: 1).background(Color.rBlack200)
             }
 
-            VStack {
-                HStack {
-                    Rectangle()
-                        .fill(self.status == "busy" ? Color.rRed : Color.rGreen)
-                        .frame(width: 18, height: 18)
-                        .padding(.leading, 24)
-                    
-                    Text(name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, 12)
-                    
-                    Spacer()
-                }.padding(.bottom, 12)
-
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(self.activity).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 6)
-                        Text(self.description).foregroundColor(.white).retinaTypography(.h6_main).fixedSize(horizontal: false, vertical: true)
-                    }.padding([.top, .bottom], 24).padding(.leading, 12)
-                    Spacer()
+            Button(action: {
+                DispatchQueue.main.async {
+                    self.buttonCommit()
                 }
-                .background(Color.rBlack100)
-                .cornerRadius(CornerRadius.rCornerRadius)
-                .padding([.leading, .trailing], 12)
+            }) {
+                VStack {
+                    HStack {
+                        Rectangle()
+                            .fill(self.status == "busy" ? Color.rRed : Color.rGreen)
+                            .frame(width: 18, height: 18)
+                            .padding(.leading, 24)
+                        
+                        Text(name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, 12)
+                        
+                        Spacer()
+                    }.padding(.bottom, 12)
+
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(self.activity).foregroundColor(.rWhite).retinaTypography(.h4_main).fixedSize(horizontal: false, vertical: true).padding(.bottom, 6)
+                            Text(self.description).foregroundColor(.white).retinaTypography(.h6_main).fixedSize(horizontal: false, vertical: true)
+                        }.padding([.top, .bottom], 24).padding(.leading, 12)
+                        Spacer()
+                    }
+                    .background(Color.rBlack100)
+                    .cornerRadius(CornerRadius.rCornerRadius)
+                    .padding([.leading, .trailing], 12)
+                }
             }
         }
     }

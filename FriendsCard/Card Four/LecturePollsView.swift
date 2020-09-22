@@ -22,16 +22,21 @@ struct LecturePollsView: View {
     @State var editViewPresented: Bool = false
 
     var body: some View {
+        
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: lectureName + ", " + className, description: "Share with other students in your class how hard the lecture was to understand.", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: lectureName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
                 List {
                     ForEach(self.lectures, id: \.self) { (lecture: Lectures) in
-                        ForEach(self.polls, id: \.self) { (poll: [Poll]) in
-                            PollCell(name: "How was the lecture?", badgeTitle: lecture.averageTime, badgeIcon: "clock", polls: poll, classID: self.classID, problemID: lecture.id)
-                            .listRowInsets(EdgeInsets())
+                        Group {
+                            ForEach(self.polls, id: \.self) { (poll: [Poll]) in
+                                PollCell(name: "How was the lecture?", badgeTitle: lecture.averageTime, badgeIcon: "clock", polls: poll, classID: self.classID, problemID: lecture.id)
+                                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                    .background(Color.rBlack500)
+                                    .padding(.top, 36)
+                            }
                         }
                     }
                 }

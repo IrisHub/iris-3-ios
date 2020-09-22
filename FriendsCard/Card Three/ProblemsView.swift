@@ -20,20 +20,20 @@ struct ProblemsView: View {
     @Binding var polls: [Poll]
     @State var searchText : String?
 
-    @State var editViewPresented: Bool = false
-
     var body: some View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
-                TopNavigationView(title: assignmentName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: true, rightButtonIcon: "pencil", rightButtonIconColor: Color.rPink, rightButtonCommit: { self.editViewPresented = false }, searchBar: false, searchText: self.$searchText)
+                TopNavigationView(title: assignmentName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, rightButtonIcon: "pencil", rightButtonIconColor: Color.rPink, rightButtonCommit: {  }, searchBar: false, searchText: self.$searchText)
 
                 List {
                     ForEach(self.problems, id: \.self) { (problem: Problems) in
                         
                         PollCell(name: problem.name, badgeTitle: problem.averageTime, badgeIcon: "clock", polls: self.polls, classID: self.classID, assignmentID: self.assignmentID, problemID: problem.id)
-                        .listRowInsets(EdgeInsets())
-                        .padding(.bottom, Space.rSpaceFour)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .background(Color.rBlack500)
+                        .padding(.top, 36)
+                        
                     }
                 }
                 Spacer()
