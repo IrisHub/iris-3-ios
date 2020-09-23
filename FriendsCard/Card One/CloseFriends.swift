@@ -90,10 +90,22 @@ struct CloseFriends: View {
 
 
 extension CloseFriends {
-    private class MessageComposerDelegate: NSObject, MFMessageComposeViewControllerDelegate {
+    class MessageComposerDelegate: NSObject, MFMessageComposeViewControllerDelegate {
         func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-            // Customize here
-            controller.dismiss(animated: true, completion: nil)
+            switch (result) {
+            case .cancelled:
+                print("Message was cancelled")
+            case .failed:
+                print("Message failed")
+            case .sent:
+                print("Message was sent")
+            default:
+                return
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                controller.hideKeyboard()
+                controller.dismiss(animated: true, completion: nil)
+            }
         }
     }
     private func presentMessageCompose(name: String, phoneNumber: String) {
@@ -106,6 +118,8 @@ extension CloseFriends {
         composeVC.body = "Hey " + name + ", I want to add you as a close friend on Iris. Get the app so I can add you."
         composeVC.recipients = [phoneNumber]
 
-        vc?.present(composeVC, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            vc?.present(composeVC, animated: true, completion: nil)
+        }
     }
 }

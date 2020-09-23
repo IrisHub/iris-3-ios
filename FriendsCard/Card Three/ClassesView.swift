@@ -88,7 +88,7 @@ struct ClassesView: View {
                         self.assignments.append(assignment)
                         
                         for (_,subJson3):(String, JSON) in subJson2["assignment_components"] {
-                            let problem = Problems(id: subJson3["component_id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["component_name"].stringValue, averageTime: subJson3["component_avg_time"].stringValue, votes: subJson3["component_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson3["component_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson3["user_votes"].intValue)
+                            let problem = Problems(id: subJson3["component_id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["component_name"].stringValue, averageTime: subJson3["component_avg_time"].stringValue, votes: subJson3["component_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson3["component_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson3["user_vote"].intValue)
                             self.problems.append(problem)
                         }
                     }

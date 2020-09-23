@@ -54,11 +54,11 @@ struct TextFieldAlert<Presenting>: View where Presenting: View {
                     }
                     .padding(Space.rSpaceThree)
                     .background(Color.rBlack400)
-                    .cornerRadius(CornerRadius.rCornerRadius)
                     .frame(
                         width: deviceSize.size.width*0.9,
                         height: deviceSize.size.height*0.9
                     )
+                    .cornerRadius(CornerRadius.rCornerRadius)
                 }
                 .opacity(self.isShowing ? 1 : 0)
             }

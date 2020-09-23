@@ -37,7 +37,7 @@ struct LecturesView: View {
                             ForEach(self.lectures.filter({ $0.classID == currentClass.id }), id: \.self) { (lecture: Lectures) in
                                 
                                 NavigationLink(destination: LecturePollsView(className: currentClass.name, lectureName: lecture.name, classID: lecture.classID, polls: self.$polls), tag: currentClass.name + lecture.name, selection: self.$selection) {
-                                    ClassCells(name: lecture.name, badgeTitle: lecture.averageTime, badgeIcon: "clock")
+                                    ClassCells(name: lecture.name, badgeTitle: "Okay", badgeIcon: "clock")
                                 }
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                             }
@@ -84,7 +84,7 @@ struct LecturesView: View {
                     self.classes.append(currentClass)
                     
                     for (_,subJson2):(String, JSON) in subJson["lectures"] {
-                        let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_id"].stringValue, averageTime: "3min", polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson2["component_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson2["user_votes"].arrayValue.map { $0.intValue })
+                        let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_id"].stringValue, polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson2["lecture_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson2["user_vote"].arrayValue.map { $0.intValue })
                             
                         self.lectures.append(lecture)
                     }

@@ -28,8 +28,7 @@ struct ProblemsView: View {
 
                 List {
                     ForEach(self.problems, id: \.self) { (problem: Problems) in
-                        
-                        PollCell(name: problem.name, badgeTitle: problem.averageTime, badgeIcon: "clock", polls: self.polls, classID: self.classID, assignmentID: self.assignmentID, problemID: problem.id)
+                        PollCell(name: problem.name, badgeTitle: problem.averageTime, badgeIcon: "clock", polls: self.polls, percents: problem.votePercentages, voted: (problem.userVote != -1), classID: self.classID, assignmentID: self.assignmentID, problemID: problem.id)
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .background(Color.rBlack500)
                         .padding(.top, 36)

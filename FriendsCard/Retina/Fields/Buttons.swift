@@ -215,7 +215,7 @@ struct retinaLeftButton: View {
             GeometryReader { geometry in
                 Button(action: self.action, label: {
                     ZStack(alignment: .leading) {
-                        Rectangle().frame(width: (self.progress ?? 0.0) * (UIScreen.screenWidth-48), height: geometry.size.height-12)
+                        Rectangle().frame(width: ((self.progress ?? 0.0) / 100.0) * (UIScreen.screenWidth-48), height: geometry.size.height-12)
                         .foregroundColor(Color.rPink)
                         .animation(.default)
 

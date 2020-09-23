@@ -31,8 +31,8 @@ struct LecturePollsView: View {
                 List {
                     ForEach(self.lectures, id: \.self) { (lecture: Lectures) in
                         Group {
-                            ForEach(self.polls, id: \.self) { (poll: [Poll]) in
-                                PollCell(name: "How was the lecture?", badgeTitle: lecture.averageTime, badgeIcon: "clock", polls: poll, classID: self.classID, problemID: lecture.id)
+                            ForEach(Array(zip(self.polls.indices, self.polls)), id: \.0) { index, poll in
+                                PollCell(name: "How was the lecture?", badgeTitle: "Easy", badgeIcon: "clock", polls: poll, percents: lecture.votePercentages, voted: (lecture.userVote[index] != -1), classID: self.classID, problemID: lecture.id)
                                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                                     .background(Color.rBlack500)
                                     .padding(.top, 36)

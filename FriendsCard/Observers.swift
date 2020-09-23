@@ -83,7 +83,6 @@ struct Lectures: Hashable, Identifiable, Codable {
     var id: String = "1"
     var classID: String = "1"
     var name: String
-    var averageTime: String
     var polls: [[Int]]
     var maxVotes: [Int]
     var votePercentages: [Int]

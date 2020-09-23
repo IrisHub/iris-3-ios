@@ -37,12 +37,14 @@ struct TopNavigationView: View {
             }
 
             HStack {
+                if (self.title != "") {
                 Text(self.title)
                 .retinaTypography(.p3_main)
                 .foregroundColor(.white)
                 .padding(.leading, 24)
                 .fixedSize(horizontal: false, vertical: true)
                 Spacer()
+                }
                 if (self.rightButton) {
                     retinaIconButton(image: (Image(systemName: rightButtonIcon)), foregroundColor: rightButtonIconColor, action: {
                         withAnimation {
@@ -50,13 +52,15 @@ struct TopNavigationView: View {
                         }
                     }).padding([.leading, .trailing], 24)
                 }
-            }.padding(.bottom, 12)
+            }.padding(.bottom, self.description != "" ? 12 : 0)
 
-            Text(description)
-                .retinaTypography(.p5_main)
-                .foregroundColor(.rGrey100)
-                .padding([.leading, .trailing], 24)
-                .fixedSize(horizontal: false, vertical: true)
+            if (self.description != "") {
+                Text(self.description)
+                    .retinaTypography(.p5_main)
+                    .foregroundColor(.rGrey100)
+                    .padding([.leading, .trailing], 24)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
 
             if (self.searchBar) {
                 Search(isBack: false, isFilter: true, placeholder: self.searchBarPlaceholder, searchText: $searchText, buttonCommit: {  })

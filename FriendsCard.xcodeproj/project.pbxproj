@@ -32,6 +32,8 @@
 		B183DC5D2518AED9008D0416 /* Menlo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B183DC5B2518AED8008D0416 /* Menlo-Regular.ttf */; };
 		B183DC5E2518AED9008D0416 /* Menlo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B183DC5C2518AED9008D0416 /* Menlo-Bold.ttf */; };
 		B183DC7225195F5A008D0416 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183DC7125195F5A008D0416 /* Alert.swift */; };
+		B183DC87251A7250008D0416 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183DC86251A7250008D0416 /* MessagesView.swift */; };
+		B183DC8C251AAB36008D0416 /* Picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183DC8B251AAB36008D0416 /* Picker.swift */; };
 		B1BA453F24FB84E200E14C27 /* SelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450924FB84E200E14C27 /* SelectionCell.swift */; };
 		B1BA454024FB84E200E14C27 /* StatusCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450A24FB84E200E14C27 /* StatusCell.swift */; };
 		B1BA454124FB84E200E14C27 /* InviteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BA450B24FB84E200E14C27 /* InviteCell.swift */; };
@@ -119,6 +121,8 @@
 		B183DC5B2518AED8008D0416 /* Menlo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Menlo-Regular.ttf"; sourceTree = "<group>"; };
 		B183DC5C2518AED9008D0416 /* Menlo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Menlo-Bold.ttf"; sourceTree = "<group>"; };
 		B183DC7125195F5A008D0416 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		B183DC86251A7250008D0416 /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
+		B183DC8B251AAB36008D0416 /* Picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picker.swift; sourceTree = "<group>"; };
 		B1BA450924FB84E200E14C27 /* SelectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionCell.swift; sourceTree = "<group>"; };
 		B1BA450A24FB84E200E14C27 /* StatusCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusCell.swift; sourceTree = "<group>"; };
 		B1BA450B24FB84E200E14C27 /* InviteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteCell.swift; sourceTree = "<group>"; };
@@ -347,6 +351,7 @@
 				B1BA451724FB84E200E14C27 /* Search.swift */,
 				B151A2732508F60700534657 /* Badge.swift */,
 				B183DC7125195F5A008D0416 /* Alert.swift */,
+				B183DC8B251AAB36008D0416 /* Picker.swift */,
 			);
 			path = Fields;
 			sourceTree = "<group>";
@@ -357,6 +362,7 @@
 				B183DC50251821FF008D0416 /* TopNavigationHeader.swift */,
 				B1BA451924FB84E200E14C27 /* TopNavigationView.swift */,
 				B151A2782508FCD800534657 /* BottomNavigationView.swift */,
+				B183DC86251A7250008D0416 /* MessagesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -742,6 +748,7 @@
 				B1BA456B24FBBFDF00E14C27 /* ReminderCell.swift in Sources */,
 				B1BA455C24FB84E200E14C27 /* CornerRadius.swift in Sources */,
 				B1BA454C24FB84E200E14C27 /* TopNavigationView.swift in Sources */,
+				B183DC87251A7250008D0416 /* MessagesView.swift in Sources */,
 				B151A2772508F8FB00534657 /* ClassCells.swift in Sources */,
 				B151A2792508FCD800534657 /* BottomNavigationView.swift in Sources */,
 				B151A27F250A036C00534657 /* PollCell.swift in Sources */,
@@ -760,6 +767,7 @@
 				B17868C32511C534008D51C3 /* LecturesView.swift in Sources */,
 				B1EE973825122DC200655F03 /* LecturePollsView.swift in Sources */,
 				B183DC51251821FF008D0416 /* TopNavigationHeader.swift in Sources */,
+				B183DC8C251AAB36008D0416 /* Picker.swift in Sources */,
 				B1810D8F2514231D0060E001 /* SeePeopleView.swift in Sources */,
 				B1BA454024FB84E200E14C27 /* StatusCell.swift in Sources */,
 				B1BA456524FB84E200E14C27 /* AppDelegate.swift in Sources */,
@@ -936,7 +944,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;
@@ -959,7 +967,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;

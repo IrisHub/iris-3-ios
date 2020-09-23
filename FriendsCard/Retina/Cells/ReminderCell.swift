@@ -12,6 +12,7 @@ struct ReminderCell: View {
     var name: String
     var frequency: String
     var messaged: Bool
+    var editCommit: () -> Void = {}
     var buttonCommit: () -> Void = {}
 
     var body: some View {
@@ -32,6 +33,9 @@ struct ReminderCell: View {
                         .padding(.bottom, 6)
 
                     Button(action: {
+                        DispatchQueue.main.async {
+                            self.editCommit()
+                        }
                     }) {
                         HStack {
                             Image(systemName: "pencil").foregroundColor(.rGrey100)
