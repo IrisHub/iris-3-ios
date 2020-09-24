@@ -10,8 +10,8 @@ import SwiftUI
 
 struct ClassCells: View {
     var name: String
-    var badgeTitle: String
-    var badgeIcon: String
+    var badgeTitles: [String]
+    var badgeIcons: [String] = [""]
 
     var body: some View {
         ZStack(alignment: .leading) {
@@ -24,8 +24,13 @@ struct ClassCells: View {
             HStack {
                 Text(self.name.capitalizingFirstLetter()).foregroundColor(.white).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, Space.rSpaceThree)
                 Spacer()
+                
+                HStack {
+                    ForEach(Array(zip(self.badgeTitles.indices, self.badgeTitles)), id: \.0) { index, badgeTitle in
+                        Badge(text: badgeTitle, icon: badgeIcons.count != badgeTitles.count ? "" : badgeIcons[index], size: .h5).padding(.trailing, Space.rSpaceThree).isHidden(badgeTitle == "0")
+                    }
+                }
 //                Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceOne)
-                Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceThree).isHidden(badgeTitle == "0")
 
             }
         }
@@ -34,6 +39,6 @@ struct ClassCells: View {
 
 struct ClassCells_Previews: PreviewProvider {
     static var previews: some View {
-        ClassCells(name: "Homework 1", badgeTitle: "10 hr", badgeIcon: "clock")
+        ClassCells(name: "Homework 1", badgeTitles: ["10 hr"], badgeIcons: ["clock"])
     }
 }

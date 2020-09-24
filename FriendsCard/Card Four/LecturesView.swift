@@ -17,6 +17,7 @@ struct LecturesView: View {
     @State var classes: [Classes] = [Classes]()
     @State var lectures: [Lectures] = [Lectures]()
     @State var polls: [[Poll]] = [[Poll]]()
+    @State var pollTitles: [String] = [String]()
     @State var searchText : String?
     @State var selection: String? = nil
 
@@ -35,9 +36,8 @@ struct LecturesView: View {
                             .background(Color.rBlack500)
                             
                             ForEach(self.lectures.filter({ $0.classID == currentClass.id }), id: \.self) { (lecture: Lectures) in
-                                
-                                NavigationLink(destination: LecturePollsView(className: currentClass.name, lectureName: lecture.name, classID: lecture.classID, polls: self.$polls), tag: currentClass.name + lecture.name, selection: self.$selection) {
-                                    ClassCells(name: lecture.name, badgeTitle: "Okay", badgeIcon: "clock")
+                                NavigationLink(destination: LecturePollsView(className: currentClass.name, lectureName: lecture.name, classID: lecture.classID, lecture: lecture, polls: self.$polls, pollTitles: self.$pollTitles), tag: currentClass.name + lecture.name, selection: self.$selection) {
+                                    ClassCells(name: lecture.name, badgeTitles: lecture.maxVotes, badgeIcons: [""])
                                 }
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                             }
@@ -58,6 +58,7 @@ struct LecturesView: View {
         self.classes = [Classes]()
         self.lectures = [Lectures]()
         self.polls = [[Poll]]()
+        self.pollTitles = [String]()
 
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
@@ -68,10 +69,13 @@ struct LecturesView: View {
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())
-                print(json)
-                for (i,pollsJson):(String, JSON) in json["polls"] {
+//                print(json["polls"])
+                
+                self.pollTitles = json["poll_titles"].arrayValue.map { $0.stringValue }
+                
+                for pollsJson : JSON in json["polls"].arrayValue {
                     var pollArray = [Poll]()
-                    for (i,polls):(String, JSON) in pollsJson[i] {
+                    for (i,polls):(String, JSON) in pollsJson {
                         let poll = Poll(id: i, name: polls["text"].stringValue, emoji: polls["icon"].stringValue)
                         pollArray.append(poll)
                     }
@@ -84,7 +88,7 @@ struct LecturesView: View {
                     self.classes.append(currentClass)
                     
                     for (_,subJson2):(String, JSON) in subJson["lectures"] {
-                        let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_id"].stringValue, polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson2["lecture_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson2["user_vote"].arrayValue.map { $0.intValue })
+                        let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["lecture_name"].stringValue, polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.stringValue}, votePercentages: subJson2["lecture_vote_pcts"].arrayValue.map { $0.map { $1.intValue } }, userVote: subJson2["user_vote"].arrayValue.map { $0.intValue })
                             
                         self.lectures.append(lecture)
                     }

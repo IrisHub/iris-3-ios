@@ -13,9 +13,9 @@ struct PickerView<Presenting>: View where Presenting: View {
     @Binding var isShowing: Bool
     @Binding var commitChanges: Bool
     @Binding var picked: Int
+    @Binding var options: [String]
     let presenting: Presenting
     let title: String
-    let options: [String]
 
     var body: some View {
         GeometryReader { (deviceSize: GeometryProxy) in
@@ -43,8 +43,8 @@ struct PickerView<Presenting>: View where Presenting: View {
                             }.padding([.top, .trailing], Space.rSpaceThree)
                         }
                         Picker(self.title, selection: $picked) {
-                            ForEach(0..<options.count) {
-                                Text(self.options[$0]).foregroundColor(.rWhite).retinaTypography(.p5_main)
+                            ForEach(Array(zip(self.options.indices, self.options)), id: \.0) { index, option in
+                                Text(option).foregroundColor(.rWhite).retinaTypography(.p5_main).tag(index)
                             }
                         }.pickerStyle(WheelPickerStyle())
                         
@@ -68,12 +68,12 @@ extension View {
     func pickerView(isShowing: Binding<Bool>,
                     commitChanges: Binding<Bool>,
                         picked: Binding<Int>,
-                        title: String, options: [String]) -> some View {
+                        title: String, options: Binding<[String]>) -> some View {
         PickerView(isShowing: isShowing,
-                   commitChanges: commitChanges,
+                       commitChanges: commitChanges,
                        picked: picked,
-                       presenting: self,
-                       title: title, options: options)
+                       options: options, presenting: self,
+                       title: title)
     }
 
 }

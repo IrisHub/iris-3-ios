@@ -13,7 +13,7 @@ class GoogleDelegate: NSObject, GIDSignInDelegate, ObservableObject {
     
     var clientID = "34431726447-bml0p59f5uev4mhl61dtsjd8cge7hhrt.apps.googleusercontent.com"
     var serverClientID = "34431726447-htsbgcpttuj8ou690s391dfm4sssf4js.apps.googleusercontent.com"
-    var scopes = ["https://www.googleapis.com/auth/calendar"]
+    var scopes = ["https://www.googleapis.com/auth/calendar.events.readonly"]
 
     @Published var signedIn: Bool = false
         

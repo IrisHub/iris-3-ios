@@ -11,6 +11,7 @@ import SwiftUI
 struct TextFieldAlert<Presenting>: View where Presenting: View {
 
     @Binding var isShowing: Bool
+    @Binding var commitChanges: Bool
     @Binding var text: String
     let presenting: Presenting
     let title: String
@@ -37,6 +38,8 @@ struct TextFieldAlert<Presenting>: View where Presenting: View {
                                 withAnimation {
                                     self.isShowing.toggle()
                                     self.hideKeyboard()
+                                    self.text = ""
+                                    self.commitChanges = false
                                 }
                             }) {
                                 Text("CANCEL").foregroundColor(.rWhite).retinaTypography(.p5_main)
@@ -46,6 +49,7 @@ struct TextFieldAlert<Presenting>: View where Presenting: View {
                                 withAnimation {
                                     self.isShowing.toggle()
                                     self.hideKeyboard()
+                                    self.commitChanges = true
                                 }
                             }) {
                                 Text("SHARE").foregroundColor(.rPurple).retinaTypography(.h5_main)
@@ -69,9 +73,11 @@ struct TextFieldAlert<Presenting>: View where Presenting: View {
 extension View {
 
     func textFieldAlert(isShowing: Binding<Bool>,
+                        commitChanges: Binding<Bool>,
                         text: Binding<String>,
                         title: String) -> some View {
         TextFieldAlert(isShowing: isShowing,
+                       commitChanges: commitChanges,
                        text: text,
                        presenting: self,
                        title: title)

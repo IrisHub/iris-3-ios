@@ -26,40 +26,42 @@ struct PollCell: View {
     var body: some View {
         ZStack(alignment: .leading) {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
+            VStack {
+                HStack {
+                    Text(self.name.capitalizingFirstLetter()).foregroundColor(.white).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, Space.rSpaceThree)
+                    Spacer()
+                    Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceThree)
+                        .isHidden(badgeTitle == "0")
+                }
                 VStack {
-                    HStack {
-                        Text(self.name.capitalizingFirstLetter()).foregroundColor(.white).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading).padding(.leading, Space.rSpaceThree)
-                        Spacer()
-                        Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceThree)
-                            .isHidden(badgeTitle == "0")
-                    }
-                    VStack {
-                        ForEach(Array(zip(self.polls.indices, self.polls)), id: \.0) { index, poll in
-                            retinaLeftButton(text: poll.name, left: .emoji, iconString: poll.emoji, size: .medium, progress: CGFloat(percents[index]), action: {
-                                DispatchQueue.main.async {
-                                    if (self.assignmentID != nil) {
-                                        self.pressHomeworkPoll(classID: self.classID, assignmentID: self.assignmentID ?? "", problemID: self.problemID ?? "", value: Int(poll.id) ?? 0)
-                                    } else {
-                                        self.pressLecturePoll(classID: self.classID, lectureID: self.lectureID ?? "", pollID: self.pollID ?? "", value: Int(poll.id) ?? 0)
-                                    }
-                                }
-                            }).padding([.bottom], -12)
-                        }
-                    }
-                    
-                    HStack {
-                        if (voted) {
-                            retinaButton(text: "Undo", style: .ghost, color: Color.rPink, action: {
+                    ForEach(Array(zip(self.polls.indices, self.polls)), id: \.0) { index, poll in
+                        retinaLeftButton(text: poll.name, left: .emoji, iconString: poll.emoji, size: .medium, progress: CGFloat(percents[index]), action: {
+                            DispatchQueue.main.async {
                                 if (self.assignmentID != nil) {
-                                    self.pressHomeworkPoll(classID: self.classID, assignmentID: self.assignmentID ?? "", problemID: self.problemID ?? "", value: -1)
+                                    self.pressHomeworkPoll(classID: self.classID, assignmentID: self.assignmentID ?? "", problemID: self.problemID ?? "", value: Int(poll.id) ?? 0)
                                 } else {
-                                    self.pressLecturePoll(classID: self.classID, lectureID: self.lectureID ?? "", pollID: self.pollID ?? "", value: -1)
+                                    self.pressLecturePoll(classID: self.classID, lectureID: self.lectureID ?? "", pollID: self.pollID ?? "", value: Int(poll.id) ?? 0)
                                 }
-                            }).padding(.leading, Space.rSpaceTwo)
-                            Spacer()
-                        }
+                            }
+                        }).padding([.bottom], -12)
                     }
                 }
+                
+                HStack {
+                    if (voted) {
+                        retinaButton(text: "Undo", style: .ghost, color: Color.rPink, action: {
+                            if (self.assignmentID != nil) {
+                                self.pressHomeworkPoll(classID: self.classID, assignmentID: self.assignmentID ?? "", problemID: self.problemID ?? "", value: -1)
+                            } else {
+                                self.pressLecturePoll(classID: self.classID, lectureID: self.lectureID ?? "", pollID: self.pollID ?? "", value: -1)
+                            }
+                        }).padding(.leading, Space.rSpaceTwo)
+                        Spacer()
+                    }
+                }
+            }
+        }.onAppear() {
+            print("POLL CELL", self.polls)
         }
     }
     
@@ -117,17 +119,22 @@ struct PollCell: View {
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())
+                let pollTitles = json["poll_titles"].arrayValue.map { $0.stringValue }
                 for (_,subJson):(String, JSON) in json["classes"] {
-                    for (_,subJson2):(String, JSON) in subJson["lectures"] {
-                        let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_id"].stringValue, polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.intValue}, votePercentages: subJson2["lecture_vote_pcts"].arrayValue.map { $0.intValue}, userVote: subJson2["user_vote"].arrayValue.map { $0.intValue })
-                        
-                        
-//                        self.name = problem.name
-//                        self.badgeTitle = problem.averageTime
-//                        self.percents = problem.votePercentages
-//                        self.voted = (problem.userVote != -1)
-
-                        
+                    if (subJson["class_id"].stringValue == classID) {
+                        for (_,subJson2):(String, JSON) in subJson["lectures"] {
+                            if (subJson2["lecture_id"].stringValue == lectureID) {
+                                let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_id"].stringValue, polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.stringValue}, votePercentages: subJson2["lecture_vote_pcts"].arrayValue.map { $0.map { $1.intValue } }, userVote: subJson2["user_vote"].arrayValue.map { $0.intValue })
+                            
+                                for (i,title) in pollTitles.enumerated() {
+                                    if (title == self.name) {
+                                        self.badgeTitle = lecture.maxVotes[i]
+                                        self.percents = lecture.votePercentages[i]
+                                        self.voted = lecture.userVote[i] != -1
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             } catch {

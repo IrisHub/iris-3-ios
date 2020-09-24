@@ -27,18 +27,18 @@ struct CloseFriendSchedule: Hashable, Identifiable, Codable {
     var busy: Bool = false
 }
 
-struct DistantFriendProfile: Hashable, Identifiable, Codable {
+struct ReminderProfile: Hashable, Identifiable, Codable {
     var id: String = "1"
     var name: String
     var emoji: String
     var messaged: Bool
+    var frequency: String
 }
 
-struct LeaderboardProfile: Hashable, Identifiable, Codable {
-    var id: String = "1"
-    var name: String
-    var score: String
-    var onIris: Bool = false
+struct OskiProfile: Hashable, Codable {
+    var health: String
+    var image: String
+    var score: Int
 }
 
 struct Poll: Hashable, Identifiable, Codable {
@@ -56,6 +56,7 @@ struct Classes: Hashable, Identifiable, Codable {
 struct Avatar: Hashable, Codable {
     var name: String = ""
     var icon: String = ""
+    var tags: String = ""
 }
 
 
@@ -64,8 +65,6 @@ struct Assignments: Hashable, Identifiable, Codable {
     var classID: String = "1"
     var name: String
     var averageTime: String = "0"
-    var userBroadcasted: Bool = false
-    var userBroadcastTags: String = ""
 }
 
 struct Problems: Hashable, Identifiable, Codable {
@@ -84,8 +83,8 @@ struct Lectures: Hashable, Identifiable, Codable {
     var classID: String = "1"
     var name: String
     var polls: [[Int]]
-    var maxVotes: [Int]
-    var votePercentages: [Int]
+    var maxVotes: [String]
+    var votePercentages: [[Int]]
     var userVote: [Int]
 }
 

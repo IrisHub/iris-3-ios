@@ -10,13 +10,14 @@ import SwiftUI
 import MessageUI
 import Alamofire
 import SwiftyJSON
+import URLImage
 
 struct ReminderView: View {
 //    @Binding var currentCardState: String?
     @EnvironmentObject var screenCoordinator: ScreenCoordinator
 
-    @State var friendReminders: [DistantFriendProfile] = [DistantFriendProfile]()
-    @State var friendLeaderboard: [LeaderboardProfile] = [LeaderboardProfile]()
+    @State var friendReminders: [ReminderProfile] = [ReminderProfile]()
+    @State var oskiProfile: OskiProfile = OskiProfile(health: "", image: "", score: 0)
 
     @State var searchText : String?
     
@@ -24,7 +25,7 @@ struct ReminderView: View {
     @State var selectedID: String = ""
     @State var isShowingPicker = false
     @State var commitChanges = false
-    var frequencyOptions = ["Daily", "Every few days", "Weekly", "Every 2 weeks"]
+    @State var frequencyOptions: [String] = [String]()
 
 
 
@@ -40,19 +41,33 @@ struct ReminderView: View {
                 List {
                     HStack {
                         Text("Oski’s Health: ").foregroundColor(.rWhite).fixedSize(horizontal: false, vertical: true).retinaTypography(.p5_main)
-                        Text("Unwell 😨").foregroundColor(.rRed).fixedSize(horizontal: false, vertical: true).retinaTypography(.p5_main)
+                        Text(oskiProfile.health).foregroundColor(oskiProfile.score == 0 ? .rGreen : .rRed).fixedSize(horizontal: false, vertical: true).retinaTypography(.p5_main)
                     }
                     .padding([.leading, .bottom, .trailing], 24)
                     .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
 
+                    if (oskiProfile.image != "") {
+                        URLImage((URL(string: oskiProfile.image) ?? URL(string: "https://www.minasjr.com.br/wp-content/themes/minasjr/images/placeholders/placeholder_large_dark.jpg")!)){ proxy in
+                        proxy.image
+                            .resizable()
+                            .renderingMode(.original)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: UIScreen.screenSize.width-48, height: (UIScreen.screenSize.width-48.0)/800.0 * 600.0)
+                        }
+                        .padding([.leading, .bottom, .trailing], 24)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .background(Color.rBlack500)
+                    } else {
+                        Image("sadoski")
+                        .resizable()
+                        .frame(width: UIScreen.screenSize.width-48, height: (UIScreen.screenSize.width-48.0)/800.0 * 600.0)
+                        .aspectRatio(contentMode: .fit)
+                        .padding([.leading, .bottom, .trailing], 24)
+                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
+                        .background(Color.rBlack500)
+                    }
 
-                    Image("sadoski")
-                    .resizable()
-                    .frame(width: UIScreen.screenSize.width-48, height: (UIScreen.screenSize.width-48.0)/800.0 * 600.0)
-                    .aspectRatio(contentMode: .fit)
-                    .padding([.leading, .bottom, .trailing], 24)
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .background(Color.rBlack500)
+
                     
                     if (self.friendReminders.count != 0) {
                         Text("Remind me").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
@@ -61,8 +76,8 @@ struct ReminderView: View {
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                     }
 
-                    ForEach(self.friendReminders, id: \.self) { (friend: DistantFriendProfile) in
-                        ReminderCell(name: friend.name, frequency: "Daily", messaged: friend.messaged, editCommit: { selectedID = friend.id; withAnimation { self.isShowingPicker.toggle() } }, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
+                    ForEach(self.friendReminders, id: \.self) { (friend: ReminderProfile) in
+                        ReminderCell(name: friend.name, frequency: friend.frequency, messaged: friend.messaged, editCommit: { selectedID = friend.id; withAnimation { self.isShowingPicker.toggle() } }, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
                         .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                     }
                 }
@@ -70,76 +85,84 @@ struct ReminderView: View {
                 Spacer()
             }
         }
-        .pickerView(isShowing: self.$isShowingPicker, commitChanges: self.$commitChanges, picked: self.$selectedFrequencyIndex, title: "Change Frequency", options: frequencyOptions)
+        .pickerView(isShowing: self.$isShowingPicker, commitChanges: self.$commitChanges, picked: self.$selectedFrequencyIndex, title: "Change Frequency", options: self.$frequencyOptions)
         .onChange(of: commitChanges) { _ in
-            self.changeFrequency(phoneNumber: self.selectedID, frequency: self.frequencyOptions[self.selectedFrequencyIndex])
+            if (commitChanges) {
+                self.changeFrequency(phoneNumber: self.selectedID, frequency: self.frequencyOptions[self.selectedFrequencyIndex])
+            }
         }
         .hideNavigationBar()
         .onAppear() {
             self.getReminders()
         }
     }
-    
-    func changeFrequency(phoneNumber: String, frequency: String) {
-        print(phoneNumber, frequency)
-        
-        // Reset everything
-        self.selectedID = ""
-        self.selectedFrequencyIndex = 0
-        self.commitChanges = false
-    }
-        
+            
     func getReminders() {
-        friendReminders = [DistantFriendProfile]()
-        friendLeaderboard = [LeaderboardProfile]()
+        friendReminders = [ReminderProfile]()
+        oskiProfile = OskiProfile(health: "", image: "", score: 0)
 
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
         ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
         print(parameters)
-        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/contacts-get", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/reminders-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())
-                print(json)
-                for (_,subJson):(String, JSON) in json["current_contacts"] {
-                    let item = DistantFriendProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), messaged: subJson["messaged"].boolValue)
+                self.frequencyOptions = json["options"].arrayValue.map { $0.stringValue }
+                print(self.frequencyOptions)
+//                print(json)
+                for (_,subJson):(String, JSON) in json["friend_states"] {
+                    let item = ReminderProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), messaged: subJson["messaged"].boolValue, frequency: subJson["frequency"].stringValue)
                     self.friendReminders.append(item)
                 }
                 
-                for (_,subJson):(String, JSON) in json["leaderboard"] {
-                    let item = LeaderboardProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, score: subJson["total"].stringValue, onIris: subJson["on_iris"].boolValue)
-                    self.friendLeaderboard.append(item)
-                }
+                self.oskiProfile = OskiProfile(health: json["oski_state"]["health"].stringValue, image: json["oski_state"]["image"].stringValue, score: json["oski_state"]["score"].intValue)
+                
             } catch {
                 print("error")
             }
         }
     }
     
-    func reachedOut(phoneNumber: String) {
-        friendLeaderboard = [LeaderboardProfile]()
-
+    func changeUserSettings(phoneNumber: String, frequency: String = "") {
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber"),
-            "messaged": phoneNumber
+            "friend_id": phoneNumber,
+            "frequency": frequency
         ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
         print(parameters)
-        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/contacts-get", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/reminders-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())
-                self.friendLeaderboard = [LeaderboardProfile]()
-                for (_,subJson):(String, JSON) in json["leaderboard"] {
-                    let item = LeaderboardProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, score: subJson["total"].stringValue, onIris: subJson["on_iris"].boolValue)
-                    self.friendLeaderboard.append(item)
+                self.frequencyOptions = json["options"].arrayValue.map { $0.stringValue }
+
+                print(json)
+                for (_,subJson):(String, JSON) in json["friend_states"] {
+                    let friend = ReminderProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), messaged: subJson["messaged"].boolValue, frequency: subJson["frequency"].stringValue)
+                    if (friend.id == phoneNumber) {
+                        self.friendReminders[self.friendReminders.firstIndex(where: {$0.id == phoneNumber}) ?? 0] = friend
+                    }
                 }
+                
+                self.oskiProfile = OskiProfile(health: json["oski_state"]["health"].stringValue, image: json["oski_state"]["image"].stringValue, score: json["oski_state"]["score"].intValue)
+
             } catch {
                 print("error")
             }
         }
+    }
+    
+    func changeFrequency(phoneNumber: String, frequency: String) {
+        self.changeUserSettings(phoneNumber: phoneNumber, frequency: frequency)
+        
+        // Reset everything
+        self.selectedID = ""
+        self.selectedFrequencyIndex = 0
+        self.commitChanges = false
     }
 }
 
@@ -171,7 +194,7 @@ extension ReminderView {
         composeVC.messageComposeDelegate = messageComposeDelegate
         composeVC.body = "Hey "
         composeVC.recipients = [phoneNumber]
-        self.reachedOut(phoneNumber: phoneNumber)
+        self.changeUserSettings(phoneNumber: phoneNumber)
 
         vc?.present(composeVC, animated: true, completion: nil)
     }

@@ -14,7 +14,7 @@ struct CollaborationView: View {
 //    @Binding var currentCardState: String?
     @EnvironmentObject var screenCoordinator: ScreenCoordinator
 
-    @State var avatar: Avatar = Avatar()
+    @State var avatars: [Avatar] = [Avatar]()
     @State var classes: [Classes] = [Classes]()
     @State var assignments: [Assignments] = [Assignments]()
     @State var broadcasters: [Broadcaster] = [Broadcaster]()
@@ -36,10 +36,9 @@ struct CollaborationView: View {
                             .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .background(Color.rBlack500)
                             
-                            ForEach(self.assignments.filter({ $0.classID == currentClass.id }), id: \.self) { (assignment: Assignments) in
-                                
-                                NavigationLink(destination: SeePeopleView(className: currentClass.name, assignmentName: assignment.name, classID: currentClass.id, assignmentID: assignment.id, broadcasters: self.broadcasters.filter({ $0.classID == currentClass.id && $0.assignmentID == assignment.id }), assignments: self.assignments.filter({ $0.id == assignment.id }), name: self.avatar.name, avatar: self.avatar.icon, tags: assignment.userBroadcastTags), tag: assignment.name, selection: self.$selection) {
-                                    ClassCells(name: assignment.name, badgeTitle: assignment.averageTime, badgeIcon: "clock")
+                            ForEach(Array(zip(self.assignments.filter({ $0.classID == currentClass.id }).indices, self.assignments.filter({ $0.classID == currentClass.id }))), id: \.0) { index, assignment in
+                                NavigationLink(destination: SeePeopleView(className: currentClass.name, assignmentName: assignment.name, classID: currentClass.id, assignmentID: assignment.id, broadcasters: self.broadcasters.filter({ $0.classID == currentClass.id && $0.assignmentID == assignment.id }), assignments: self.assignments.filter({ $0.id == assignment.id }), name: self.avatars[index].name, avatar: self.avatars[index].icon, tags: self.avatars[index].tags), tag: assignment.name, selection: self.$selection) {
+                                    ClassCells(name: assignment.name, badgeTitles: [assignment.averageTime], badgeIcons: ["clock"])
                                 }
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                             }
@@ -60,6 +59,7 @@ struct CollaborationView: View {
         self.classes = [Classes]()
         self.assignments = [Assignments]()
         self.broadcasters = [Broadcaster]()
+        self.avatars = [Avatar]()
 
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
@@ -71,20 +71,21 @@ struct CollaborationView: View {
             do {
                 let json = try JSON(data: response.data ?? Data())
                 print(json)
-                self.avatar = Avatar(name: json["current_user_broadcast_name"].stringValue, icon: json["current_user_broadcast_icon"].stringValue)
-
                 
                 for (_,subJson):(String, JSON) in json["classes"] {
                     let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
                     self.classes.append(currentClass)
                     
                     for (_,subJson2):(String, JSON) in subJson["assignments"] {
-                        let assignment = Assignments(id: subJson2["assignment_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_name"].stringValue, userBroadcasted: subJson2["current_user_broadcasted"].boolValue, userBroadcastTags: subJson2["current_user_broadcast_tags"].stringValue)
+                        let assignment = Assignments(id: subJson2["assignment_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_name"].stringValue)
                         self.assignments.append(assignment)
+                        
+                        let avatar = Avatar(name: subJson2["current_user_broadcast_name"].stringValue, icon: subJson2["current_user_broadcast_icon"].stringValue, tags: subJson2["current_user_broadcast_tags"].stringValue)
+                        self.avatars.append(avatar)
                         
                         for (_,subJson3):(String, JSON) in subJson2["other_users"] {
                             let otherUsers = Broadcaster(id: subJson3["id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["broadcast_name"].stringValue, icon: subJson3["broadcast_icon"].stringValue, tags: subJson3["broadcast_tags"].stringValue)
-                            self.broadcasters.append(otherUsers)
+                            if otherUsers.id != UserDefaults.standard.string(forKey: "phoneNumber") { self.broadcasters.append(otherUsers) }
                         }
                     }
                 }

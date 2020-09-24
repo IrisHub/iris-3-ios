@@ -103,8 +103,6 @@ struct ChooseCloseFriends: View {
             } else if (self.card.selectionScreens[self.selectionNumber ?? 0].selection == .classes) {
                 if (self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID == "classes") {
                     self.fetchClasses()
-                } else if  (self.card.selectionScreens[self.selectionNumber ?? 0].userDefaultID == "classes2") {
-                    self.fetchClasses2()
                 }
             }
         }
@@ -146,8 +144,8 @@ struct ChooseCloseFriends: View {
     func signUpCard2() {
         struct User: Codable {
             var user_id: String
-            var close_friend_ids: [String]
-            var close_friend_names: [String]
+            var friend_ids: [String]
+            var friend_names: [String]
         }
 
         do {
@@ -160,14 +158,14 @@ struct ChooseCloseFriends: View {
                 }
             }
 
-            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", close_friend_ids: (peopleArray[0]).map({ $0.phoneNum }), close_friend_names: (peopleArray[0]).map({ $0.name }))
+            let user = User(user_id: UserDefaults.standard.string(forKey: "phoneNumber") ?? "", friend_ids: (peopleArray[0]).map({ $0.phoneNum }), friend_names: (peopleArray[0]).map({ $0.name }))
             let jsonData = try JSONEncoder().encode(user)
             let jsonString = String(data: jsonData, encoding: .utf8)!
             print(jsonString)
             
             let parameters = convertToDictionary(text: jsonString)
             let headers : HTTPHeaders = ["Content-Type": "application/json"]
-            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/contacts-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/reminders-auth", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card2PermissionsComplete")
                 self.nextPage = "card2"
@@ -327,26 +325,6 @@ struct ChooseCloseFriends: View {
             }
         }
     }
-    
-    func fetchClasses2() {
-        self.classes = [Classes]()
-        
-        let headers : HTTPHeaders = ["Content-Type": "application/json"]
-        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/homework-classes-list", method: .post, encoding: JSONEncoding.default, headers: headers)
-            .responseJSON { response in
-            do {
-                let json = try JSON(data: response.data ?? Data())
-                for (_,subJson):(String, JSON) in json["classes"] {
-                    let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
-                    print(currentClass.name)
-                    self.classes?.append(currentClass)
-                }
-            } catch {
-                print("error")
-            }
-        }
-    }
-
 
 
 

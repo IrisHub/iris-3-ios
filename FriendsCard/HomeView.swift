@@ -59,13 +59,13 @@ struct HomeView: View {
             SelectionScreen(id: "screen1", title: "CHOOSE CLOSE FRIENDS", description: "We’ll tell you when they’re free or busy.", buttonTitle: "CHOOSE CLOSE FRIENDS", selection: .contacts, userDefaultID: "closeFriends")
         ]),
         Card(id: "card3", heading: "CARD03 SEPTEMBER19-2020", name: "\"HOW LONG IS THE HOMEWORK?\"", searchTitle: "CLASSES", description: "How long the homework actually takes.", buttonTitle: "CHOOSE YOUR CLASSES", permissions: [.none], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Piazza.  We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
+            SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Piazza. We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
         ]),
         Card(id: "card4", heading: "CARD04 SEPTEMBER19-2020", name: "FINESSE THE LECTURE", searchTitle: "CLASSES", description: "Share with your peers what lectures to watch when.", buttonTitle: "CHOOSE YOUR CLASSES", permissions: [.none], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Berkeley Time.  We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
+            SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Piazza. We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
         ]),
         Card(id: "card5", heading: "CARD05 SEPTEMBER19-2020", name: "VIRTUAL STUDY GROUP", searchTitle: "CLASSES", description: "Collab when your study group isn’t responding, or doesn’t exist.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Berkeley Time.  We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
+            SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Piazza. We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
         ])
     ]
     

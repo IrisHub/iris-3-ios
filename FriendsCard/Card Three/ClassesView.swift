@@ -39,7 +39,7 @@ struct ClassesView: View {
                             ForEach(self.assignments.filter({ $0.classID == currentClass.id }), id: \.self) { (assignment: Assignments) in
                                 
                                 NavigationLink(destination: ProblemsView(className: currentClass.name, assignmentName: assignment.name, classID: currentClass.id, assignmentID: assignment.id, problems: self.problems.filter({ $0.classID == currentClass.id && $0.assignmentID == assignment.id }), polls: self.$polls), tag: currentClass.name + assignment.name, selection: self.$selection) {
-                                    ClassCells(name: assignment.name, badgeTitle: assignment.averageTime, badgeIcon: "clock")
+                                    ClassCells(name: assignment.name, badgeTitles: [assignment.averageTime], badgeIcons: ["clock"])
                                 }
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
                             }
