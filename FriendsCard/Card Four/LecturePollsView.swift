@@ -32,7 +32,7 @@ struct LecturePollsView: View {
                 List {
                     Group {
                         ForEach(Array(zip(self.polls.indices, self.polls)), id: \.0) { index, poll in
-                            PollCell(name: pollTitles[index], badgeTitle: lecture.maxVotes[index], badgeIcon: "", polls: poll, percents: lecture.votePercentages[index], voted: (lecture.userVote[index] != -1), classID: self.classID, problemID: lecture.id)
+                            PollCell(name: pollTitles[index], badgeTitle: lecture.maxVotes[index], badgeIcon: "", polls: poll, percents: lecture.votePercentages[index], voted: (lecture.userVote[index] != -1), classID: self.classID, lectureID: lecture.id, pollID: String(index))
                                 .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                                 .background(Color.rBlack500)
                                 .padding(.top, 36)

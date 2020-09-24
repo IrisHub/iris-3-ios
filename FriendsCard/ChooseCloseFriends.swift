@@ -18,12 +18,17 @@ struct ChooseCloseFriends: View {
 
     @State var card : Card
     @State var selectionNumber : Int? = nil
+    
+    @State var shouldSkipThis: Bool = false
+    @Binding var skipThisController : String?
     @State var nextPage : String? = nil
     
     @State var allContacts: [Contact]? = nil
     @State var classes: [Classes]? = nil
 
     @State var error: Error? = nil
+    
+//    @Binding var finishedAuth: Bool
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -59,7 +64,7 @@ struct ChooseCloseFriends: View {
                     NavigationLink(destination: ClassesView().environmentObject(self.screenCoordinator), tag: "card3", selection: self.$nextPage) { EmptyView() }
                     NavigationLink(destination: LecturesView().environmentObject(self.screenCoordinator), tag: "card4", selection: self.$nextPage) { EmptyView() }
                     NavigationLink(destination: CollaborationView().environmentObject(self.screenCoordinator), tag: "card5", selection: self.$nextPage) { EmptyView() }
-                    NavigationLink(destination: ChooseCloseFriends(card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1).environmentObject(self.screenCoordinator), tag: "again", selection: self.$nextPage) { EmptyView() }
+                    NavigationLink(destination: ChooseCloseFriends(card: self.card, selectionNumber: (self.selectionNumber ?? 0)-1, skipThisController: self.$skipThisController, nextPage: self.nextPage).environmentObject(self.screenCoordinator), tag: "again", selection: self.$nextPage) { EmptyView() }
                 }
                 
                 BottomNavigationView(title: "Continue", action: {
@@ -137,6 +142,7 @@ struct ChooseCloseFriends: View {
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card1PermissionsComplete")
                 self.nextPage = "card1"
+                if shouldSkipThis { self.skipThisController = "card1" }
             }
         } catch {  }
     }
@@ -169,6 +175,7 @@ struct ChooseCloseFriends: View {
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card2PermissionsComplete")
                 self.nextPage = "card2"
+                if shouldSkipThis { self.skipThisController = "card2" }
             }
         } catch {  }
     }
@@ -201,6 +208,7 @@ struct ChooseCloseFriends: View {
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card3PermissionsComplete")
                 self.nextPage = "card3"
+                if shouldSkipThis { self.skipThisController = "card3" }
             }
         } catch {  }
     }
@@ -233,6 +241,7 @@ struct ChooseCloseFriends: View {
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card4PermissionsComplete")
                 self.nextPage = "card4"
+                if shouldSkipThis { self.skipThisController = "card4" }
             }
         } catch {  }
     }
@@ -265,6 +274,7 @@ struct ChooseCloseFriends: View {
                 .responseJSON { response in
                 UserDefaults.standard.set(true, forKey: "card5PermissionsComplete")
                 self.nextPage = "card5"
+                if shouldSkipThis { self.skipThisController = "card5" }
             }
         } catch {  }
     }

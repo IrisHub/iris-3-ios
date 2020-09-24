@@ -119,6 +119,7 @@ struct PollCell: View {
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())
+                print(json)
                 let pollTitles = json["poll_titles"].arrayValue.map { $0.stringValue }
                 for (_,subJson):(String, JSON) in json["classes"] {
                     if (subJson["class_id"].stringValue == classID) {
@@ -142,8 +143,6 @@ struct PollCell: View {
             }
         }
     }
-
-
 }
 
 //struct PollCell_Previews: PreviewProvider {
