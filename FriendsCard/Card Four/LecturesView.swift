@@ -69,7 +69,7 @@ struct LecturesView: View {
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())
-//                print(json["polls"])
+                print(json)
                 
                 self.pollTitles = json["poll_titles"].arrayValue.map { $0.stringValue }
                 

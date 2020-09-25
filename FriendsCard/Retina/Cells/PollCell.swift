@@ -119,19 +119,18 @@ struct PollCell: View {
             .responseJSON { response in
             do {
                 let json = try JSON(data: response.data ?? Data())
-                print(json)
                 let pollTitles = json["poll_titles"].arrayValue.map { $0.stringValue }
                 for (_,subJson):(String, JSON) in json["classes"] {
                     if (subJson["class_id"].stringValue == classID) {
                         for (_,subJson2):(String, JSON) in subJson["lectures"] {
                             if (subJson2["lecture_id"].stringValue == lectureID) {
-                                let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_id"].stringValue, polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.stringValue}, votePercentages: subJson2["lecture_vote_pcts"].arrayValue.map { $0.map { $1.intValue } }, userVote: subJson2["user_vote"].arrayValue.map { $0.intValue })
+                                let lecture = Lectures(id: subJson2["lecture_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["lecture_name"].stringValue, polls: subJson2["lecture_polls"].arrayValue.map { $0.map { $1.intValue } }, maxVotes: subJson2["lecture_max_votes"].arrayValue.map { $0.stringValue}, votePercentages: subJson2["lecture_vote_pcts"].arrayValue.map { $0.map { $1.intValue } }, userVote: subJson2["user_vote"].arrayValue.map { $0.intValue })
                             
                                 for (i,title) in pollTitles.enumerated() {
                                     if (title == self.name) {
                                         self.badgeTitle = lecture.maxVotes[i]
                                         self.percents = lecture.votePercentages[i]
-                                        self.voted = lecture.userVote[i] != -1
+                                        self.voted = (lecture.userVote[i] != -1)
                                     }
                                 }
                             }

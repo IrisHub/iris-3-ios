@@ -48,7 +48,7 @@ struct ReminderView: View {
 
                     if (oskiProfile.image != "") {
                         URLImage((URL(string: oskiProfile.image) ?? URL(string: "https://www.minasjr.com.br/wp-content/themes/minasjr/images/placeholders/placeholder_large_dark.jpg")!)){ proxy in
-                        proxy.image
+                            proxy.image
                             .resizable()
                             .renderingMode(.original)
                             .aspectRatio(contentMode: .fit)
@@ -57,17 +57,7 @@ struct ReminderView: View {
                         .padding([.leading, .bottom, .trailing], 24)
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .background(Color.rBlack500)
-                    } else {
-                        Image("sadoski")
-                        .resizable()
-                        .frame(width: UIScreen.screenSize.width-48, height: (UIScreen.screenSize.width-48.0)/800.0 * 600.0)
-                        .aspectRatio(contentMode: .fit)
-                        .padding([.leading, .bottom, .trailing], 24)
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        .background(Color.rBlack500)
-                    }
-
-
+=                    }
                     
                     if (self.friendReminders.count != 0) {
                         Text("Remind me").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
@@ -112,14 +102,13 @@ struct ReminderView: View {
                 let json = try JSON(data: response.data ?? Data())
                 self.frequencyOptions = json["options"].arrayValue.map { $0.stringValue }
                 print(self.frequencyOptions)
-//                print(json)
+                print(json)
                 for (_,subJson):(String, JSON) in json["friend_states"] {
                     let item = ReminderProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), messaged: subJson["messaged"].boolValue, frequency: subJson["frequency"].stringValue)
                     self.friendReminders.append(item)
                 }
-                
-                self.oskiProfile = OskiProfile(health: json["oski_state"]["health"].stringValue, image: json["oski_state"]["image"].stringValue, score: json["oski_state"]["score"].intValue)
-                
+                let convertedStr = json["oski_state"]["img"].stringValue.replacingOccurrences(of: "\\/", with: "/")
+                self.oskiProfile = OskiProfile(health: json["oski_state"]["health"].stringValue, image: convertedStr, score: json["oski_state"]["score"].intValue)
             } catch {
                 print("error")
             }
@@ -147,9 +136,8 @@ struct ReminderView: View {
                         self.friendReminders[self.friendReminders.firstIndex(where: {$0.id == phoneNumber}) ?? 0] = friend
                     }
                 }
-                
-                self.oskiProfile = OskiProfile(health: json["oski_state"]["health"].stringValue, image: json["oski_state"]["image"].stringValue, score: json["oski_state"]["score"].intValue)
-
+                let convertedStr = json["oski_state"]["img"].stringValue.replacingOccurrences(of: "\\/", with: "/")
+                self.oskiProfile = OskiProfile(health: json["oski_state"]["health"].stringValue, image: convertedStr, score: json["oski_state"]["score"].intValue)
             } catch {
                 print("error")
             }
