@@ -52,11 +52,11 @@ struct HomeView: View {
     @EnvironmentObject var screenCoordinator: ScreenCoordinator
 
     @State var cards : [Card] = [
-        Card(id: "card1", heading: "CARD01 SEPTEMBER19-2020", name: "WHEN2MEET MY CLOSE FRIENDS", searchTitle: "CONTACTS", description: "Know when your friends are free without having to ask.", buttonTitle: "CHOOSE CLOSE FRIENDS", permissions: [.calendar, .contacts], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "CHOOSE CLOSE FRIENDS", description: "We’ll tell you when they’re free or busy.", buttonTitle: "CHOOSE CLOSE FRIENDS", selection: .contacts, userDefaultID: "closeFriends")
+        Card(id: "card1", heading: "CARD01 SEPTEMBER19-2020", name: "WHEN2MEET MY CLOSE FRIENDS", searchTitle: "CONTACTS", description: "Know when your friends are free without having to ask.", buttonTitle: "CHOOSE FRIENDS", permissions: [.calendar, .contacts], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "CHOOSE FRIENDS", description: "We’ll tell you when they’re free or busy.", buttonTitle: "CHOOSE FRIENDS", selection: .contacts, userDefaultID: "closeFriends")
         ]),
-        Card(id: "card2", heading: "CARD02 SEPTEMBER19-2020", name: "SAVE OSKI, SAVE YOUR FRIENDS", searchTitle: "CONTACTS", description: "Keep Oski alive by remembering to text the people you care about.", buttonTitle: "CHOOSE CLOSE FRIENDS", permissions: [.contacts], selectionScreens: [
-            SelectionScreen(id: "screen1", title: "CHOOSE CLOSE FRIENDS", description: "We’ll tell you when they’re free or busy.", buttonTitle: "CHOOSE CLOSE FRIENDS", selection: .contacts, userDefaultID: "closeFriends")
+        Card(id: "card2", heading: "CARD02 SEPTEMBER19-2020", name: "SAVE OSKI, SAVE YOUR FRIENDS", searchTitle: "CONTACTS", description: "Keep Oski alive by remembering to text the people you care about.", buttonTitle: "CHOOSE FRIENDS", permissions: [.contacts], selectionScreens: [
+            SelectionScreen(id: "screen1", title: "CHOOSE FRIENDS", description: "We’ll tell you when they’re free or busy.", buttonTitle: "CHOOSE FRIENDS", selection: .contacts, userDefaultID: "closeFriends")
         ]),
         Card(id: "card3", heading: "CARD03 SEPTEMBER19-2020", name: "\"HOW LONG IS THE HOMEWORK?\"", searchTitle: "CLASSES", description: "How long the homework actually takes.", buttonTitle: "CHOOSE YOUR CLASSES", permissions: [.none], selectionScreens: [
             SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Piazza. We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
