@@ -57,7 +57,7 @@ struct ReminderView: View {
                         .padding([.leading, .bottom, .trailing], 24)
                         .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .background(Color.rBlack500)
-=                    }
+                    }
                     
                     if (self.friendReminders.count != 0) {
                         Text("Remind me").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
