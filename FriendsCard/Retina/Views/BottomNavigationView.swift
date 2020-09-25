@@ -17,12 +17,12 @@ struct BottomNavigationView: View {
             ZStack {
                 Rectangle()
                 .foregroundColor(Color.rBlack200)
-                .frame(width: UIScreen.screenWidth, height: 84)
+                .frame(width: UIScreen.screenWidth, height: DeviceUtility.isIphoneXType ? 100 + UIApplication.bottomInset : 84)
                 
                 HStack {
-                    retinaButton(text: title, style: .outlineOnly, color: .rPink, action: { DispatchQueue.main.async { self.action() }}).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing)
+                    retinaButton(text: title, style: .outlineOnly, color: .rPink, action: { DispatchQueue.main.async { self.action() }}).frame(width: UIScreen.screenWidth-48, height: 36, alignment: .trailing).padding(.bottom, DeviceUtility.isIphoneXType ? 40 : 0)
                 }
-            }.padding(.bottom, DeviceUtility.isIphoneXType ? UIApplication.bottomInset : 0)
+            }.padding(.bottom, DeviceUtility.isIphoneXType ? -UIApplication.bottomInset : 0)
         }
     }
 }
