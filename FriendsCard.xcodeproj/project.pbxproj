@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7D9200343796E1183C53E6FC /* Pods_FriendsCard_FriendsCardUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB58595722682EA78367995E /* Pods_FriendsCard_FriendsCardUITests.framework */; };
+		B103A636251EF81000725B30 /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103A635251EF81000725B30 /* InformationView.swift */; };
 		B120E6B7250752CA00CBB2CE /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = B120E6B6250752CA00CBB2CE /* NavigationStack */; };
 		B1224BCC24F9BF8E00B9FBE8 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B1224BCB24F9BF8E00B9FBE8 /* Lottie */; };
 		B1224BCF24F9BFFA00B9FBE8 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = B1224BCE24F9BFFA00B9FBE8 /* URLImage */; };
@@ -97,6 +98,7 @@
 		5EED5B784AFA4106B8AE80A7 /* Pods-FriendsCard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCard.debug.xcconfig"; path = "Target Support Files/Pods-FriendsCard/Pods-FriendsCard.debug.xcconfig"; sourceTree = "<group>"; };
 		7ED19E6EC5DF82F6E55198DE /* Pods-FriendsCard-FriendsCardUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCard-FriendsCardUITests.release.xcconfig"; path = "Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A1F23F3629F2C31C4DC008B7 /* Pods-FriendsCardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCardTests.release.xcconfig"; path = "Target Support Files/Pods-FriendsCardTests/Pods-FriendsCardTests.release.xcconfig"; sourceTree = "<group>"; };
+		B103A635251EF81000725B30 /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
 		B151A2732508F60700534657 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		B151A2762508F8FB00534657 /* ClassCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCells.swift; sourceTree = "<group>"; };
 		B151A2782508FCD800534657 /* BottomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNavigationView.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				B1BA453D24FB84E200E14C27 /* SceneDelegate.swift */,
 				B151A27B250984FF00534657 /* RootView.swift */,
 				B1D0978A2505BFA90048286B /* PhoneNumberView.swift */,
+				B103A635251EF81000725B30 /* InformationView.swift */,
 				B1BA452E24FB84E200E14C27 /* HomeView.swift */,
 				B1BA453B24FB84E200E14C27 /* PermissionsView.swift */,
 				B1BA453324FB84E200E14C27 /* ChooseCloseFriends.swift */,
@@ -758,6 +761,7 @@
 				B1BA456624FB84E200E14C27 /* GoogleDelegate.swift in Sources */,
 				B17632972501FA450074922F /* ContactStore.swift in Sources */,
 				B151A2742508F60700534657 /* Badge.swift in Sources */,
+				B103A636251EF81000725B30 /* InformationView.swift in Sources */,
 				B1BA454324FB84E200E14C27 /* LottieView.swift in Sources */,
 				B1BA454A24FB84E200E14C27 /* Banner.swift in Sources */,
 				B1BA454124FB84E200E14C27 /* InviteCell.swift in Sources */,
@@ -944,7 +948,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;
@@ -967,7 +971,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;
