@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7D9200343796E1183C53E6FC /* Pods_FriendsCard_FriendsCardUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB58595722682EA78367995E /* Pods_FriendsCard_FriendsCardUITests.framework */; };
 		B103A636251EF81000725B30 /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103A635251EF81000725B30 /* InformationView.swift */; };
+		B103A68F2520320F00725B30 /* AccessCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103A68E2520320F00725B30 /* AccessCode.swift */; };
+		B103A6972520321900725B30 /* HubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B103A6962520321900725B30 /* HubView.swift */; };
 		B120E6B7250752CA00CBB2CE /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = B120E6B6250752CA00CBB2CE /* NavigationStack */; };
 		B1224BCC24F9BF8E00B9FBE8 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B1224BCB24F9BF8E00B9FBE8 /* Lottie */; };
 		B1224BCF24F9BFFA00B9FBE8 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = B1224BCE24F9BFFA00B9FBE8 /* URLImage */; };
@@ -99,6 +101,8 @@
 		7ED19E6EC5DF82F6E55198DE /* Pods-FriendsCard-FriendsCardUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCard-FriendsCardUITests.release.xcconfig"; path = "Target Support Files/Pods-FriendsCard-FriendsCardUITests/Pods-FriendsCard-FriendsCardUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A1F23F3629F2C31C4DC008B7 /* Pods-FriendsCardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FriendsCardTests.release.xcconfig"; path = "Target Support Files/Pods-FriendsCardTests/Pods-FriendsCardTests.release.xcconfig"; sourceTree = "<group>"; };
 		B103A635251EF81000725B30 /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
+		B103A68E2520320F00725B30 /* AccessCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessCode.swift; sourceTree = "<group>"; };
+		B103A6962520321900725B30 /* HubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubView.swift; sourceTree = "<group>"; };
 		B151A2732508F60700534657 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		B151A2762508F8FB00534657 /* ClassCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCells.swift; sourceTree = "<group>"; };
 		B151A2782508FCD800534657 /* BottomNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNavigationView.swift; sourceTree = "<group>"; };
@@ -211,6 +215,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B103A68D252031DF00725B30 /* FOUNDERS */ = {
+			isa = PBXGroup;
+			children = (
+				B103A68E2520320F00725B30 /* AccessCode.swift */,
+				B103A6962520321900725B30 /* HubView.swift */,
+			);
+			path = FOUNDERS;
+			sourceTree = "<group>";
+		};
 		B151A280250A4FBA00534657 /* Card Three */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +306,7 @@
 				B1BA452E24FB84E200E14C27 /* HomeView.swift */,
 				B1BA453B24FB84E200E14C27 /* PermissionsView.swift */,
 				B1BA453324FB84E200E14C27 /* ChooseCloseFriends.swift */,
+				B103A68D252031DF00725B30 /* FOUNDERS */,
 				B1BA453724FB84E200E14C27 /* Card One */,
 				B1BA453424FB84E200E14C27 /* Card Two */,
 				B151A280250A4FBA00534657 /* Card Three */,
@@ -743,6 +757,7 @@
 				B17632952500A8F00074922F /* Observers.swift in Sources */,
 				B151A27C250984FF00534657 /* RootView.swift in Sources */,
 				B1BA456924FB84E200E14C27 /* SceneDelegate.swift in Sources */,
+				B103A68F2520320F00725B30 /* AccessCode.swift in Sources */,
 				B1BA454E24FB84E200E14C27 /* Space.swift in Sources */,
 				B1BA455E24FB84E200E14C27 /* HomeView.swift in Sources */,
 				B1BA455224FB84E200E14C27 /* Gradient.swift in Sources */,
@@ -776,6 +791,7 @@
 				B1BA454024FB84E200E14C27 /* StatusCell.swift in Sources */,
 				B1BA456524FB84E200E14C27 /* AppDelegate.swift in Sources */,
 				B1BA454D24FB84E200E14C27 /* Typography.swift in Sources */,
+				B103A6972520321900725B30 /* HubView.swift in Sources */,
 				B1BA454524FB84E200E14C27 /* TextFields.swift in Sources */,
 				B183DC7225195F5A008D0416 /* Alert.swift in Sources */,
 				B1BA454824FB84E200E14C27 /* Images.swift in Sources */,
@@ -948,7 +964,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;
@@ -971,7 +987,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_ASSET_PATHS = "\"FriendsCard/Preview Content\"";
 				DEVELOPMENT_TEAM = GQ254GL522;
 				ENABLE_PREVIEWS = YES;
