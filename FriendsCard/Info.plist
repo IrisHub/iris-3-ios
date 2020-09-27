@@ -31,11 +31,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>21</string>
+	<string>24</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSContactsUsageDescription</key>
-	<string>Friends Card needs access to your contacts in order to show you when your friends are busy</string>
+	<string>This card needs access to your contacts. Your contacts are never sent to a server without your permission. Only the friends that you select will be sent to a server in order to help you when your friends are busy.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Menlo-Bold.ttf</string>
