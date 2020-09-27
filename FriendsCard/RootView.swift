@@ -7,6 +7,8 @@
 //
 
 import SwiftUI
+import Alamofire
+import SwiftyJSON
 
 struct RootView: View {
     @EnvironmentObject var googleDelegate: GoogleDelegate
@@ -21,6 +23,24 @@ struct RootView: View {
             }
         }
         .hideNavigationBar()
+        .onAppear() {
+            self.checkStatic()
+        }
+    }
+    
+    func checkStatic() {
+        print("checking static")
+        AF.request("https://raw.githubusercontent.com/IrisHub/iris-3-endpoint-responses/master/user_interview_static.json", method: .get, encoding: JSONEncoding.default)
+            .responseJSON { response in
+            do {
+                let json = try JSON(data: response.data ?? Data())
+                if (UserDefaults.standard.string(forKey: "phoneNumber") == json["number"].stringValue) {
+                    UserDefaults.standard.setValue(true, forKey: "useStaticJSON")
+                }
+            } catch {
+                print("error")
+            }
+        }
     }
 }
 

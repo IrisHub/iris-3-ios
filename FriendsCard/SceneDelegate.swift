@@ -14,7 +14,7 @@ final class ScreenCoordinator: ObservableObject {
     @Published var selectedPushItem: PushedItem?
     
     enum PushedItem: String {
-        case card1, card2, card3, card4, card5, cardpermission, home, again
+        case card1, card2, card3, card4, card5, cardpermission, home, again, privacy, tos, about, founders
     }
 }
 

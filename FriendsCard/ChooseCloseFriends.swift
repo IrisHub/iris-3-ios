@@ -327,7 +327,6 @@ struct ChooseCloseFriends: View {
                 let json = try JSON(data: response.data ?? Data())
                 for (_,subJson):(String, JSON) in json["classes"] {
                     let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
-                    print(currentClass.name)
                     self.classes?.append(currentClass)
                 }
             } catch {

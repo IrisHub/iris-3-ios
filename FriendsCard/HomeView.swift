@@ -10,6 +10,7 @@ import SwiftUI
 import Alamofire
 import SwiftyJSON
 import GoogleSignIn
+import MessageUI
 
 enum Permissions {
     case none
@@ -50,21 +51,24 @@ struct HomeView: View {
     @EnvironmentObject var googleDelegate: GoogleDelegate
     @State var searchText : String?
     @EnvironmentObject var screenCoordinator: ScreenCoordinator
+    
+    // The delegate required by `MFMessageComposeViewController`
+    private let messageComposeDelegate = MessageDelegate()
 
     @State var cards : [Card] = [
-        Card(id: "card1", heading: "CARD01 SEPTEMBER19-2020", name: "WHEN2MEET MY CLOSE FRIENDS", searchTitle: "CONTACTS", description: "Know when your friends are free without having to ask.", buttonTitle: "CHOOSE FRIENDS", permissions: [.calendar, .contacts], selectionScreens: [
+        Card(id: "card1", heading: "PACK02-CARD01", name: "WHEN2MEET MY CLOSE FRIENDS", searchTitle: "CONTACTS", description: "Know when your friends are free without having to ask.", buttonTitle: "CHOOSE FRIENDS", permissions: [.calendar, .contacts], selectionScreens: [
             SelectionScreen(id: "screen1", title: "CHOOSE FRIENDS", description: "We’ll tell you when they’re free or busy.", buttonTitle: "CHOOSE FRIENDS", selection: .contacts, userDefaultID: "closeFriends")
         ]),
-        Card(id: "card2", heading: "CARD02 SEPTEMBER19-2020", name: "SAVE OSKI, SAVE YOUR FRIENDS", searchTitle: "CONTACTS", description: "Keep Oski alive by remembering to text the people you care about.", buttonTitle: "CHOOSE FRIENDS", permissions: [.contacts], selectionScreens: [
+        Card(id: "card2", heading: "PACK02-CARD02", name: "SAVE OSKI, SAVE YOUR FRIENDS", searchTitle: "CONTACTS", description: "Keep Oski alive by remembering to text the people you care about.", buttonTitle: "CHOOSE FRIENDS", permissions: [.contacts], selectionScreens: [
             SelectionScreen(id: "screen1", title: "CHOOSE FRIENDS", description: "We’ll tell you when they’re free or busy.", buttonTitle: "CHOOSE FRIENDS", selection: .contacts, userDefaultID: "closeFriends")
         ]),
-        Card(id: "card3", heading: "CARD03 SEPTEMBER19-2020", name: "\"HOW LONG IS THE HOMEWORK?\"", searchTitle: "CLASSES", description: "How long the homework actually takes.", buttonTitle: "CHOOSE YOUR CLASSES", permissions: [.none], selectionScreens: [
+        Card(id: "card3", heading: "PACK01-CARD01", name: "\"HOW LONG IS THE HOMEWORK?\"", searchTitle: "CLASSES", description: "How long the homework actually takes.", buttonTitle: "CHOOSE YOUR CLASSES", permissions: [.none], selectionScreens: [
             SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Piazza. We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
         ]),
-        Card(id: "card4", heading: "CARD04 SEPTEMBER19-2020", name: "FINESSE THE LECTURE", searchTitle: "CLASSES", description: "Share with your peers what lectures to watch when.", buttonTitle: "CHOOSE YOUR CLASSES", permissions: [.none], selectionScreens: [
+        Card(id: "card4", heading: "PACK01-CARD02", name: "FINESSE THE LECTURE", searchTitle: "CLASSES", description: "Share with your peers what lectures to watch when.", buttonTitle: "CHOOSE YOUR CLASSES", permissions: [.none], selectionScreens: [
             SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Piazza. We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
         ]),
-        Card(id: "card5", heading: "CARD05 SEPTEMBER19-2020", name: "VIRTUAL STUDY GROUP", searchTitle: "CLASSES", description: "Collab when your study group isn’t responding, or doesn’t exist.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
+        Card(id: "card5", heading: "PACK01-CARD03", name: "VIRTUAL STUDY GROUP", searchTitle: "CLASSES", description: "Collab when your study group isn’t responding, or doesn’t exist.", buttonTitle: "Choose Classes", permissions: [.none], selectionScreens: [
             SelectionScreen(id: "screen1", title: "CHOOSE YOUR CLASSES", description: "Right now, we only support classes that are on Piazza. We’re adding more each day.", buttonTitle: "CHOOSE YOUR CLASSES", selection: .classes, userDefaultID: "classes")
         ])
     ]
@@ -78,7 +82,7 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            Color.rBlack400.edgesIgnoringSafeArea(.all)
+            Color.rBlack500.edgesIgnoringSafeArea(.all)
             
             HStack {
                 VStack {
@@ -94,62 +98,106 @@ struct HomeView: View {
                         NavigationLink(destination: LecturesView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card4, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
                         
                         NavigationLink(destination: CollaborationView().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.card5, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
+                        
+                        
+                        NavigationLink(destination: InformationView(type: .privacy).environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.privacy, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
+                        NavigationLink(destination: InformationView(type: .tos).environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.tos, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
+                        NavigationLink(destination: InformationView(type: .about).environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.about, selection: self.$screenCoordinator.selectedPushItem) { EmptyView() }
                     }
                     
                     ScrollView(showsIndicators: false) {
-                        Image("heart").padding(.top, 48)
+                        NavigationLink(destination: AccessCode().environmentObject(self.screenCoordinator), tag: ScreenCoordinator.PushedItem.founders, selection: self.$screenCoordinator.selectedPushItem) { Image("heart").padding(.top, 48) }
+                        
+                        Group {
+                            HStack {
+                                Text("PACK03: " + countDownString()).retinaTypography(.h4_main).foregroundColor(.rPink).padding([.leading, .top], 24)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .onAppear(perform: {
+                                        _ = self.timer
+                                    })
 
-                        HStack {
-                            Text("PACK03: " + countDownString()).retinaTypography(.h4_main).foregroundColor(.rPink).padding([.leading, .top], 24)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .onAppear(perform: {
-                                    _ = self.timer
-                                })
+                                Spacer()
+                            }
+                        }
+                        
+                        Group {
+                            HStack {
+                                Text("PACK02: FRIENDS FOREVER").retinaTypography(.h4_main).foregroundColor(.rWhite).padding([.bottom, .leading, .top], 24)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Spacer()
+                            }
 
-                            Spacer()
+                            retinaLeftButton(text: "WHEN2MEET MY CLOSE FRIENDS", left: retinaLeftButton.Left.none, iconString: "", action: {
+                                DispatchQueue.main.async {
+                                    self.logInCardOne()
+                                }
+                            })
+                            
+                            retinaLeftButton(text: "SAVE OSKI, SAVE YOUR FRIENDSHIP", left: retinaLeftButton.Left.none, iconString: "", action: {
+                                DispatchQueue.main.async {
+                                    self.logInCardTwo()
+                                }
+                            })
+                        }
+                        
+                        Group {
+                            HStack {
+                                Text("PACK01: CROWDSOURCE YOUR CLASSES").retinaTypography(.h4_main).foregroundColor(.rWhite).padding([.bottom, .leading, .top], 24)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Spacer()
+                            }
+
+                            retinaLeftButton(text: "\"HOW LONG IS THE HW?\"", left: retinaLeftButton.Left.none, iconString: "", action: {
+                                DispatchQueue.main.async {
+                                    self.logInCardThree()
+                                }
+                            })
+                            
+                            retinaLeftButton(text: "FINESSE THE LECTURE", left: retinaLeftButton.Left.none, iconString: "", action: {
+                                DispatchQueue.main.async {
+                                    self.logInCardFour()
+                                }
+                            })
+                            
+                            retinaLeftButton(text: "VIRTUAL STUDY GROUP", left: retinaLeftButton.Left.none, iconString: "", action: {
+                                DispatchQueue.main.async {
+                                    self.logInCardFive()
+                                }
+                            })
                         }
 
-                        HStack {
-                            Text("PACK02: FRIENDS FOREVER").retinaTypography(.h4_main).foregroundColor(.rWhite).padding([.bottom, .leading, .top], 24)
-                                .fixedSize(horizontal: false, vertical: true)
-                            Spacer()
-                        }
+                        Group {
+                            HStack {
+                                Text("PACK00: WTF IS IRIS?").retinaTypography(.h4_main).foregroundColor(.rWhite).padding([.bottom, .leading, .top], 24)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Spacer()
+                            }
 
-                        retinaLeftButton(text: "WHEN2MEET MY CLOSE FRIENDS", left: retinaLeftButton.Left.none, iconString: "", action: {
-                            DispatchQueue.main.async {
-                                self.logInCardOne()
-                            }
-                        })
-                        
-                        retinaLeftButton(text: "SAVE OSKI, SAVE YOUR FRIENDSHIP  ", left: retinaLeftButton.Left.none, iconString: "", action: {
-                            DispatchQueue.main.async {
-                                self.logInCardTwo()
-                            }
-                        })
-                        
-                        HStack {
-                            Text("PACK01: CROWDSOURCE YOUR CLASSES").retinaTypography(.h4_main).foregroundColor(.rWhite).padding([.bottom, .leading, .top], 24)
-                                .fixedSize(horizontal: false, vertical: true)
-                            Spacer()
-                        }
+                            retinaLeftButton(text: "SERIOUSLY, WTF IS IRIS?", left: retinaLeftButton.Left.none, iconString: "", action: {
+                                DispatchQueue.main.async {
+                                    self.screenCoordinator.selectedPushItem = .about
+                                }
+                            })
+                            
+                            retinaLeftButton(text: "SEND FEEDBACK, SLIDE IN DMS", left: retinaLeftButton.Left.none, iconString: "", action: {
+                                DispatchQueue.main.async {
+                                    self.presentMessageCompose()
+                                }
+                            })
+                            
+                            retinaLeftButton(text: "THE POLICY THAT IS PRIVATE", left: retinaLeftButton.Left.none, iconString: "", action: {
+                                DispatchQueue.main.async {
+                                    self.screenCoordinator.selectedPushItem = .privacy
+                                }
+                            })
 
-                        retinaLeftButton(text: "\"HOW LONG IS THE HW?\"", left: retinaLeftButton.Left.none, iconString: "", action: {
-                            DispatchQueue.main.async {
-                                self.logInCardThree()
-                            }
-                        })
-                        
-                        retinaLeftButton(text: "FINESSE THE LECTURE", left: retinaLeftButton.Left.none, iconString: "", action: {
-                            DispatchQueue.main.async {
-                                self.logInCardFour()
-                            }
-                        })
-                        
-                        retinaLeftButton(text: "VIRTUAL STUDY GROUP", left: retinaLeftButton.Left.none, iconString: "", action: {
-                            DispatchQueue.main.async {
-                                self.logInCardFive()
-                            }
-                        })
+                            retinaLeftButton(text: "THE TERMS OF SERVICÉ", left: retinaLeftButton.Left.none, iconString: "", action: {
+                                DispatchQueue.main.async {
+                                    self.screenCoordinator.selectedPushItem = .tos
+                                }
+                            })
+
+                        }
                     }
                     
                     Spacer()
@@ -164,7 +212,7 @@ struct HomeView: View {
     func logInCardOne() {
         self.cardNumber = 0
         print(UserDefaults.standard.bool(forKey: "card1PermissionsComplete"))
-        if (UserDefaults.standard.bool(forKey: "card1PermissionsComplete") == true) {
+        if (UserDefaults.standard.bool(forKey: "card1PermissionsComplete") || UserDefaults.standard.bool(forKey: "useStaticJSON")) {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
             self.screenCoordinator.selectedPushItem = .card1
         } else {
@@ -174,7 +222,7 @@ struct HomeView: View {
     
     func logInCardTwo() {
         self.cardNumber = 1
-        if (UserDefaults.standard.bool(forKey: "card2PermissionsComplete") == true) {
+        if (UserDefaults.standard.bool(forKey: "card2PermissionsComplete") || UserDefaults.standard.bool(forKey: "useStaticJSON")) {
             self.screenCoordinator.selectedPushItem = .card2
         } else {
             self.screenCoordinator.selectedPushItem = .cardpermission
@@ -183,7 +231,7 @@ struct HomeView: View {
     
     func logInCardThree() {
         self.cardNumber = 2
-        if (UserDefaults.standard.bool(forKey: "card3PermissionsComplete") == true) {
+        if (UserDefaults.standard.bool(forKey: "card3PermissionsComplete") || UserDefaults.standard.bool(forKey: "useStaticJSON")) {
             self.screenCoordinator.selectedPushItem = .card3
         } else {
             self.screenCoordinator.selectedPushItem = .cardpermission
@@ -192,7 +240,7 @@ struct HomeView: View {
     
     func logInCardFour() {
         self.cardNumber = 3
-        if (UserDefaults.standard.bool(forKey: "card4PermissionsComplete") == true) {
+        if (UserDefaults.standard.bool(forKey: "card4PermissionsComplete") || UserDefaults.standard.bool(forKey: "useStaticJSON")) {
             self.screenCoordinator.selectedPushItem = .card4
         } else {
             self.screenCoordinator.selectedPushItem = .cardpermission
@@ -201,7 +249,7 @@ struct HomeView: View {
     
     func logInCardFive() {
         self.cardNumber = 4
-        if (UserDefaults.standard.bool(forKey: "card5PermissionsComplete") == true) {
+        if (UserDefaults.standard.bool(forKey: "card5PermissionsComplete") || UserDefaults.standard.bool(forKey: "useStaticJSON")) {
             self.screenCoordinator.selectedPushItem = .card5
         } else {
             self.screenCoordinator.selectedPushItem = .cardpermission
@@ -232,6 +280,35 @@ struct HomeView: View {
     }
 
 }
+
+// MARK: The message part
+extension HomeView {
+
+    /// Delegate for view controller as `MFMessageComposeViewControllerDelegate`
+    private class MessageDelegate: NSObject, MFMessageComposeViewControllerDelegate {
+        func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+            // Customize here
+            controller.dismiss(animated: true)
+        }
+
+    }
+
+    /// Present an message compose view controller modally in UIKit environment
+    private func presentMessageCompose() {
+        guard MFMessageComposeViewController.canSendText() else {
+            return
+        }
+        let vc = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
+
+        let composeVC = MFMessageComposeViewController()
+        composeVC.messageComposeDelegate = messageComposeDelegate
+        composeVC.body = "Hey Iris team, here's my feedback:"
+        composeVC.recipients = ["9498362723", "9499396619", "8182033202"]
+
+        vc?.present(composeVC, animated: true)
+    }
+}
+
 
 //
 //struct HomeView_Previews: PreviewProvider {

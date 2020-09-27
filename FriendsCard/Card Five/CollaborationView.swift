@@ -56,6 +56,8 @@ struct CollaborationView: View {
     }
     
     func fetchClasses() {
+        let staticJSON = UserDefaults.standard.bool(forKey: "useStaticJSON")
+
         self.classes = [Classes]()
         self.assignments = [Assignments]()
         self.broadcasters = [Broadcaster]()
@@ -65,32 +67,57 @@ struct CollaborationView: View {
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
         ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
-        print(parameters)
-        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/collaboration-classes-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
-            .responseJSON { response in
-            do {
-                let json = try JSON(data: response.data ?? Data())
-                print(json)
-                
-                for (_,subJson):(String, JSON) in json["classes"] {
-                    let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
-                    self.classes.append(currentClass)
-                    
-                    for (_,subJson2):(String, JSON) in subJson["assignments"] {
-                        let assignment = Assignments(id: subJson2["assignment_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_name"].stringValue)
-                        self.assignments.append(assignment)
-                        
-                        let avatar = Avatar(name: subJson2["current_user_broadcast_name"].stringValue, icon: subJson2["current_user_broadcast_icon"].stringValue, tags: subJson2["current_user_broadcast_tags"].stringValue)
-                        self.avatars.append(avatar)
-                        
-                        for (_,subJson3):(String, JSON) in subJson2["other_users"] {
-                            let otherUsers = Broadcaster(id: subJson3["id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["broadcast_name"].stringValue, icon: subJson3["broadcast_icon"].stringValue, tags: subJson3["broadcast_tags"].stringValue)
-                            if otherUsers.id != UserDefaults.standard.string(forKey: "phoneNumber") { self.broadcasters.append(otherUsers) }
+
+        if staticJSON {
+            AF.request("https://raw.githubusercontent.com/IrisHub/iris-3-endpoint-responses/master/collaborate.json", method: .get, encoding: JSONEncoding.default)
+                .responseJSON { response in
+                do {
+                    let json = try JSON(data: response.data ?? Data())
+                    for (_,subJson):(String, JSON) in json["classes"] {
+                        let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
+                        self.classes.append(currentClass)
+                        for (_,subJson2):(String, JSON) in subJson["assignments"] {
+                            let assignment = Assignments(id: subJson2["assignment_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_name"].stringValue)
+                            self.assignments.append(assignment)
+                            let avatar = Avatar(name: subJson2["current_user_broadcast_name"].stringValue, icon: subJson2["current_user_broadcast_icon"].stringValue, tags: subJson2["current_user_broadcast_tags"].stringValue)
+                            self.avatars.append(avatar)
+                            for (_,subJson3):(String, JSON) in subJson2["other_users"] {
+                                let otherUsers = Broadcaster(id: subJson3["id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["broadcast_name"].stringValue, icon: subJson3["broadcast_icon"].stringValue, tags: subJson3["broadcast_tags"].stringValue)
+                                if otherUsers.id != UserDefaults.standard.string(forKey: "phoneNumber") { self.broadcasters.append(otherUsers) }
+                            }
                         }
                     }
+                } catch {
+                    print("error")
                 }
-            } catch {
-                print("error")
+            }
+        } else {
+            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/collaboration-classes-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON { response in
+                do {
+                    let json = try JSON(data: response.data ?? Data())
+                    print(json)
+                    
+                    for (_,subJson):(String, JSON) in json["classes"] {
+                        let currentClass = Classes(id: subJson["class_id"].stringValue, name: subJson["class_name"].stringValue)
+                        self.classes.append(currentClass)
+                        
+                        for (_,subJson2):(String, JSON) in subJson["assignments"] {
+                            let assignment = Assignments(id: subJson2["assignment_id"].stringValue, classID: subJson["class_id"].stringValue, name: subJson2["assignment_name"].stringValue)
+                            self.assignments.append(assignment)
+                            
+                            let avatar = Avatar(name: subJson2["current_user_broadcast_name"].stringValue, icon: subJson2["current_user_broadcast_icon"].stringValue, tags: subJson2["current_user_broadcast_tags"].stringValue)
+                            self.avatars.append(avatar)
+                            
+                            for (_,subJson3):(String, JSON) in subJson2["other_users"] {
+                                let otherUsers = Broadcaster(id: subJson3["id"].stringValue, classID: subJson["class_id"].stringValue, assignmentID: subJson2["assignment_id"].stringValue, name: subJson3["broadcast_name"].stringValue, icon: subJson3["broadcast_icon"].stringValue, tags: subJson3["broadcast_tags"].stringValue)
+                                if otherUsers.id != UserDefaults.standard.string(forKey: "phoneNumber") { self.broadcasters.append(otherUsers) }
+                            }
+                        }
+                    }
+                } catch {
+                    print("error")
+                }
             }
         }
         

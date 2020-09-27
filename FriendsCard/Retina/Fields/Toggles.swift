@@ -14,7 +14,7 @@ public struct RetinaToggle: View {
         case defaultStyle, primary, disabled, success, warning, danger, info
     }
     
-    @State var toggleState: Bool = true
+    @Binding var toggleState: Bool
     var style: Style
     
     struct ColoredToggleStyle: ToggleStyle {
@@ -34,11 +34,10 @@ public struct RetinaToggle: View {
                                 .shadow(radius: 1, x: 0, y: 1)
                                 .padding(1.5)
                                 .offset(x: configuration.isOn ? 10 : -10)
-                            Image(systemName: configuration.isOn ? "checkmark" : "")
-                                .font(.system(size: 12, weight: .black))
-                                .foregroundColor(onColor)
-                                .offset(x: configuration.isOn ? 10 : -10)
-                            
+//                            Image(systemName: configuration.isOn ? "checkmark" : "")
+//                                .font(.system(size: 12, weight: .black))
+//                                .foregroundColor(onColor)
+//                                .offset(x: configuration.isOn ? 10 : -10)
                         }
                     )
                     .animation(.easeInOut(duration: 0.1))
@@ -65,7 +64,7 @@ public struct RetinaToggle: View {
         Toggle("", isOn: $toggleState)
             .toggleStyle(
                 ColoredToggleStyle(
-                    onColor: .rBlack400,
+                    onColor: .rPink,
                     offColor: Color.rBlack400.opacity(0.1),
                     thumbColor: .white))
     }
@@ -119,14 +118,16 @@ public struct RetinaToggle: View {
 }
 
 struct Toggles_Previews: PreviewProvider {
+    @State static var toggleState: Bool = true
+
     static var previews: some View {
         VStack {
-            RetinaToggle(style: .defaultStyle)
-            RetinaToggle(style: .primary)
-            RetinaToggle(style: .success)
-            RetinaToggle(style: .info)
-            RetinaToggle(style: .warning)
-            RetinaToggle(style: .danger)
+            RetinaToggle(toggleState: self.$toggleState, style: .defaultStyle)
+            RetinaToggle(toggleState: self.$toggleState, style: .primary)
+            RetinaToggle(toggleState: self.$toggleState, style: .success)
+            RetinaToggle(toggleState: self.$toggleState, style: .info)
+            RetinaToggle(toggleState: self.$toggleState, style: .warning)
+            RetinaToggle(toggleState: self.$toggleState, style: .danger)
         }
     }
 }

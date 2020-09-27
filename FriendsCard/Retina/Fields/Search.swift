@@ -31,7 +31,7 @@ struct Search: View {
 
                                         
                     ZStack(alignment: .leading) {
-                        if searchText?.isEmpty ?? true { Text(placeholder).foregroundColor(.rWhite).retinaTypography(.p6_main).padding(.leading, 12) }
+                        if searchText?.isEmpty ?? true { withAnimation(nil) { Text(placeholder).foregroundColor(.rWhite).retinaTypography(.p6_main).padding(.leading, 12) } }
                         TextField("", text: $searchText.bound).retinaTypography(.p6_main).padding(.leading, 12)
                     }
                     

@@ -17,7 +17,7 @@ struct BroadcastCell: View {
 
     var body: some View {
         ZStack(alignment: .leading) {
-            Color.rBlack500.edgesIgnoringSafeArea(.all)
+//            Color.rBlack500.edgesIgnoringSafeArea(.all)
             if (!isCurrentUser) {
                 VStack {
                     Divider().frame(height: 1).background(Color.rBlack200)
@@ -53,7 +53,7 @@ struct BroadcastCell: View {
                     HStack {
                         Text(self.name.capitalizingFirstLetter()).foregroundColor(.rWhite).retinaTypography(.h5_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
                         if (isCurrentUser) {
-                            Text("(ME)").foregroundColor(.rBlack100).retinaTypography(.h5_main)
+                            Text("(ME)").foregroundColor(.rPink).retinaTypography(.h5_main)
                         }
                     }
                     Button(action: {
@@ -68,6 +68,7 @@ struct BroadcastCell: View {
                 Spacer()
             }
         }
+        .padding(.bottom, -1)
     }
 }
 

@@ -36,13 +36,13 @@ public struct RetinaTypography: ViewModifier {
         case h1_main, h2_main, h3_main, h4_main, h5_main, h6_main
         
         /// Paragraphs
-        case p3_main, p4_main, p5_main, p6_main
+        case p1_main, p2_main, p3_main, p4_main, p5_main, p6_main
         
         /// Titles
         case h1_secondary, h2_secondary, h3_secondary, h4_secondary, h5_secondary, h6_secondary
         
         /// Paragraphs
-        case p3_secondary, p4_secondary, p5_secondary, p6_secondary
+        case p1_secondary, p2_secondary, p3_secondary, p4_secondary, p5_secondary, p6_secondary
 
     }
         
@@ -74,6 +74,10 @@ public struct RetinaTypography: ViewModifier {
         case .h6_main: return content
             .font(customFont(family: .main, weight: .bold, size: .six))
             
+        case .p1_main: return content
+            .font(customFont(family: .main, weight: .regular, size: .one))
+        case .p2_main: return content
+            .font(customFont(family: .main, weight: .regular, size: .two))
         case .p3_main: return content
             .font(customFont(family: .main, weight: .regular, size: .three))
         case .p4_main: return content
@@ -96,6 +100,10 @@ public struct RetinaTypography: ViewModifier {
         case .h6_secondary: return content
             .font(customFont(family: .secondary, weight: .regular, size: .six))
 
+        case .p1_secondary: return content
+            .font(customFont(family: .main, weight: .regular, size: .one))
+        case .p2_secondary: return content
+            .font(customFont(family: .main, weight: .regular, size: .two))
         case .p3_secondary: return content
             .font(customFont(family: .main, weight: .regular, size: .three))
         case .p4_secondary: return content

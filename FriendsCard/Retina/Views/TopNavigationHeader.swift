@@ -16,31 +16,26 @@ struct TopNavigationHeader: View {
     var backButtonCommit : () -> Void = {}
 
     var body: some View {
-        ZStack {
-            Color.rBlack500.edgesIgnoringSafeArea(.all)
-            
-            VStack(alignment: .leading) {
-                if (self.backButton) {
-                    HStack {
-                        retinaIconButton(image: (Image(systemName: "chevron.left")), backgroundColor: .clear, action: {
-                            withAnimation {
-                                self.backButtonCommit()
-                            }
-                        })
-                        Spacer()
-                    }.padding([.leading, .bottom], 6)
-                }
-                
-                Text(heading).retinaTypography(.h5_main).foregroundColor(.rPink).padding([.leading, .trailing], 24).padding(.bottom, 12)
-
-                Text(title).retinaTypography(.h2_main).foregroundColor(.rWhite).padding([.leading, .trailing], 24).padding(.bottom, 12)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                Text(description).retinaTypography(.h4_secondary).foregroundColor(.rGrey100).padding([.leading, .trailing], 24)
-                    .fixedSize(horizontal: false, vertical: true)
-                Spacer()
+        VStack(alignment: .leading) {
+            if (self.backButton) {
+                HStack {
+                    retinaIconButton(image: (Image(systemName: "chevron.left")), backgroundColor: .clear, action: {
+                        withAnimation {
+                            self.backButtonCommit()
+                        }
+                    })
+                    Spacer()
+                }.padding([.leading, .bottom], 6)
             }
-        }
+            
+            Text(heading).retinaTypography(.h5_main).foregroundColor(.rPink).padding([.leading, .trailing], 24).padding(.bottom, 12)
+
+            Text(title).retinaTypography(.p2_main).foregroundColor(.rWhite).padding([.leading, .trailing], 24).padding(.bottom, 12)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Text(description).retinaTypography(.h4_secondary).foregroundColor(.rGrey100).padding([.leading, .trailing], 24)
+                .fixedSize(horizontal: false, vertical: true)
+        }.padding(.bottom, 24)
     }
 }
 

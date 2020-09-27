@@ -55,6 +55,7 @@ struct ReminderCell: View {
                 }).frame(width: UIScreen.screenWidth/4, height: 36, alignment: .trailing)
             }.padding([.leading], 24).padding([.trailing], 12)
         }
+        .padding(.bottom, -1)
     }
 }
 

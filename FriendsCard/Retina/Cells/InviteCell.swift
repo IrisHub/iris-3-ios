@@ -34,6 +34,7 @@ struct InviteCell: View {
                 .padding([.leading, .trailing], 12)
             }
         }
+        .padding(.bottom, -1)
     }
 }
 

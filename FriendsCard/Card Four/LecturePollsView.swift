@@ -29,13 +29,13 @@ struct LecturePollsView: View {
             VStack {
                 TopNavigationView(title: lectureName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
 
-                List {
-                    Group {
-                        ForEach(Array(zip(self.polls.indices, self.polls)), id: \.0) { index, poll in
-                            PollCell(name: pollTitles[index], badgeTitle: lecture.maxVotes[index], badgeIcon: "", polls: poll, percents: lecture.votePercentages[index], voted: (lecture.userVote[index] != -1), classID: self.classID, lectureID: lecture.id, pollID: String(index))
-                                .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                                .background(Color.rBlack500)
-                                .padding(.top, 36)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Group {
+                            ForEach(Array(zip(self.polls.indices, self.polls)), id: \.0) { index, poll in
+                                PollCell(name: pollTitles[index], badgeTitle: lecture.maxVotes[index], badgeIcon: "", polls: poll, percents: lecture.votePercentages[index], voted: (lecture.userVote[index] != -1), classID: self.classID, lectureID: lecture.id, pollID: String(index))
+                                    .padding(.top, 36)
+                            }
                         }
                     }
                 }

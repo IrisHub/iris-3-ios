@@ -9,6 +9,7 @@
 import SwiftUI
 import Alamofire
 import SwiftyJSON
+import MessageUI
 
 struct SeePeopleView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -29,30 +30,45 @@ struct SeePeopleView: View {
     @State private var alertInput = ""
     @State var commitChanges = false
     
+    // The delegate required by `MFMessageComposeViewController`
+    private let messageComposeDelegate = MessageComposerDelegate()
+    
     var body: some View {
         ZStack {
             Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
                 TopNavigationView(title: assignmentName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, searchBar: false, searchText: self.$searchText)
+                .padding(.bottom, 24)
                 
                 BroadcastCell(name: self.name, emoji: self.avatar, badgeTitle: self.tags.isEmpty ? " I need help on..." : self.tags, isCurrentUser: true, editBroadcast: {
                     withAnimation {
                         self.isShowingAlert.toggle()
                     }
-                })
+                }).padding(.bottom, 36)
+                
+                Divider().frame(height: 1).background(Color.rBlack200)
+                .padding(.bottom, 36)
 
-                List {
-                    if (self.broadcasters.count != 0) {
-                        Text("Needs help on").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true)
-                        .padding([.leading, .bottom], 24)
-                        .listRowInsets(.init(top: -1, leading: 0, bottom: -1, trailing: 0))
-                        .background(Color.rBlack500)
-                    }
-                    
-                    ForEach(self.broadcasters, id: \.self) { (broadcaster: Broadcaster) in
-                        BroadcastCell(name: broadcaster.name, emoji: broadcaster.icon, badgeTitle: broadcaster.tags, isCurrentUser: false)
-                        .listRowInsets(.init(top: -1, leading: 0, bottom: -1, trailing: 0))
-                        .background(Color.rBlack500)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        if (self.broadcasters.count != 0) {
+                            Text("Needs help on").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true)
+                            .padding([.leading, .bottom], 24)
+                        }
+                        
+                        ForEach(self.broadcasters, id: \.self) { (broadcaster: Broadcaster) in
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    self.presentMessageCompose(phoneNumber: broadcaster.id)
+                                }
+                            }) {
+                                BroadcastCell(name: broadcaster.name, emoji: broadcaster.icon, badgeTitle: broadcaster.tags, isCurrentUser: false, editBroadcast: {
+                                    DispatchQueue.main.async {
+                                        self.presentMessageCompose(phoneNumber: broadcaster.id)
+                                    }
+                                })
+                            }
+                        }
                     }
                 }
                 Spacer()
@@ -68,6 +84,7 @@ struct SeePeopleView: View {
     }
     
     func broadcast(classID: String, assignmentID: String, broadcastTags: String) {
+        if (UserDefaults.standard.bool(forKey: "useStaticJSON")) { return }
         print("New tags", broadcastTags)
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber"),
@@ -103,5 +120,40 @@ struct SeePeopleView: View {
         self.alertInput = ""
         self.commitChanges = false
     }
+}
 
+
+extension SeePeopleView {
+    class MessageComposerDelegate: NSObject, MFMessageComposeViewControllerDelegate {
+        func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+            switch (result) {
+            case .cancelled:
+                print("Message was cancelled")
+            case .failed:
+                print("Message failed")
+            case .sent:
+                print("Message was sent")
+            default:
+                return
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                controller.hideKeyboard()
+                controller.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    private func presentMessageCompose(phoneNumber: String) {
+        guard MFMessageComposeViewController.canSendText() else {
+            return
+        }
+        let vc = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController
+        let composeVC = MFMessageComposeViewController()
+        composeVC.messageComposeDelegate = messageComposeDelegate
+        composeVC.body = "hey "
+        composeVC.recipients = [phoneNumber]
+
+        DispatchQueue.main.async {
+            vc?.present(composeVC, animated: true, completion: nil)
+        }
+    }
 }

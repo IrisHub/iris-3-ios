@@ -26,13 +26,12 @@ struct ProblemsView: View {
             VStack {
                 TopNavigationView(title: assignmentName + ", " + className, description: "", backButton: true, backButtonCommit: { self.presentationMode.wrappedValue.dismiss() }, rightButton: false, rightButtonIcon: "pencil", rightButtonIconColor: Color.rPink, rightButtonCommit: {  }, searchBar: false, searchText: self.$searchText)
 
-                List {
-                    ForEach(self.problems, id: \.self) { (problem: Problems) in
-                        PollCell(name: problem.name, badgeTitle: problem.averageTime, badgeIcon: "clock", polls: self.polls, percents: problem.votePercentages, voted: (problem.userVote != -1), classID: self.classID, assignmentID: self.assignmentID, problemID: problem.id)
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        .background(Color.rBlack500)
-                        .padding(.top, 36)
-                        
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(self.problems, id: \.self) { (problem: Problems) in
+                            PollCell(name: problem.name, badgeTitle: problem.averageTime, badgeIcon: "clock", polls: self.polls, percents: problem.votePercentages, voted: (problem.userVote != -1), classID: self.classID, assignmentID: self.assignmentID, problemID: problem.id)
+                            .padding(.top, 36)
+                        }
                     }
                 }
                 Spacer()

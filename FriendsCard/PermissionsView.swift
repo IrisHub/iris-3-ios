@@ -71,8 +71,19 @@ struct PermissionsView: View {
                     retinaLeftButton(text: "NO PERMISSIONS NEEDED", left: retinaLeftButton.Left.none, checked: false, action: {
                     })
                 }
+                
+                if (!self.card.permissions.contains(.none)) {
+                    HStack {
+                        Text("How we protect your").retinaTypography(.p6_main).foregroundColor(.rWhite).fixedSize(horizontal: false, vertical: true)
+                        NavigationLink(destination: InformationView(type: .privacy).environmentObject(self.screenCoordinator), tag: "privacy", selection: self.$nextPage) {
+                            Text("Privacy").underline().retinaTypography(.p6_main).foregroundColor(.rWhite).fixedSize(horizontal: false, vertical: true)
+                        }
+                        Text("🐻").retinaTypography(.p6_main).fixedSize(horizontal: false, vertical: true)
+                    }
+                    .shadow(color: .rBlack500, radius: 10)
+                    .padding(.top, 6).padding(.leading, 24)
+                }
 
-                Spacer()
                 Group {
                     NavigationLink(destination: CloseFriends().environmentObject(self.screenCoordinator), tag: "card1", selection: self.$nextPage) { EmptyView() }
                     NavigationLink(destination: ReminderView().environmentObject(self.screenCoordinator), tag: "card2", selection: self.$nextPage) { EmptyView() }
@@ -81,6 +92,8 @@ struct PermissionsView: View {
                     NavigationLink(destination: CollaborationView().environmentObject(self.screenCoordinator), tag: "card5", selection: self.$nextPage) { EmptyView() }
                     NavigationLink(destination: ChooseCloseFriends(card: self.card, selectionNumber: self.selectionNumber, skipThisController: self.$nextPage).environmentObject(self.screenCoordinator), isActive: $bothAllowed) { EmptyView() }
                 }
+                Spacer()
+
                 
                 BottomNavigationView(title: self.card.buttonTitle, action: {
                     self.refreshPermissions()

@@ -34,6 +34,7 @@ struct TopNavigationView: View {
                     })
                     Spacer()
                 }.padding([.leading, .bottom], 6)
+                .isHidden((searchBar && searchText != ""), remove: (searchBar && searchText != ""))
             }
 
             HStack {
@@ -53,6 +54,7 @@ struct TopNavigationView: View {
                     }).padding([.leading, .trailing], 24)
                 }
             }.padding(.bottom, self.description != "" ? 12 : 0)
+            .isHidden((searchBar && searchText != ""), remove: (searchBar && searchText != ""))
 
             if (self.description != "") {
                 Text(self.description)
@@ -60,8 +62,9 @@ struct TopNavigationView: View {
                     .foregroundColor(.rGrey100)
                     .padding([.leading, .trailing], 24)
                     .fixedSize(horizontal: false, vertical: true)
+                    .isHidden((searchBar && searchText != ""), remove: (searchBar && searchText != ""))
             }
-
+            
             if (self.searchBar) {
                 Search(isBack: false, isFilter: true, placeholder: self.searchBarPlaceholder, searchText: $searchText, buttonCommit: {  })
             }

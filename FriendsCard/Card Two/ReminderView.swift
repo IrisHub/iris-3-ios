@@ -38,37 +38,33 @@ struct ReminderView: View {
             VStack() {
                 TopNavigationView(title: "STAY IN TOUCH", description: "", backButton: true, backButtonCommit: { self.screenCoordinator.selectedPushItem = .home }, rightButton: false, searchBar: false, searchText: self.$searchText)
                 
-                List {
-                    HStack {
-                        Text("Oski’s Health: ").foregroundColor(.rWhite).fixedSize(horizontal: false, vertical: true).retinaTypography(.p5_main)
-                        Text(oskiProfile.health).foregroundColor(oskiProfile.score == 0 ? .rGreen : .rRed).fixedSize(horizontal: false, vertical: true).retinaTypography(.p5_main)
-                    }
-                    .padding([.leading, .bottom, .trailing], 24)
-                    .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-
-                    if (oskiProfile.image != "") {
-                        URLImage((URL(string: oskiProfile.image) ?? URL(string: "https://www.minasjr.com.br/wp-content/themes/minasjr/images/placeholders/placeholder_large_dark.jpg")!)){ proxy in
-                            proxy.image
-                            .resizable()
-                            .renderingMode(.original)
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: UIScreen.screenSize.width-48, height: (UIScreen.screenSize.width-48.0)/800.0 * 600.0)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack {
+                            Text("Oski’s Health: ").foregroundColor(.rWhite).fixedSize(horizontal: false, vertical: true).retinaTypography(.p5_main)
+                            Text(oskiProfile.health).foregroundColor(oskiProfile.score == 0 ? .rGreen : .rRed).fixedSize(horizontal: false, vertical: true).retinaTypography(.p5_main)
                         }
                         .padding([.leading, .bottom, .trailing], 24)
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                        .background(Color.rBlack500)
-                    }
-                    
-                    if (self.friendReminders.count != 0) {
-                        Text("Remind me").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
-                        .padding([.leading, .bottom, .trailing], 24)
-                        .background(Color.rBlack500)
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    }
 
-                    ForEach(self.friendReminders, id: \.self) { (friend: ReminderProfile) in
-                        ReminderCell(name: friend.name, frequency: friend.frequency, messaged: friend.messaged, editCommit: { selectedID = friend.id; withAnimation { self.isShowingPicker.toggle() } }, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
-                        .listRowInsets(.init(top: 0, leading: 0, bottom: -1, trailing: 0))
+                        if (oskiProfile.image != "") {
+                            URLImage((URL(string: oskiProfile.image) ?? URL(string: "https://www.minasjr.com.br/wp-content/themes/minasjr/images/placeholders/placeholder_large_dark.jpg")!)){ proxy in
+                                proxy.image
+                                .resizable()
+                                .renderingMode(.original)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: UIScreen.screenSize.width-48, height: (UIScreen.screenSize.width-48.0)/800.0 * 600.0)
+                            }
+                            .padding([.leading, .bottom, .trailing], 24)
+                        }
+                        
+                        if (self.friendReminders.count != 0) {
+                            Text("Remind me").foregroundColor(.rWhite).retinaTypography(.p4_main).fixedSize(horizontal: false, vertical: true).frame(alignment: .leading)
+                            .padding([.leading, .bottom, .trailing], 24)
+                        }
+
+                        ForEach(self.friendReminders, id: \.self) { (friend: ReminderProfile) in
+                            ReminderCell(name: friend.name, frequency: friend.frequency, messaged: friend.messaged, editCommit: { selectedID = friend.id; withAnimation { self.isShowingPicker.toggle() } }, buttonCommit: {self.presentMessageCompose(name: friend.name, phoneNumber: friend.id)})
+                        }
                     }
                 }
                 .padding(.top, Space.rSpaceTwo)
@@ -88,6 +84,8 @@ struct ReminderView: View {
     }
             
     func getReminders() {
+        let staticJSON = UserDefaults.standard.bool(forKey: "useStaticJSON")
+
         friendReminders = [ReminderProfile]()
         oskiProfile = OskiProfile(health: "", image: "", score: 0)
 
@@ -95,27 +93,46 @@ struct ReminderView: View {
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber")
         ]
         let headers : HTTPHeaders = ["Content-Type": "application/json"]
-        print(parameters)
-        AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/reminders-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
-            .responseJSON { response in
-            do {
-                let json = try JSON(data: response.data ?? Data())
-                self.frequencyOptions = json["options"].arrayValue.map { $0.stringValue }
-                print(self.frequencyOptions)
-                print(json)
-                for (_,subJson):(String, JSON) in json["friend_states"] {
-                    let item = ReminderProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), messaged: subJson["messaged"].boolValue, frequency: subJson["frequency"].stringValue)
-                    self.friendReminders.append(item)
+
+        if staticJSON {
+            AF.request("https://raw.githubusercontent.com/IrisHub/iris-3-endpoint-responses/master/reminders.json", method: .get, encoding: JSONEncoding.default)
+                .responseJSON { response in
+                do {
+                    let json = try JSON(data: response.data ?? Data())
+                    self.frequencyOptions = json["options"].arrayValue.map { $0.stringValue }
+                    for (_,subJson):(String, JSON) in json["friend_states"] {
+                        let item = ReminderProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), messaged: subJson["messaged"].boolValue, frequency: subJson["frequency"].stringValue)
+                        self.friendReminders.append(item)
+                    }
+                    let convertedStr = json["oski_state"]["img"].stringValue.replacingOccurrences(of: "\\/", with: "/")
+                    self.oskiProfile = OskiProfile(health: json["oski_state"]["health"].stringValue, image: convertedStr, score: json["oski_state"]["score"].intValue)
+                } catch {
+                    print("error")
                 }
-                let convertedStr = json["oski_state"]["img"].stringValue.replacingOccurrences(of: "\\/", with: "/")
-                self.oskiProfile = OskiProfile(health: json["oski_state"]["health"].stringValue, image: convertedStr, score: json["oski_state"]["score"].intValue)
-            } catch {
-                print("error")
+            }
+        } else {
+            AF.request("https://7vo5tx7lgh.execute-api.us-west-1.amazonaws.com/testing/reminders-info", method: .post, parameters: parameters as Parameters, encoding: JSONEncoding.default, headers: headers)
+                .responseJSON { response in
+                do {
+                    let json = try JSON(data: response.data ?? Data())
+                    self.frequencyOptions = json["options"].arrayValue.map { $0.stringValue }
+                    print(self.frequencyOptions)
+                    print(json)
+                    for (_,subJson):(String, JSON) in json["friend_states"] {
+                        let item = ReminderProfile(id: subJson["id"].stringValue, name: subJson["name"].stringValue, emoji: "".randomEmoji(), messaged: subJson["messaged"].boolValue, frequency: subJson["frequency"].stringValue)
+                        self.friendReminders.append(item)
+                    }
+                    let convertedStr = json["oski_state"]["img"].stringValue.replacingOccurrences(of: "\\/", with: "/")
+                    self.oskiProfile = OskiProfile(health: json["oski_state"]["health"].stringValue, image: convertedStr, score: json["oski_state"]["score"].intValue)
+                } catch {
+                    print("error")
+                }
             }
         }
     }
     
     func changeUserSettings(phoneNumber: String, frequency: String = "") {
+        if (UserDefaults.standard.bool(forKey: "useStaticJSON")) { return }
         let parameters = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber"),
             "friend_id": phoneNumber,

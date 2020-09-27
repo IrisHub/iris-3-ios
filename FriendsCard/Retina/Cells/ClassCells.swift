@@ -15,7 +15,6 @@ struct ClassCells: View {
 
     var body: some View {
         ZStack(alignment: .leading) {
-            Color.rBlack500.edgesIgnoringSafeArea(.all)
             VStack {
                 Divider().frame(height: 1).background(Color.rBlack200)
                 Rectangle().frame(width: UIScreen.screenWidth, height: 60).foregroundColor(.clear)
@@ -27,11 +26,9 @@ struct ClassCells: View {
                 
                 HStack {
                     ForEach(Array(zip(self.badgeTitles.indices, self.badgeTitles)), id: \.0) { index, badgeTitle in
-                        Badge(text: badgeTitle, icon: badgeIcons.count != badgeTitles.count ? "" : badgeIcons[index], size: .h5).padding(.trailing, Space.rSpaceThree).isHidden(badgeTitle == "0")
+                        Badge(text: badgeTitle, icon: badgeIcons.count != badgeTitles.count ? "" : badgeIcons[index], size: .h5).padding(.trailing, (index == self.badgeTitles.count - 1 ) ? Space.rSpaceThree : Space.rSpaceOne).isHidden(badgeTitle == "0")
                     }
                 }
-//                Badge(text: badgeTitle, icon: badgeIcon, size: .h5).padding(.trailing, Space.rSpaceOne)
-
             }
         }
     }

@@ -54,6 +54,7 @@ struct StatusCell: View {
                 }
             }
         }
+        .padding(.bottom, -1)
     }
 }
 

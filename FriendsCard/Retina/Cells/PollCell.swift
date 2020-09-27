@@ -60,12 +60,12 @@ struct PollCell: View {
                     }
                 }
             }
-        }.onAppear() {
-            print("POLL CELL", self.polls)
         }
+        .padding(.bottom, -1)
     }
     
     func pressHomeworkPoll(classID: String, assignmentID: String, problemID: String, value: Int) {
+        if (UserDefaults.standard.bool(forKey: "useStaticJSON")) { return }
         let parameters : [String : Any] = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber") as Any,
             "class_id": classID,
@@ -106,6 +106,7 @@ struct PollCell: View {
     }
     
     func pressLecturePoll(classID: String, lectureID: String, pollID: String, value: Int) {
+        if (UserDefaults.standard.bool(forKey: "useStaticJSON")) { return }
         let parameters : [String : Any] = [
             "user_id": UserDefaults.standard.string(forKey: "phoneNumber") as Any,
             "class_id": classID,

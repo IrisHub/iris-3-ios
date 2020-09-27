@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 extension UIScreen{
     static let screenWidth = UIScreen.main.bounds.size.width
@@ -215,4 +216,3 @@ extension UIViewController {
     }
 }
 #endif
-

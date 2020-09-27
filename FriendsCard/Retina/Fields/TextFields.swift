@@ -63,6 +63,7 @@ public struct RetinaTextField: View {
                 TextField("", text: $input, onEditingChanged: { editingChanged in
                     self.focused = editingChanged
                     print(editingChanged ? "TextField focused" : "TextField focus removed")
+                    
                 }, onCommit: commit).padding(.leading, 12).foregroundColor(.rWhite)
             }
             if focused { icon.imageScale(.large).foregroundColor(.rGrey100) }
